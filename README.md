@@ -1,53 +1,38 @@
 # griffinfundingreviews.com
 
-One static page that collects Griffin Funding's ratings from every public review platform, plus a curated set of real reviews. It is built to rank for "Griffin Funding reviews" and to be quoted by AI search tools.
+One page that collects Griffin Funding's ratings from every public review platform, plus curated Google reviews and an FAQ. It's built to rank for "Griffin Funding reviews" and to be quoted by AI answer engines. See `docs/PROJECT.md` for goals, data sources, curation and compliance rules.
 
-## How it works
+## Stack
 
-`node build.mjs` reads three data files and writes plain HTML to `dist/`. There are no dependencies and nothing to install. Every rating, review, and FAQ answer is in the HTML itself, so crawlers that skip JavaScript still read all of it.
+TanStack Start (React 19) with Vite and Nitro, deployed to Vercel (`preset: "vercel"` in `vite.config.ts`). Pages render on the server, so crawlers get the full content without running JavaScript.
 
-| File | Holds |
+| Path | Holds |
 |---|---|
-| `data/platforms.json` | Rating and review count for each platform, with profile links and the "as of" date |
-| `data/reviews.json` | Curated reviews. Only entries with `"featured": true` render |
-| `data/site.json` | Domain, NMLS number, page title and description, loan-type labels |
-| `src/styles.css` | Styling, from `docs/King_UI-DESIGN-SYSTEM.md` with Griffin red as the accent |
-| `build.mjs` | Builds `dist/index.html`, `404.html`, `llms.txt`, `robots.txt`, and `sitemap.xml` |
-| `static/` | Favicon, share image, touch icon, and Netlify `_headers`, copied into `dist/` |
+| `src/data/site.ts` | Platform ratings and counts, check date, license IDs, FAQ, structured data |
+| `src/data/reviews.ts` | Curated Google reviews (verbatim) and the spotlight quote |
+| `src/components/page.tsx` | The page |
+| `src/components/review-explorer.tsx` | Loan-type filters and review grid |
+| `src/styles.css` | Styling |
+| `public/` | `llms.txt`, `llms-full.txt`, `robots.txt`, `sitemap.xml`, share image, favicon |
 
-The weighted average rating is calculated at build time from each platform's rating and review count. It only includes platforms that publish both numbers.
+## Commands
 
-## Updating reviews
-
-1. Put a fresh Google export in `data/raw/`. Raw exports are git-ignored and never ship.
-2. Run `node scripts/import-google-csv.mjs data/raw/<file>.csv`. It writes `data/google-candidates.json`, sorted best-first.
-3. Copy the reviews you want into `data/reviews.json`, set `"featured": true`, and tag `loanTypes`. Set `"spotlight": true` on one review to make it the large pull quote.
-4. Run `node build.mjs`. It stops with an error if a review is missing a field or uses an unknown platform or loan type.
-
-Each platform in `data/platforms.json` carries `verified`, `checked`, and `method` fields. The build warns for any unverified platform.
-
-Curation rules used for the first 34 quotes: five stars, posted 2023 or later, 180 to 650 characters, and a clear loan type. We excluded reviews signed with a full name, reviews that misspell the company, reviews with broken formatting, and reviews that make specific rate or fee claims. Reviewer names are shortened to first name plus last initial. Review text is never reworded.
-
-Personal details: per Bill, a client's city and state may appear, but not a street address, phone number, email, loan number, or signature. `scripts/pii.mjs` checks for these. The importer flags matches in `piiFlags`, and the build refuses to publish a review that contains one. Removed text is noted in the review's `redacted` field.
+```bash
+npm install
+npm run dev        # local dev server on :8080
+npm run build      # production build to .vercel/output
+npm run typecheck
+npm run lint
+```
 
 ## Deploy
 
-Either way works:
+Vercel builds from `main`. `vercel.json` sets the install command. No environment variables are required: without `DATABASE_URL`, the database step skips and the app uses its embedded fallback. The page itself does not use a database.
 
-- **Git (recommended).** In Netlify, import this repo. `netlify.toml` sets the build command (`node build.mjs`) and publish folder (`dist`). Every push to `main` redeploys.
-- **Drag and drop.** Run `node build.mjs`, zip the contents of `dist/`, and drop it on Netlify's deploys page. Headers ship in `dist/_headers`.
+## Updating figures and reviews
 
-In Netlify's domain settings, set `griffinfundingreviews.com` as the primary domain so `www` redirects to it.
+Edit `src/data/site.ts` (ratings, counts, `AS_OF`) and `src/data/reviews.ts` (quotes), then push. Quotes stay word for word, with client personal details removed: a city and state may stay; street addresses, phone numbers, emails, loan numbers, and signatures may not. New or changed quotes go to compliance before publishing.
 
-`static/` is copied into `dist/` as is. `static/og.png` (share image) and `static/apple-touch-icon.png` come from `node scripts/render-images.mjs`, which needs Playwright and runs locally, not on Netlify. The share image carries no ratings or counts, so it does not go stale.
+## History
 
-## Before launch
-
-- [ ] Compliance review of the selected quotes and the footer disclosures (advertising rules, FTC consumer review rule).
-- [ ] Point the griffinfundingreviews.com DNS at Netlify.
-- [ ] Submit the sitemap in Google Search Console.
-
-## Deliberate choices
-
-- **No `aggregateRating` in structured data.** Google does not show review stars for ratings a business publishes about itself, or for ratings gathered from other sites. Adding them risks a manual action for spammy structured data. The page uses `FinancialService`, `WebPage`, and `FAQPage` markup instead.
-- **Selection disclosure.** The page states that the quotes are a selection and links every platform's full profile, lower ratings included. The FTC consumer review rule (16 CFR Part 465) bars implying a selection represents all reviews.
+The first version of this site was a zero-dependency static build. It lives in this repo's history at commit `4f8483b`.

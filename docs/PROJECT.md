@@ -1,5 +1,7 @@
 # griffinfundingreviews.com: Project Brief
 
+> **Stack update (September 27, 2026):** the site now runs as a TanStack Start app deployed to Vercel (see `README.md`). Goals, data, curation, privacy, and compliance sections below still apply. Sections 9 to 11 describe the original static build, which is preserved at commit `4f8483b`.
+
 | | |
 |---|---|
 | **Owner** | Chris Garmon, Mortgage Project Manager, Griffin Funding |

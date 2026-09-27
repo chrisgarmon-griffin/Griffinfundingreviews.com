@@ -1,9 +1,0 @@
-# Build settings for Git-connected deploys. Headers live in static/_headers so
-# drag-and-drop deploys of dist/ get them too. Set griffinfundingreviews.com as
-# the primary domain in Netlify; Netlify then redirects www to it.
-[build]
-  command = "node build.mjs"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "22"

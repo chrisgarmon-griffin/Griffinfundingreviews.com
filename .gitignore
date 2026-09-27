@@ -1,7 +1,10 @@
-dist/
 node_modules/
+.vercel/
+.output/
+.nitro/
+.tanstack/
+dist/
+.env
+.env.*
+*.log
 .DS_Store
-# Raw review exports and working files stay local. Only curated reviews.json ships.
-data/google-candidates.json
-data/raw/
-*.csv
