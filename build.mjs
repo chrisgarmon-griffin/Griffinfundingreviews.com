@@ -8,13 +8,13 @@ const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(read(p));
 
 const site = json('./data/site.json');
-const { asOf, verified, platforms } = json('./data/platforms.json');
+const { asOf, platforms } = json('./data/platforms.json');
 const reviews = json('./data/reviews.json').reviews
   .filter((r) => r.featured)
   .sort((a, b) => b.date.localeCompare(a.date));
 
 const warnings = [];
-if (!verified) warnings.push('platforms.json is not verified. Re-check every count and rating against the live profiles.');
+for (const p of platforms.filter((x) => !x.verified)) warnings.push(`${p.name} figures are not verified: ${p.method ?? 'no check recorded'}`);
 if (!site.nmlsVerified) warnings.push('NMLS number is not verified. Confirm on nmlsconsumeraccess.org.');
 if (!reviews.length) warnings.push('No featured reviews. The reviews section is omitted until reviews.json has featured entries.');
 
@@ -36,14 +36,17 @@ const rated = platforms.filter((p) => Number.isFinite(p.count) && Number.isFinit
 const totalReviews = counted.reduce((s, p) => s + p.count, 0);
 const ratedReviews = rated.reduce((s, p) => s + p.count, 0);
 const weighted = rated.reduce((s, p) => s + p.count * p.rating, 0) / ratedReviews;
-const avg = weighted.toFixed(2);
+// One decimal: most platforms publish ratings rounded to 0.1.
+const avg = weighted.toFixed(1);
+const showRating = (r) => (Number.isInteger(r) ? r.toFixed(1) : String(r));
+const unrated = platforms.filter((p) => !Number.isFinite(p.rating) || !Number.isFinite(p.count));
 
 const fmt = (n) => n.toLocaleString('en-US');
 const asOfDate = new Date(`${asOf}T12:00:00Z`);
 const asOfLong = asOfDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 const asOfMonth = asOfDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const listNames = (items) =>
-  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
+  items.length < 3 ? items.join(' and ') : `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
 
 // ---- HTML helpers ----------------------------------------------------------
 
@@ -59,7 +62,7 @@ const platformCard = (p) => `
       <article class="pcard">
         <h3 class="pname" style="margin:0">${esc(p.name)}</h3>
         ${p.note ? `<span class="pnote">${esc(p.note)}</span>` : ''}
-        <div class="prating">${Number.isFinite(p.rating) ? `${p.rating.toFixed(2)} <small>/ 5</small>` : '<small>Rating not published</small>'}</div>
+        <div class="prating">${Number.isFinite(p.rating) ? `${showRating(p.rating)} <small>/ 5</small>` : p.grade ? `${esc(p.grade)} <small>${esc(p.name)} rating</small>` : `<small>See rating on ${esc(p.name)}</small>`}</div>
         ${Number.isFinite(p.rating) ? stars(p.rating) : ''}
         <span class="pcount">${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'Review count not published'}</span>
         ${p.url
@@ -99,8 +102,8 @@ const faqs = [
   },
   {
     q: 'What is Griffin Funding’s overall rating?',
-    text: `${avg} out of 5, as of ${asOfLong}. This is the average of ${ratedNames}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total). Platforms that do not publish a star rating are not part of the average.`,
-    html: `<p>${avg} out of 5, as of ${asOfLong}. This is the average of ${esc(ratedNames)}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total).</p><p>Platforms that do not publish a star rating are not part of the average.</p>`,
+    text: `${avg} out of 5, as of ${asOfLong}. This is the average of ${ratedNames}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total). ${unrated.length ? `${listNames(unrated.map((p) => p.name))} ${unrated.length > 1 ? 'are' : 'is'} not part of the average because this page has no confirmed star rating and review count for ${unrated.length > 1 ? 'them' : 'it'}.` : ''}`,
+    html: `<p>${avg} out of 5, as of ${asOfLong}. This is the average of ${esc(ratedNames)}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total).</p>${unrated.length ? `<p>${esc(listNames(unrated.map((p) => p.name)))} ${unrated.length > 1 ? 'are' : 'is'} not part of the average because this page has no confirmed star rating and review count for ${unrated.length > 1 ? 'them' : 'it'}.</p>` : ''}`,
   },
   {
     q: 'Where can I read every Griffin Funding review, including negative ones?',
@@ -295,7 +298,7 @@ Total public reviews: ${fmt(totalReviews)} across ${counted.length} platforms.
 
 ## Platforms
 
-${platforms.map((p) => `- ${p.name}: ${Number.isFinite(p.rating) ? `${p.rating} / 5` : 'rating not published'}, ${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'count not published'}${p.url ? ` (${p.url})` : ''}`).join('\n')}
+${platforms.map((p) => `- ${p.name}: ${Number.isFinite(p.rating) ? `${showRating(p.rating)} / 5` : p.grade ? `${p.grade} (letter rating)` : 'star rating not confirmed'}, ${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'count not published'}${p.url ? ` (${p.url})` : ''}`).join('\n')}
 
 ## Links
 

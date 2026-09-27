@@ -23,6 +23,8 @@ The weighted average rating is calculated at build time from each platform's rat
 3. Copy the reviews you want into `data/reviews.json`, set `"featured": true`, and tag `loanTypes`.
 4. Run `node build.mjs`. It stops with an error if a review is missing a field or uses an unknown platform or loan type.
 
+Each platform in `data/platforms.json` carries `verified`, `checked`, and `method` fields. The build warns for any unverified platform.
+
 Curation rules used for the first 34 quotes: five stars, posted 2023 or later, 180 to 650 characters, and a clear loan type. We excluded reviews signed with a full name, reviews that misspell the company, reviews with broken formatting, and reviews that make specific rate or fee claims. Reviewer names are shortened to first name plus last initial. Review text is never edited.
 
 ## Deploy
@@ -31,8 +33,7 @@ Connect the repo to Netlify. `netlify.toml` sets the build command and publish f
 
 ## Before launch
 
-- [ ] Re-check every count and rating in `data/platforms.json` against the live profile, then set `"verified": true`. Google's figures (937 reviews, 4.77) match the audit CSV. The other platforms come from September 2026 research and could not be checked from the build environment.
-- [ ] Add the Experience.com review count to `data/platforms.json` if the profile publishes one.
+- [ ] Confirm the Yelp star rating on yelp.com by hand, add it to `data/platforms.json`, and set that entry to `"verified": true`. Yelp blocks automated checks.
 - [ ] Compliance review of the selected quotes and the footer disclosures (advertising rules, FTC consumer review rule).
 - [ ] Point the griffinfundingreviews.com DNS at Netlify.
 - [ ] Submit the sitemap in Google Search Console.
