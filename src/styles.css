@@ -499,9 +499,16 @@
   color: var(--color-on-ink-muted);
 }
 
-.scorecard .score-label,
-.scorecard .score-foot {
+.scorecard .score-label {
   color: var(--score-dim);
+}
+
+.scorecard .score-foot {
+  color: var(--score-text);
+}
+
+.scorecard .score-foot time {
+  color: #ffffff;
 }
 
 .score-big {
