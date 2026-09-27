@@ -87,20 +87,9 @@ export function ReviewExplorer() {
             </button>
           ))}
         </div>
-        <label className="search">
-          <span className="search-label">Search quotes</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setExpanded(false);
-            }}
-            placeholder="Name, loan, or phrase"
-          />
-        </label>
       </div>
 
+      <div className="tools-meta">
       <p className="result-line" aria-live="polite">
         {visibleCount === 0
           ? "No selected review matches."
@@ -108,6 +97,19 @@ export function ReviewExplorer() {
             ? `${formatInt(visibleCount)} selected ${visibleCount === 1 ? "review" : "reviews"}${filterLabel}${needle ? ` matching “${query.trim()}”` : ""}.`
             : `Featured quote above. ${Math.min(showAll ? matched.length : INITIAL, matched.length)} of ${matched.length} more reviews are open.`}
       </p>
+        <label className="search">
+          <span className="sr-only">Search quotes</span>
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setExpanded(false);
+            }}
+            placeholder="Search quotes by name, loan, or phrase"
+          />
+        </label>
+      </div>
 
       {visibleCount === 0 ? (
         <p className="empty">
