@@ -3,6 +3,7 @@
 // crawlers read the content without running JavaScript.
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { findPii } from './scripts/pii.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
 const json = (p) => JSON.parse(read(p));
@@ -24,6 +25,8 @@ for (const r of reviews) {
     if (r[k] === undefined || r[k] === '') throw new Error(`Review ${r.id ?? '(no id)'} is missing "${k}"`);
   }
   if (!byId[r.platform]) throw new Error(`Review ${r.id} has unknown platform "${r.platform}"`);
+  const pii = findPii(r.text);
+  if (pii.length) throw new Error(`Review ${r.id} contains client personal details (${pii.join(', ')}). Remove them before publishing.`);
   for (const t of r.loanTypes ?? []) {
     if (!site.loanTypeLabels[t]) throw new Error(`Review ${r.id} has unknown loan type "${t}"`);
   }

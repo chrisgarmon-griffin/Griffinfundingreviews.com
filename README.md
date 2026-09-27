@@ -25,7 +25,9 @@ The weighted average rating is calculated at build time from each platform's rat
 
 Each platform in `data/platforms.json` carries `verified`, `checked`, and `method` fields. The build warns for any unverified platform.
 
-Curation rules used for the first 34 quotes: five stars, posted 2023 or later, 180 to 650 characters, and a clear loan type. We excluded reviews signed with a full name, reviews that misspell the company, reviews with broken formatting, and reviews that make specific rate or fee claims. Reviewer names are shortened to first name plus last initial. Review text is never edited.
+Curation rules used for the first 34 quotes: five stars, posted 2023 or later, 180 to 650 characters, and a clear loan type. We excluded reviews signed with a full name, reviews that misspell the company, reviews with broken formatting, and reviews that make specific rate or fee claims. Reviewer names are shortened to first name plus last initial. Review text is never reworded.
+
+Personal details: per Bill, a client's city and state may appear, but not a street address, phone number, email, loan number, or signature. `scripts/pii.mjs` checks for these. The importer flags matches in `piiFlags`, and the build refuses to publish a review that contains one. Removed text is noted in the review's `redacted` field.
 
 ## Deploy
 

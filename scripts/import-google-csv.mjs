@@ -4,6 +4,7 @@
 // you copy an entry into data/reviews.json with "featured": true.
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { findPii } from './pii.mjs';
 
 const file = process.argv[2];
 if (!file) {
@@ -81,6 +82,7 @@ const candidates = rows
       loanTypes: [],
       sourceUrl: get(r, 'url'),
       hasPhoto: Boolean(get(r, 'photos')),
+      piiFlags: findPii(get(r, 'text')),
       featured: false,
     };
   })
@@ -92,4 +94,5 @@ writeFileSync(new URL('../data/google-candidates.json', import.meta.url), JSON.s
 const five = candidates.filter((c) => c.rating === 5);
 console.log(`${rows.length} rows, ${candidates.length} with text, ${five.length} five-star, ${five.filter((c) => c.hasPhoto).length} five-star with photo.`);
 console.log(`Missing review URLs: ${candidates.filter((c) => !c.sourceUrl).length}. Those need the Google profile URL as sourceUrl.`);
+console.log(`Flagged for personal details: ${candidates.filter((c) => c.piiFlags.length).length}. Check piiFlags before featuring.`);
 console.log('Wrote data/google-candidates.json. Copy chosen entries into data/reviews.json and set featured: true.');

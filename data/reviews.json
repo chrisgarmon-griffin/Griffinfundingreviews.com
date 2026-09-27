@@ -5,10 +5,11 @@
     "author": "Name exactly as shown on the platform. Use first name + last initial if the platform shows a full name.",
     "rating": "1-5, as given on the platform",
     "date": "YYYY-MM-DD the review was posted",
-    "text": "Verbatim review text. Trim with an ellipsis only; never reword.",
+    "text": "Verbatim review text. Trim with an ellipsis only; never reword. Remove client personal details (street address, phone, email, signatures); city and state may stay.",
     "loanTypes": "Zero or more of: dscr, bank-statement, va, purchase, refinance, heloc, investment, self-employed",
     "sourceUrl": "Link to the review itself, or the platform profile if no per-review link exists",
-    "featured": "true to publish on the page"
+    "featured": "true to publish on the page",
+    "redacted": "Optional. What was removed from the original text and why."
   },
   "reviews": [
     {
@@ -187,12 +188,13 @@
       "author": "Stefan S.",
       "rating": 5,
       "date": "2026-08-10",
-      "text": "Once again, for the 5th time Shelly, Justin, Ashleigh and their team came through without a glitch. I had 2 weeks to close on my new purchase, and the professional high standard team flawlessly executed. It is comforting to know that this team can be called upon and trusted to close on time, without surprises, and smoothly. Thank you Justin for working tirelessly on the numbers, Shelly for constant communication with myself and all other parties involved, all 3 of you for the elite execution.-Stefan",
+      "text": "Once again, for the 5th time Shelly, Justin, Ashleigh and their team came through without a glitch. I had 2 weeks to close on my new purchase, and the professional high standard team flawlessly executed. It is comforting to know that this team can be called upon and trusted to close on time, without surprises, and smoothly. Thank you Justin for working tirelessly on the numbers, Shelly for constant communication with myself and all other parties involved, all 3 of you for the elite execution.",
       "loanTypes": [
         "purchase"
       ],
       "sourceUrl": "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2pjMGRHODBWa1ppVWxSQlluaHJPRE5RT1ZSWmFVRRAB!2m1!1s0x0",
-      "featured": true
+      "featured": true,
+      "redacted": "Trailing signature with the reviewer’s name"
     },
     {
       "id": "google-2026-08-10-candacerethaford",
@@ -266,12 +268,13 @@
       "author": "Jennifer R.",
       "rating": 5,
       "date": "2026-07-27",
-      "text": "Joe Yaeger and the team at Griffin Funding made my recent refinance a seamless experience. Joe is extremely knowledgeable, keeps you updated every step of the way, and truly looks out for his clients. 5/5 stars—I wouldn't hesitate to work with him again! -Jesus & Jennifer",
+      "text": "Joe Yaeger and the team at Griffin Funding made my recent refinance a seamless experience. Joe is extremely knowledgeable, keeps you updated every step of the way, and truly looks out for his clients. 5/5 stars—I wouldn't hesitate to work with him again!",
       "loanTypes": [
         "refinance"
       ],
       "sourceUrl": "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2s1Q2FFTXlSR2hNYzB0YUxXUmZaRzAzWjJsclFuYxAB!2m1!1s0x0",
-      "featured": true
+      "featured": true,
+      "redacted": "Trailing signature naming the reviewer and a second person"
     },
     {
       "id": "google-2026-07-15-kennethmeehan",
