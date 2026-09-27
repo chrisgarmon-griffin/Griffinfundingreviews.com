@@ -309,7 +309,7 @@ static/*              ─┘                     sitemap.xml, og.png, icons, _he
 ### 9.3 Built for search engines and AI tools
 
 - The page title and headings use the exact query: "Griffin Funding Reviews," "Griffin Funding reviews: frequently asked questions."
-- The FAQ answers the questions people actually ask, in plain sentences an AI tool can quote.
+- The FAQ answers the questions people ask, in plain sentences an AI tool can quote.
 - Structured data identifies Griffin as a `FinancialService` with its NMLS ID, and links every review profile through `sameAs`.
 - `llms.txt` gives AI crawlers a plain-text summary of every rating and link.
 - A canonical URL, sitemap, and `robots.txt` that allows all crawlers.
