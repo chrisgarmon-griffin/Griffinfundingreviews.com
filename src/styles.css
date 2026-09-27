@@ -519,7 +519,7 @@
   align-items: flex-end;
   justify-content: center;
   gap: 0.35rem;
-  margin: 0.6rem 0 0.75rem;
+  margin: 1.25rem 0 0.9rem;
 }
 
 .score-num {
@@ -773,7 +773,7 @@
 }
 
 .section-reviews > .wrap {
-  padding-top: var(--section-y);
+  padding-top: clamp(2.25rem, 3.5vw, 3rem);
 }
 
 .spotlight {
