@@ -11,7 +11,6 @@ import {
   NMLS,
   NMLS_URL,
   VA_ID,
-  citableText,
   faqs,
   formatInt,
   formatRating,
@@ -66,19 +65,50 @@ export function Page() {
             <div className="hero-copy">
               <p className="eyebrow eyebrow-on-ink">
                 <span className="eyebrow-mark" aria-hidden="true" />
-                Public ratings
+                Third-party ratings
                 <span className="eyebrow-dot" aria-hidden="true">
                   ·
                 </span>
-                <time dateTime={AS_OF_ISO}>Checked {AS_OF}</time>
+                {stats.platformCount} review platforms
+                <span className="eyebrow-extra">
+                  <span className="eyebrow-dot" aria-hidden="true">
+                    ·
+                  </span>
+                  Every source linked
+                </span>
               </p>
               <h1 id="page-title">
                 Griffin Funding reviews, <em>all in one place.</em>
               </h1>
               <hr className="rule" />
-              <p id="citable" className="lede">
-                {citableText}
-              </p>
+              <div id="citable" className="hero-facts">
+                <p className="lede">
+                  Every public Griffin Funding rating, gathered from {stats.platformCount} third-party review
+                  platforms and linked to its source.
+                </p>
+                <ul className="fact-list">
+                  <li>
+                    <span className="fact-label">Licensed lender</span>
+                    <span className="fact-detail">
+                      {LEGAL_NAME} ·{" "}
+                      <a href={NMLS_URL} target="_blank" rel="noopener noreferrer">
+                        NMLS #{NMLS}
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="fact-label">Sources</span>
+                    <span className="fact-detail">{platforms.map((p) => p.name).join(", ")}</span>
+                  </li>
+                  <li>
+                    <span className="fact-label">Transparency</span>
+                    <span className="fact-detail">
+                      Every rating links to its full profile, lower ratings included. Operated by {BRAND}.
+                    </span>
+                  </li>
+                </ul>
+              </div>
               <div className="btns">
                 <a className="btn btn-primary" href="#platforms">
                   See every rating
@@ -88,7 +118,7 @@ export function Page() {
                 </a>
               </div>
             </div>
-            <aside className="scorecard" aria-label="Rating summary">
+            <aside id="scorecard" className="scorecard" aria-label="Rating summary">
               <p className="score-label">Weighted average rating</p>
               <p className="score-big">
                 <span className="score-num">{stats.shownText}</span>

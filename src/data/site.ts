@@ -138,8 +138,6 @@ export const stats = computeStats();
 
 export const DESCRIPTION = `Griffin Funding reviews from every major platform: ${stats.shownText} out of 5 across ${formatInt(stats.total)} public reviews. Operated by Griffin Funding, NMLS #${NMLS}. Checked ${AS_OF}.`;
 
-export const citableText = `${BRAND} (${LEGAL_NAME}, NMLS #${NMLS}) has a weighted average of ${stats.shownText} out of 5 across ${formatInt(stats.ratedCount)} rated reviews, and ${formatInt(stats.total)} public reviews on ${stats.platformCount} platforms, as of ${AS_OF}. BBB’s grade is A+. Griffin Funding operates this page and links to every full profile, including lower ratings.`;
-
 export type Inline =
   | { kind: "text"; text: string }
   | { kind: "link"; text: string; href: string };
@@ -340,7 +338,7 @@ export function jsonLd() {
         inLanguage: "en-US",
         speakable: {
           "@type": "SpeakableSpecification",
-          cssSelector: ["#citable", "#faq"],
+          cssSelector: ["#citable", "#scorecard", "#faq"],
         },
       },
       {

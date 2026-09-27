@@ -299,6 +299,22 @@
   color: var(--color-on-ink-muted);
 }
 
+.eyebrow-extra {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+@media (max-width: 560px) {
+  .eyebrow-on-ink {
+    letter-spacing: 0.1em;
+  }
+
+  .eyebrow-extra {
+    display: none;
+  }
+}
+
 .eyebrow-mark {
   width: 1.25rem;
   height: 2px;
@@ -334,8 +350,69 @@
 }
 
 .hero .lede {
-  color: var(--color-on-ink-muted);
+  color: var(--color-on-ink);
+  font-size: 1.1rem;
   max-width: 44rem;
+}
+
+.fact-list {
+  list-style: none;
+  margin: 1.35rem 0 0;
+  padding: 0;
+  max-width: 44rem;
+  border-top: 1px solid color-mix(in oklab, var(--color-on-ink) 12%, transparent);
+}
+
+.fact-list li {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: 0.25rem 1.25rem;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-on-ink) 12%, transparent);
+}
+
+.fact-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-on-ink-muted);
+}
+
+.fact-label::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex: none;
+}
+
+.fact-detail {
+  color: var(--color-on-ink);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.fact-detail a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-on-ink) 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.fact-detail a:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (max-width: 560px) {
+  .fact-list li {
+    grid-template-columns: 1fr;
+  }
 }
 
 .btns {
@@ -395,12 +472,19 @@
 }
 
 .scorecard {
+  --score-text: #e9e4da;
+  --score-dim: #cfc8bc;
+  --score-line: color-mix(in oklab, var(--color-on-ink) 14%, transparent);
   background: var(--color-ink-raised);
   color: var(--color-on-ink);
   border-radius: var(--radius-xl);
   border-top: 2px solid var(--color-accent);
-  padding: 1.35rem 1.5rem 1.15rem;
+  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 2vw, 1.6rem);
   box-shadow: 0 1px 0 color-mix(in oklab, white 6%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .score-label,
@@ -415,11 +499,17 @@
   color: var(--color-on-ink-muted);
 }
 
+.scorecard .score-label,
+.scorecard .score-foot {
+  color: var(--score-dim);
+}
+
 .score-big {
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   gap: 0.35rem;
-  margin: 0.35rem 0 0.7rem;
+  margin: 0.6rem 0 0.75rem;
 }
 
 .score-num {
@@ -433,44 +523,60 @@
 .score-of {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  color: var(--color-on-ink-muted);
+  color: var(--score-dim);
   padding-bottom: 0.35rem;
 }
 
 .score-note {
-  margin-top: 0.9rem;
-  color: var(--color-on-ink-muted);
-  font-size: 0.92rem;
-  line-height: 1.5;
-  max-width: 36ch;
+  margin: 1rem auto 0;
+  color: var(--score-text);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 34ch;
 }
 
 .score-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 1.1rem;
-  padding-top: 0.95rem;
-  border-top: 1px solid color-mix(in oklab, var(--color-on-ink) 12%, transparent);
+  width: 100%;
+  margin-top: 1.35rem;
+  border-top: 1px solid var(--score-line);
+  border-bottom: 1px solid var(--score-line);
+}
+
+.score-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1rem 0.5rem;
+}
+
+.score-stats > div + div {
+  border-left: 1px solid var(--score-line);
 }
 
 .score-stats dt {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-on-ink-muted);
+  color: var(--score-dim);
 }
 
 .score-stats dd {
-  margin-top: 0.25rem;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 1.65rem;
+  font-size: 1.85rem;
+  line-height: 1;
   letter-spacing: -0.03em;
+  color: var(--color-on-ink);
   font-variant-numeric: tabular-nums;
 }
 
 .score-foot {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
 }
 
 .section {
