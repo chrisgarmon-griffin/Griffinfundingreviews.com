@@ -447,9 +447,10 @@ export function injectGrokPwaHead(html, ctx = {}) {
     grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
   );
 
-  if (!next.includes("/grok-app-builder/extensions.js")) {
-    missing.push(...grokExtensionsHeadTags(projectId));
-  } else if (projectId && !next.includes('name="grok-project-id"')) {
+  // The "Created with Grok" banner script (grokExtensionsHeadTags) is not
+  // injected: it loads third-party code from grok.com on every page of a
+  // public lender site. Only the inert project-id meta remains.
+  if (projectId && !next.includes('name="grok-project-id"')) {
     missing.push(`<meta name="grok-project-id" content="${escapeHtml(projectId)}">`);
   }
   if (
