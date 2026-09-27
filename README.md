@@ -33,7 +33,6 @@ Connect the repo to Netlify. `netlify.toml` sets the build command and publish f
 
 ## Before launch
 
-- [ ] Confirm the Yelp star rating on yelp.com by hand, add it to `data/platforms.json`, and set that entry to `"verified": true`. Yelp blocks automated checks.
 - [ ] Compliance review of the selected quotes and the footer disclosures (advertising rules, FTC consumer review rule).
 - [ ] Point the griffinfundingreviews.com DNS at Netlify.
 - [ ] Submit the sitemap in Google Search Console.

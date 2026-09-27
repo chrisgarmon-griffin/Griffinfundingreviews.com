@@ -38,13 +38,13 @@
     {
       "id": "yelp",
       "name": "Yelp",
-      "count": 182,
-      "rating": null,
+      "count": 185,
+      "rating": 4.6,
       "url": "https://www.yelp.com/biz/griffin-funding-san-diego",
       "note": "San Diego",
-      "verified": false,
+      "verified": true,
       "checked": "2026-09-27",
-      "method": "Count from a dated Yelp search snippet. Star rating not confirmed; check yelp.com by hand."
+      "method": "Manual check of the live yelp.com business page (screenshot)."
     },
     {
       "id": "zillow",
