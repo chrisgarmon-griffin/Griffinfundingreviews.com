@@ -82,11 +82,11 @@
 }
 
 :root {
-  --hero-size: clamp(2.6rem, 1.35rem + 3.4vw, 4.6rem);
+  --hero-size: clamp(2.5rem, 1.4rem + 2.6vw, 4.1rem);
   --h2-size: clamp(2rem, 1.35rem + 1.8vw, 3.15rem);
   --section-y: clamp(4.25rem, 7vw, 6.5rem);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --wrap: 1120px;
+  --wrap: 1240px;
 }
 
 .sr-only {
@@ -266,19 +266,19 @@
 .hero {
   background: var(--color-ink);
   color: var(--color-on-ink);
-  padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3rem, 7vw, 5.5rem);
+  padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(2.5rem, 4.5vw, 4rem);
 }
 
 .hero-grid {
   display: grid;
-  gap: 2.5rem;
-  align-items: end;
+  gap: 2rem;
+  align-items: center;
 }
 
 @media (min-width: 960px) {
   .hero-grid {
-    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.78fr);
-    gap: 3.5rem;
+    grid-template-columns: minmax(0, 1.6fr) minmax(22rem, 1fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
   }
 }
 
@@ -308,7 +308,8 @@
 
 .hero h1 {
   font-size: var(--hero-size);
-  max-width: 11ch;
+  max-width: 17ch;
+  text-wrap: balance;
 }
 
 .hero h1 em {
@@ -321,7 +322,7 @@
   height: 2px;
   border: 0;
   background: var(--color-accent);
-  margin: 1.35rem 0 1.25rem;
+  margin: 1.1rem 0 1rem;
 }
 
 .lede,
@@ -334,7 +335,7 @@
 
 .hero .lede {
   color: var(--color-on-ink-muted);
-  max-width: 40rem;
+  max-width: 44rem;
 }
 
 .btns {
@@ -398,7 +399,7 @@
   color: var(--color-on-ink);
   border-radius: var(--radius-xl);
   border-top: 2px solid var(--color-accent);
-  padding: 1.5rem 1.4rem 1.25rem;
+  padding: 1.35rem 1.5rem 1.15rem;
   box-shadow: 0 1px 0 color-mix(in oklab, white 6%, transparent);
 }
 
@@ -423,7 +424,7 @@
 
 .score-num {
   font-family: var(--font-display);
-  font-size: clamp(4.25rem, 8vw, 5.75rem);
+  font-size: clamp(3.75rem, 6vw, 4.75rem);
   line-height: 0.85;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
@@ -448,8 +449,8 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
-  margin-top: 1.35rem;
-  padding-top: 1.1rem;
+  margin-top: 1.1rem;
+  padding-top: 0.95rem;
   border-top: 1px solid color-mix(in oklab, var(--color-on-ink) 12%, transparent);
 }
 
@@ -469,7 +470,7 @@
 }
 
 .score-foot {
-  margin-top: 1.1rem;
+  margin-top: 0.9rem;
 }
 
 .section {
