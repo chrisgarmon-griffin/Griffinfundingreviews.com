@@ -1,0 +1,64 @@
+{
+  "asOf": "2026-09-27",
+  "verified": false,
+  "sourceNote": "Counts and ratings captured from each public profile during September 2026 research. Re-check every figure against the live profile before launch and on every refresh.",
+  "platforms": [
+    {
+      "id": "google",
+      "name": "Google",
+      "count": 937,
+      "rating": 4.77,
+      "url": "https://www.google.com/maps/search/?api=1&query=Griffin+Funding",
+      "note": "",
+      "verifiedFromExport": "Checked against the 937-row Google review audit CSV (latest review 2026-08-17)."
+    },
+    {
+      "id": "trustpilot",
+      "name": "Trustpilot",
+      "count": 631,
+      "rating": 4.6,
+      "url": "https://www.trustpilot.com/review/griffinfunding.com",
+      "note": ""
+    },
+    {
+      "id": "wallethub",
+      "name": "WalletHub",
+      "count": 757,
+      "rating": null,
+      "url": "https://wallethub.com/profile/griffin-funding-75917774i",
+      "note": ""
+    },
+    {
+      "id": "yelp",
+      "name": "Yelp",
+      "count": 182,
+      "rating": null,
+      "url": "https://www.yelp.com/biz/griffin-funding-san-diego",
+      "note": "San Diego"
+    },
+    {
+      "id": "zillow",
+      "name": "Zillow",
+      "count": 103,
+      "rating": 4.91,
+      "url": "https://www.zillow.com/lender-profile/griffinfunding/",
+      "note": ""
+    },
+    {
+      "id": "bbb",
+      "name": "BBB",
+      "count": 58,
+      "rating": 4.91,
+      "url": "https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171",
+      "note": "Customer reviews"
+    },
+    {
+      "id": "experience",
+      "name": "Experience.com",
+      "count": null,
+      "rating": 4.82,
+      "url": "",
+      "note": "Loan officer reviews"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+dist/
+node_modules/
+.DS_Store
+# Raw review exports and working files stay local. Only curated reviews.json ships.
+data/google-candidates.json
+data/raw/
+*.csv
