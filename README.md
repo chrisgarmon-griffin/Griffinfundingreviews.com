@@ -32,8 +32,7 @@ Connect the repo to Netlify. `netlify.toml` sets the build command and publish f
 ## Before launch
 
 - [ ] Re-check every count and rating in `data/platforms.json` against the live profile, then set `"verified": true`. Google's figures (937 reviews, 4.77) match the audit CSV. The other platforms come from September 2026 research and could not be checked from the build environment.
-- [ ] Confirm NMLS #1830 on NMLS Consumer Access, then set `"nmlsVerified": true` in `data/site.json`.
-- [ ] Add the Google Business Profile link and the Experience.com profile link to `data/platforms.json`. Google currently points to a Maps search.
+- [ ] Add the Experience.com review count to `data/platforms.json` if the profile publishes one.
 - [ ] Compliance review of the selected quotes and the footer disclosures (advertising rules, FTC consumer review rule).
 - [ ] Point the griffinfundingreviews.com DNS at Netlify.
 - [ ] Submit the sitemap in Google Search Console.

@@ -2,8 +2,8 @@
   "domain": "https://griffinfundingreviews.com",
   "company": "Griffin Funding",
   "legalName": "Griffin Funding, Inc.",
-  "nmls": "1830",
-  "nmlsVerified": false,
+  "nmls": "1120111",
+  "nmlsVerified": true,
   "mainSite": "https://griffinfunding.com",
   "mainReviewsPage": "https://griffinfunding.com/reviews/",
   "title": "Griffin Funding Reviews: Ratings From Every Platform",
@@ -17,5 +17,7 @@
     "heloc": "HELOC",
     "investment": "Investment property",
     "self-employed": "Self-employed"
-  }
+  },
+  "vaLenderId": "9088650000",
+  "fhaLenderId": "01472-0000-3"
 }

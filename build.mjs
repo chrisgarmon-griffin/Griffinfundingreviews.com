@@ -262,7 +262,7 @@ ${reviewsSection}
   <div class="wrap">
     <div class="row">
       <div>
-        <p>${esc(site.legalName)}. NMLS #${esc(site.nmls)}. <a href="${nmlsUrl}" rel="noopener" target="_blank">NMLS Consumer Access</a>. Equal Housing Lender.</p>
+        <p>${esc(site.legalName)}. NMLS #${esc(site.nmls)} (<a href="${nmlsUrl}" rel="noopener" target="_blank">NMLS Consumer Access</a>). VA Approved Lender ID ${esc(site.vaLenderId)}. FHA Non-Supervised Lender No. ${esc(site.fhaLenderId)}. Equal Housing Lender.</p>
         <p>This site is operated by Griffin Funding. Ratings and review counts come from each third-party platform and were last checked ${asOfLong}. Selected reviews are quoted word for word and link to their source. This is not a commitment to lend. All loans are subject to credit approval and underwriting.</p>
       </div>
       <div><p><a href="${site.mainSite}">griffinfunding.com</a></p></div>
