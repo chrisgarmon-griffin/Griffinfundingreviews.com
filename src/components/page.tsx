@@ -1,4 +1,4 @@
-import lion from "@/assets/lion.png";
+import griffinMark from "@/assets/griffin-mark.png";
 import { ReviewExplorer } from "@/components/review-explorer";
 import { Stars } from "@/components/stars";
 import {
@@ -29,7 +29,7 @@ export function Page() {
       <header className="mast" id="top">
         <div className="wrap mast-bar">
           <a className="brand" href="#top">
-            <img src={lion} alt="" width={512} height={512} />
+            <img src={griffinMark} alt="" width={300} height={178} />
             <span className="brand-text">
               <span className="brand-name">{BRAND}</span>
               <span className="brand-sub">Reviews</span>
@@ -283,7 +283,7 @@ export function Page() {
           <div className="foot-top">
             <div className="foot-brand">
               <a className="brand" href="#top">
-                <img src={lion} alt="" width={512} height={512} />
+                <img src={griffinMark} alt="" width={300} height={178} />
                 <span className="brand-text">
                   <span className="brand-name">{BRAND}</span>
                   <span className="brand-sub">Reviews</span>

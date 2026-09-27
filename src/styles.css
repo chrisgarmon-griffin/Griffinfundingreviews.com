@@ -151,9 +151,8 @@
 }
 
 .brand img {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 999px;
+  width: auto;
+  height: 2.6rem;
   display: block;
   flex: none;
 }
