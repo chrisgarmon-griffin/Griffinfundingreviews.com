@@ -296,7 +296,7 @@
 }
 
 .eyebrow-on-ink {
-  color: var(--color-on-ink-muted);
+  color: #e9e4da;
 }
 
 .eyebrow-extra {
@@ -331,6 +331,9 @@
 .hero h1 em {
   font-style: italic;
   font-weight: 500;
+  /* Brighter than --color-accent: Griffin red #bd0c0c is ~2.8:1 on the hero
+     background, under the 3:1 large-text minimum. This red is ~4.4:1. */
+  color: #e53b31;
 }
 
 .rule {
