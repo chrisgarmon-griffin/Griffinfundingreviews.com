@@ -12,7 +12,8 @@ One static page that collects Griffin Funding's ratings from every public review
 | `data/reviews.json` | Curated reviews. Only entries with `"featured": true` render |
 | `data/site.json` | Domain, NMLS number, page title and description, loan-type labels |
 | `src/styles.css` | Styling, from `docs/King_UI-DESIGN-SYSTEM.md` with Griffin red as the accent |
-| `build.mjs` | Builds `dist/index.html`, `llms.txt`, `robots.txt`, and `sitemap.xml` |
+| `build.mjs` | Builds `dist/index.html`, `404.html`, `llms.txt`, `robots.txt`, and `sitemap.xml` |
+| `static/` | Favicon, share image, touch icon, and Netlify `_headers`, copied into `dist/` |
 
 The weighted average rating is calculated at build time from each platform's rating and review count. It only includes platforms that publish both numbers.
 
@@ -20,7 +21,7 @@ The weighted average rating is calculated at build time from each platform's rat
 
 1. Put a fresh Google export in `data/raw/`. Raw exports are git-ignored and never ship.
 2. Run `node scripts/import-google-csv.mjs data/raw/<file>.csv`. It writes `data/google-candidates.json`, sorted best-first.
-3. Copy the reviews you want into `data/reviews.json`, set `"featured": true`, and tag `loanTypes`.
+3. Copy the reviews you want into `data/reviews.json`, set `"featured": true`, and tag `loanTypes`. Set `"spotlight": true` on one review to make it the large pull quote.
 4. Run `node build.mjs`. It stops with an error if a review is missing a field or uses an unknown platform or loan type.
 
 Each platform in `data/platforms.json` carries `verified`, `checked`, and `method` fields. The build warns for any unverified platform.
@@ -31,7 +32,14 @@ Personal details: per Bill, a client's city and state may appear, but not a stre
 
 ## Deploy
 
-Connect the repo to Netlify. `netlify.toml` sets the build command and publish folder, and redirects `www` to the bare domain.
+Either way works:
+
+- **Git (recommended).** In Netlify, import this repo. `netlify.toml` sets the build command (`node build.mjs`) and publish folder (`dist`). Every push to `main` redeploys.
+- **Drag and drop.** Run `node build.mjs`, zip the contents of `dist/`, and drop it on Netlify's deploys page. Headers ship in `dist/_headers`.
+
+In Netlify's domain settings, set `griffinfundingreviews.com` as the primary domain so `www` redirects to it.
+
+`static/` is copied into `dist/` as is. `static/og.png` (share image) and `static/apple-touch-icon.png` come from `node scripts/render-images.mjs`, which needs Playwright and runs locally, not on Netlify. The share image carries no ratings or counts, so it does not go stale.
 
 ## Before launch
 

@@ -2,7 +2,7 @@
 // Every review and rating is rendered into static HTML so search and AI
 // crawlers read the content without running JavaScript.
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync } from 'node:fs';
 import { findPii } from './scripts/pii.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
@@ -51,72 +51,94 @@ const asOfMonth = asOfDate.toLocaleDateString('en-US', { month: 'long', year: 'n
 const listNames = (items) =>
   items.length < 3 ? items.join(' and ') : `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
 
+
 // ---- HTML helpers ----------------------------------------------------------
 
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-const stars = (rating) => {
-  const full = Math.round(rating);
-  return `<span class="stars" aria-hidden="true">${'★'.repeat(full)}${'☆'.repeat(5 - full)}</span>`;
+// Partial-fill star bar: a 4.6 shows 4.6 stars, not a rounded 5.
+const stars = (rating, size = 14) =>
+  `<span class="stars" style="--r:${rating};--s:${size}px" role="img" aria-label="${rating} out of 5 stars"></span>`;
+
+const monthYear = (d) =>
+  new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+
+const ext = (url, label, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${esc(url)}" rel="noopener" target="_blank">${label}</a>`;
+
+// Platforms sorted by review volume; the ones without a count go last.
+const byVolume = [...platforms].sort((a, b) => (b.count ?? -1) - (a.count ?? -1));
+
+const platformRow = (p) => {
+  const score = Number.isFinite(p.rating)
+    ? `<span class="pnum">${showRating(p.rating)}</span>${stars(p.rating)}`
+    : p.grade
+      ? `<span class="pnum">${esc(p.grade)}</span><span class="pgrade">BBB letter rating</span>`
+      : `<span class="pgrade">See rating on ${esc(p.name)}</span>`;
+  const inner = `
+          <span class="pmeta"><span class="pname">${esc(p.name)}</span>${p.note ? `<span class="pnote">${esc(p.note)}</span>` : ''}</span>
+          <span class="pscore">${score}</span>
+          <span class="pcount">${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'Count not published'}</span>
+          <span class="pgo">${p.url ? 'View profile <span class="arr" aria-hidden="true">→</span>' : ''}</span>`;
+  return p.url
+    ? `
+        <li><a class="prow" href="${esc(p.url)}" rel="noopener" target="_blank" aria-label="${esc(`${p.name}: ${Number.isFinite(p.rating) ? `${showRating(p.rating)} out of 5` : p.grade ?? ''}${Number.isFinite(p.count) ? `, ${fmt(p.count)} reviews` : ''}. View profile`)}">${inner}
+        </a></li>`
+    : `
+        <li><div class="prow">${inner}
+        </div></li>`;
 };
 
-const platformCard = (p) => `
-      <article class="pcard">
-        <h3 class="pname" style="margin:0">${esc(p.name)}</h3>
-        ${p.note ? `<span class="pnote">${esc(p.note)}</span>` : ''}
-        <div class="prating">${Number.isFinite(p.rating) ? `${showRating(p.rating)} <small>/ 5</small>` : p.grade ? `${esc(p.grade)} <small>${esc(p.name)} rating</small>` : `<small>See rating on ${esc(p.name)}</small>`}</div>
-        ${Number.isFinite(p.rating) ? stars(p.rating) : ''}
-        <span class="pcount">${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'Review count not published'}</span>
-        ${p.url
-          ? `<a class="arrow-link" href="${esc(p.url)}" rel="noopener" target="_blank">Read all ${esc(p.name)} reviews <span class="arr" aria-hidden="true">→</span></a>`
-          : `<span class="arrow-link none">Profile link coming soon</span>`}
-      </article>`;
+const tagList = (types) =>
+  types.length ? `<ul class="tags" aria-label="Loan types">${types.map((t) => `<li class="tag">${esc(site.loanTypeLabels[t])}</li>`).join('')}</ul>` : '';
 
-const reviewCard = (r) => {
+const INITIAL = 9;
+const reviewCard = (r, i) => {
   const p = byId[r.platform];
   const types = r.loanTypes ?? [];
-  const d = new Date(`${r.date}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
   return `
-      <figure class="rcard" data-types="${esc(types.join(' '))}">
-        <div>${stars(r.rating)} <span class="sr-only">${r.rating} out of 5 stars</span></div>
-        <blockquote><p style="margin:0">${esc(r.text)}</p></blockquote>
-        ${types.length ? `<div class="tags">${types.map((t) => `<span class="tag">${esc(site.loanTypeLabels[t])}</span>`).join('')}</div>` : ''}
-        <footer>
-          <figcaption class="who">${esc(r.author)}</figcaption>
-          <span>${esc(d)} · <a href="${esc(r.sourceUrl)}" rel="noopener" target="_blank">${esc(p.name)}</a></span>
-        </footer>
-      </figure>`;
+        <figure class="rcard${i >= INITIAL ? ' is-extra' : ''}" data-types="${esc(types.join(' '))}">
+          ${stars(r.rating)}
+          <blockquote><p>${esc(r.text)}</p></blockquote>
+          ${tagList(types)}
+          <figcaption>
+            <span class="who">${esc(r.author)}</span>
+            <span class="src">${esc(monthYear(r.date))} · ${ext(r.sourceUrl, `${esc(p.name)} review`)}</span>
+          </figcaption>
+        </figure>`;
 };
 
 // ---- FAQ -------------------------------------------------------------------
 // Answers use only figures from data/*.json. Each answer is plain text for
 // JSON-LD plus an HTML version for the page.
 
-const linked = platforms.filter((p) => p.url);
+const linked = byVolume.filter((p) => p.url);
 const nmlsUrl = `https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/${site.nmls}`;
 const ratedNames = listNames(rated.map((p) => p.name));
+const unratedNote = unrated.length
+  ? `${listNames(unrated.map((p) => p.name))} ${unrated.length > 1 ? 'are' : 'is'} not part of the average${unrated.some((p) => p.grade) ? ` because ${unrated.length > 1 ? 'they do' : 'it does'} not publish a star rating and review count together` : ''}.`
+  : '';
 
 const faqs = [
   {
     q: 'Is Griffin Funding legit?',
-    text: `Griffin Funding is a licensed mortgage lender, NMLS #${site.nmls}. You can confirm its license on NMLS Consumer Access. As of ${asOfMonth}, it has ${fmt(totalReviews)} public reviews across ${counted.length} platforms, with a ${avg} out of 5 weighted average on the platforms that publish a star rating.`,
-    html: `<p>Griffin Funding is a licensed mortgage lender, NMLS #${esc(site.nmls)}. You can confirm its license on <a href="${nmlsUrl}" rel="noopener" target="_blank">NMLS Consumer Access</a>.</p><p>As of ${asOfMonth}, it has ${fmt(totalReviews)} public reviews across ${counted.length} platforms, with a ${avg} out of 5 weighted average on the platforms that publish a star rating.</p>`,
+    text: `Griffin Funding is a licensed mortgage lender, NMLS #${site.nmls}. You can confirm its license on NMLS Consumer Access. As of ${asOfMonth}, it has ${fmt(totalReviews)} public reviews across ${counted.length} platforms, with a ${avg} out of 5 average weighted by review count.`,
+    html: `<p>Griffin Funding is a licensed mortgage lender, NMLS #${esc(site.nmls)}. You can confirm its license on ${ext(nmlsUrl, 'NMLS Consumer Access')}.</p><p>As of ${asOfMonth}, it has ${fmt(totalReviews)} public reviews across ${counted.length} platforms, with a ${avg} out of 5 average weighted by review count.</p>`,
   },
   {
     q: 'What is Griffin Funding’s overall rating?',
-    text: `${avg} out of 5, as of ${asOfLong}. This is the average of ${ratedNames}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total). ${unrated.length ? `${listNames(unrated.map((p) => p.name))} ${unrated.length > 1 ? 'are' : 'is'} not part of the average because this page has no confirmed star rating and review count for ${unrated.length > 1 ? 'them' : 'it'}.` : ''}`,
-    html: `<p>${avg} out of 5, as of ${asOfLong}. This is the average of ${esc(ratedNames)}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total).</p>${unrated.length ? `<p>${esc(listNames(unrated.map((p) => p.name)))} ${unrated.length > 1 ? 'are' : 'is'} not part of the average because this page has no confirmed star rating and review count for ${unrated.length > 1 ? 'them' : 'it'}.</p>` : ''}`,
+    text: `${avg} out of 5, as of ${asOfLong}. This is the average of ${ratedNames}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total). ${unratedNote}`.trim(),
+    html: `<p>${avg} out of 5, as of ${asOfLong}. This is the average of ${esc(ratedNames)}, weighted by each platform’s review count (${fmt(ratedReviews)} rated reviews in total).</p>${unratedNote ? `<p>${esc(unratedNote)}</p>` : ''}`,
   },
   {
     q: 'Where can I read every Griffin Funding review, including negative ones?',
     text: `Every platform profile shows all of its reviews, positive and negative: ${linked.map((p) => `${p.name} (${p.url})`).join('; ')}.`,
-    html: `<p>Each platform profile shows all of its reviews, positive and negative:</p><ul>${linked.map((p) => `<li><a href="${esc(p.url)}" rel="noopener" target="_blank">${esc(p.name)}</a></li>`).join('')}</ul>`,
+    html: `<p>Each platform profile shows all of its reviews, positive and negative:</p><ul>${linked.map((p) => `<li>${ext(p.url, esc(p.name))}</li>`).join('')}</ul>`,
   },
   {
     q: 'Does Griffin Funding have complaints?',
     text: `Complaints filed through the Better Business Bureau are public on Griffin Funding’s BBB profile${byId.bbb?.url ? ` (${byId.bbb.url})` : ''}. Lower-rated reviews on every platform are visible on the profiles linked on this page.`,
-    html: `<p>Complaints filed through the Better Business Bureau are public on ${byId.bbb?.url ? `<a href="${esc(byId.bbb.url)}" rel="noopener" target="_blank">Griffin Funding’s BBB profile</a>` : 'Griffin Funding’s BBB profile'}.</p><p>Lower-rated reviews on every platform are visible on the profiles linked on this page.</p>`,
+    html: `<p>Complaints filed through the Better Business Bureau are public on ${byId.bbb?.url ? ext(byId.bbb.url, 'Griffin Funding’s BBB profile') : 'Griffin Funding’s BBB profile'}.</p><p>Lower-rated reviews on every platform are visible on the profiles linked on this page.</p>`,
   },
   {
     q: 'Who runs this site?',
@@ -165,95 +187,158 @@ const jsonLd = {
 
 // ---- Page ------------------------------------------------------------------
 
-const usedTypes = Object.keys(site.loanTypeLabels).filter((t) => reviews.some((r) => (r.loanTypes ?? []).includes(t)));
+const spotlight = reviews.find((r) => r.spotlight);
+const grid = reviews.filter((r) => r !== spotlight);
+const usedTypes = Object.keys(site.loanTypeLabels).filter((t) => grid.some((r) => (r.loanTypes ?? []).includes(t)));
+const typeCount = (t) => grid.filter((r) => (r.loanTypes ?? []).includes(t)).length;
 const css = read('./src/styles.css');
+const fontsHref = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap';
+
+const head = (title, description, extra = '') => `<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<meta name="theme-color" content="#0b0c0f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="${fontsHref}">${extra}
+<style>
+${css}
+</style>`;
+
+const nav = (onHome) => `<nav class="nav" aria-label="Primary">
+  <div class="wrap">
+    <a class="wordmark" href="${onHome ? '#top' : '/'}"><span class="mark" aria-hidden="true">G</span>Griffin Funding<small>Reviews</small></a>
+    <div class="navlinks">
+      <a href="${onHome ? '' : '/'}#platforms">Ratings</a>
+      ${reviews.length ? `<a href="${onHome ? '' : '/'}#reviews">Reviews</a>` : ''}
+      <a href="${onHome ? '' : '/'}#faq">FAQ</a>
+      <a class="navcta" href="${site.mainSite}">griffinfunding.com <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</nav>`;
+
+const footer = `<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="wordmark"><span class="mark" aria-hidden="true">G</span>Griffin Funding<small>Reviews</small></span>
+        <p>Ratings and review counts come from each third-party platform and were last checked ${asOfLong}. Selected reviews are quoted word for word and link to their source.</p>
+      </div>
+      <ul class="foot-links">
+        <li>${ext(site.mainSite, 'griffinfunding.com')}</li>
+        <li>${ext(nmlsUrl, 'NMLS Consumer Access')}</li>
+        ${byId.bbb?.url ? `<li>${ext(byId.bbb.url, 'BBB profile')}</li>` : ''}
+      </ul>
+    </div>
+    <div class="foot-legal">
+      <p>${esc(site.legalName)} · NMLS #${esc(site.nmls)} · VA Approved Lender ID ${esc(site.vaLenderId)} · FHA Non-Supervised Lender No. ${esc(site.fhaLenderId)} · Equal Housing Lender</p>
+      <p>This site is operated by Griffin Funding. This is not a commitment to lend. All loans are subject to credit approval and underwriting.</p>
+    </div>
+  </div>
+</footer>`;
+
+const spotlightBlock = !spotlight ? '' : `
+      <figure class="spotlight">
+        <blockquote><p>${esc(spotlight.text)}</p></blockquote>
+        <figcaption>
+          ${stars(spotlight.rating, 16)}
+          <span class="who">${esc(spotlight.author)}</span>
+          <span class="src">${(spotlight.loanTypes ?? []).map((t) => esc(site.loanTypeLabels[t])).join(' · ')}${spotlight.loanTypes?.length ? ' · ' : ''}${esc(monthYear(spotlight.date))} · ${ext(spotlight.sourceUrl, `${esc(byId[spotlight.platform].name)} review`)}</span>
+        </figcaption>
+      </figure>`;
 
 const reviewsSection = !reviews.length ? '' : `
-  <section id="reviews" aria-labelledby="reviews-h">
+  <section id="reviews" class="section" aria-labelledby="reviews-h">
     <div class="wrap">
-      <p class="eyebrow"><span class="glyph" aria-hidden="true"></span>in their words</p>
-      <h2 id="reviews-h">Selected Griffin Funding reviews</h2>
-      <p class="disclosure">These are selected reviews, quoted word for word and linked to the original post. Ratings and counts above cover every review on each platform. Read the full set, including lower ratings, on each profile.</p>
+      <header class="section-head">
+        <p class="eyebrow">In their words</p>
+        <h2 id="reviews-h">Selected Griffin Funding reviews</h2>
+        <p class="section-lede">Quoted word for word from Google reviews, with client personal details removed. The ratings above cover every review on each platform, including lower ones.</p>
+      </header>
+${spotlightBlock}
       ${usedTypes.length ? `<div class="filters" role="group" aria-label="Filter reviews by loan type">
-        <button type="button" data-filter="all" aria-pressed="true">All</button>
-        ${usedTypes.map((t) => `<button type="button" data-filter="${t}" aria-pressed="false">${esc(site.loanTypeLabels[t])}</button>`).join('\n        ')}
+        <button type="button" data-filter="all" aria-pressed="true">All <span class="n">${grid.length}</span></button>
+        ${usedTypes.map((t) => `<button type="button" data-filter="${t}" aria-pressed="false">${esc(site.loanTypeLabels[t])} <span class="n">${typeCount(t)}</span></button>`).join('\n        ')}
       </div>` : ''}
-      <div class="reviews">${reviews.map(reviewCard).join('')}
+      <div class="reviews" id="review-grid">${grid.map(reviewCard).join('')}
       </div>
+      ${grid.length > INITIAL ? `<div class="more-wrap"><button type="button" class="btn btn-outline" id="show-all" aria-controls="review-grid" hidden>Show all ${grid.length} reviews</button></div>` : ''}
     </div>
   </section>`;
 
 const html = `<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(site.title)}</title>
-<meta name="description" content="${esc(site.description)}">
+${head(site.title, site.description, `
 <link rel="canonical" href="${site.domain}/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Griffin Funding Reviews">
 <meta property="og:url" content="${site.domain}/">
 <meta property="og:title" content="${esc(site.title)}">
 <meta property="og:description" content="${esc(site.description)}">
-<meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#0b0c0f">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<meta property="og:image" content="${site.domain}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Griffin Funding Reviews: ratings from ${platforms.length} review platforms in one place">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${site.domain}/og.png">
 <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>
-<style>
-${css}
-</style>
+<script>document.documentElement.classList.add('js')</script>`)}
 </head>
-<body>
+<body id="top">
 <a class="skip" href="#main">Skip to content</a>
-<nav class="nav" aria-label="Primary">
-  <div class="wrap">
-    <a class="wordmark" href="${site.mainSite}">Griffin Funding<small>reviews</small></a>
-    <div class="navlinks">
-      <a href="#platforms">Ratings</a>
-      ${reviews.length ? '<a href="#reviews">Reviews</a>' : ''}
-      <a href="#faq">FAQ</a>
-      <a href="${site.mainSite}">griffinfunding.com</a>
-    </div>
-  </div>
-</nav>
+${nav(true)}
 
 <header class="hero">
-  <div class="wrap">
-    <span class="eyebrow-pill enter-up"><span class="glyph" aria-hidden="true"></span>${platforms.length} review platforms</span>
-    <h1 class="enter-up d1">Griffin Funding reviews, <span class="accent-italic">all in one place</span></h1>
-    <p class="lede enter-up d2">${fmt(totalReviews)} public reviews from ${esc(listNames(counted.map((p) => p.name)))}. Every rating links to its full profile.</p>
-    <div class="btns enter-up d3">
-      <a class="btn btn-primary" href="#platforms">See every rating</a>
-      <a class="btn btn-ghost" href="${site.mainSite}">Visit griffinfunding.com</a>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow-pill enter-up"><span class="glyph" aria-hidden="true"></span>${platforms.length} review platforms<span class="pill-extra"> · Updated ${esc(asOfMonth)}</span></p>
+      <h1 class="enter-up d1">Griffin Funding reviews, <span class="accent-italic">all in one place.</span></h1>
+      <p class="lede enter-up d2">${fmt(totalReviews)} public reviews from ${esc(listNames(byVolume.filter((p) => Number.isFinite(p.count)).map((p) => p.name)))}. Every number links to the platform that published it.</p>
+      <div class="btns enter-up d3">
+        <a class="btn btn-primary" href="#platforms">See every rating</a>
+        ${reviews.length ? '<a class="btn btn-ghost" href="#reviews">Read reviews</a>' : ''}
+      </div>
     </div>
+    <aside class="scorecard enter-up d2" aria-label="Rating summary">
+      <p class="sc-label">Weighted average rating</p>
+      <p class="sc-big"><span class="sc-num">${avg}</span><span class="sc-of">/ 5</span></p>
+      ${stars(Number(avg), 22)}
+      <p class="sc-note">Across ${fmt(ratedReviews)} rated reviews on ${esc(ratedNames)}, weighted by review count.</p>
+      <dl class="sc-stats">
+        <div><dt>Public reviews</dt><dd>${fmt(totalReviews)}</dd></div>
+        <div><dt>Platforms</dt><dd>${platforms.length}</dd></div>
+        ${byId.bbb?.grade ? `<div><dt>BBB rating</dt><dd>${esc(byId.bbb.grade)}</dd></div>` : ''}
+      </dl>
+      <p class="sc-foot">Last checked ${asOfLong}</p>
+    </aside>
   </div>
 </header>
 
 <main id="main">
-  <div class="wrap">
-    <div class="stat-strip">
-      <div class="stat-block"><span class="num">${avg}</span><span class="label">Weighted average rating out of 5 across ${esc(ratedNames)}</span></div>
-      <div class="stat-block"><span class="num">${fmt(totalReviews)}</span><span class="label">Public reviews on the ${counted.length} platforms that publish a count</span></div>
-      <div class="stat-block"><span class="num">${platforms.length}</span><span class="label">Third-party review platforms, each linked below</span></div>
-    </div>
-  </div>
-
-  <section id="platforms" aria-labelledby="platforms-h">
+  <section id="platforms" class="section" aria-labelledby="platforms-h">
     <div class="wrap">
-      <p class="eyebrow"><span class="glyph" aria-hidden="true"></span>ratings by platform</p>
-      <h2 id="platforms-h">Griffin Funding ratings on every major review site</h2>
-      <p class="section-lede">Each card shows the platform’s own rating and review count. Follow the link to read every review on that site. <span class="asof">Last checked ${asOfLong}.</span></p>
-      <div class="platforms">${platforms.map(platformCard).join('')}
-      </div>
+      <header class="section-head">
+        <p class="eyebrow">Ratings by platform</p>
+        <h2 id="platforms-h">Griffin Funding ratings on every major review site</h2>
+        <p class="section-lede">Each row shows the platform’s own rating and review count, sorted by number of reviews. Select a row to read every review on that site.</p>
+      </header>
+      <ul class="plist">${byVolume.map(platformRow).join('')}
+      </ul>
+      <p class="pfoot">Weighted average: <strong>${avg} out of 5</strong> across ${fmt(ratedReviews)} rated reviews. ${esc(unratedNote)} Last checked ${asOfLong}.</p>
     </div>
   </section>
 ${reviewsSection}
-  <section id="faq" aria-labelledby="faq-h">
-    <div class="wrap">
-      <p class="eyebrow"><span class="glyph" aria-hidden="true"></span>common questions</p>
-      <h2 id="faq-h">Griffin Funding reviews: frequently asked questions</h2>
+  <section id="faq" class="section" aria-labelledby="faq-h">
+    <div class="wrap faq-grid">
+      <header class="section-head faq-head">
+        <p class="eyebrow">Common questions</p>
+        <h2 id="faq-h">Griffin Funding reviews: frequently asked questions</h2>
+        <p class="section-lede">Answers use only the figures on this page. Loan questions are best answered by a Griffin Funding loan officer at ${ext(site.mainSite, 'griffinfunding.com')}.</p>
+      </header>
       <div class="faq">${faqs.map((f, i) => `
         <details${i === 0 ? ' open' : ''}>
           <summary>${esc(f.q)}</summary>
@@ -264,28 +349,52 @@ ${reviewsSection}
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="row">
-      <div>
-        <p>${esc(site.legalName)}. NMLS #${esc(site.nmls)} (<a href="${nmlsUrl}" rel="noopener" target="_blank">NMLS Consumer Access</a>). VA Approved Lender ID ${esc(site.vaLenderId)}. FHA Non-Supervised Lender No. ${esc(site.fhaLenderId)}. Equal Housing Lender.</p>
-        <p>This site is operated by Griffin Funding. Ratings and review counts come from each third-party platform and were last checked ${asOfLong}. Selected reviews are quoted word for word and link to their source. This is not a commitment to lend. All loans are subject to credit approval and underwriting.</p>
-      </div>
-      <div><p><a href="${site.mainSite}">griffinfunding.com</a></p></div>
-    </div>
-  </div>
-</footer>
-${usedTypes.length ? `<script>
+${footer}
+${reviews.length ? `<script>
 (() => {
+  const grid = document.getElementById('review-grid');
+  if (!grid) return;
+  const cards = [...grid.querySelectorAll('.rcard')];
   const btns = document.querySelectorAll('[data-filter]');
-  const cards = document.querySelectorAll('.rcard');
+  const more = document.getElementById('show-all');
+  let expanded = false, filter = 'all';
+  const render = () => {
+    grid.classList.toggle('collapsed', filter === 'all' && !expanded);
+    cards.forEach((c) => { c.hidden = filter !== 'all' && !c.dataset.types.split(' ').includes(filter); });
+    if (more) more.hidden = filter !== 'all' || expanded;
+  };
   btns.forEach((b) => b.addEventListener('click', () => {
-    const f = b.dataset.filter;
+    filter = b.dataset.filter;
     btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    cards.forEach((c) => { c.hidden = f !== 'all' && !c.dataset.types.split(' ').includes(f); });
+    render();
   }));
+  more?.addEventListener('click', () => {
+    expanded = true; render();
+    cards[${INITIAL}]?.querySelector('a')?.focus({ preventScroll: true });
+  });
+  render();
 })();
 </script>` : ''}
+</body>
+</html>
+`;
+
+const notFound = `<!doctype html>
+<html lang="en">
+<head>
+${head('Page not found · Griffin Funding Reviews', 'This page does not exist.', '\n<meta name="robots" content="noindex">')}
+</head>
+<body>
+${nav(false)}
+<main id="main" class="nf">
+  <div class="wrap">
+    <p class="eyebrow">404</p>
+    <h1>This page does not exist.</h1>
+    <p class="section-lede">Every Griffin Funding rating and review lives on the home page.</p>
+    <p><a class="btn btn-primary" href="/">Go to Griffin Funding reviews</a></p>
+  </div>
+</main>
+${footer}
 </body>
 </html>
 `;
@@ -301,7 +410,7 @@ Total public reviews: ${fmt(totalReviews)} across ${counted.length} platforms.
 
 ## Platforms
 
-${platforms.map((p) => `- ${p.name}: ${Number.isFinite(p.rating) ? `${showRating(p.rating)} / 5` : p.grade ? `${p.grade} (letter rating)` : 'star rating not confirmed'}, ${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'count not published'}${p.url ? ` (${p.url})` : ''}`).join('\n')}
+${byVolume.map((p) => `- ${p.name}: ${Number.isFinite(p.rating) ? `${showRating(p.rating)} / 5` : p.grade ? `${p.grade} (letter rating)` : 'star rating not confirmed'}, ${Number.isFinite(p.count) ? `${fmt(p.count)} reviews` : 'count not published'}${p.url ? ` (${p.url})` : ''}`).join('\n')}
 
 ## Links
 
@@ -325,7 +434,9 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 const out = new URL('./dist/', import.meta.url);
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
+cpSync(new URL('./static/', import.meta.url), out, { recursive: true });
 writeFileSync(new URL('index.html', out), html);
+writeFileSync(new URL('404.html', out), notFound);
 writeFileSync(new URL('llms.txt', out), llms);
 writeFileSync(new URL('robots.txt', out), robots);
 writeFileSync(new URL('sitemap.xml', out), sitemap);

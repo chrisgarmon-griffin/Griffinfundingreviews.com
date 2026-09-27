@@ -9,7 +9,8 @@
     "loanTypes": "Zero or more of: dscr, bank-statement, va, purchase, refinance, heloc, investment, self-employed",
     "sourceUrl": "Link to the review itself, or the platform profile if no per-review link exists",
     "featured": "true to publish on the page",
-    "redacted": "Optional. What was removed from the original text and why."
+    "redacted": "Optional. What was removed from the original text and why.",
+    "spotlight": "Optional. true shows this review as the large pull quote. Use on one review only."
   },
   "reviews": [
     {
@@ -97,7 +98,8 @@
         "self-employed"
       ],
       "sourceUrl": "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xWd2JteFZSSEpVYURCNmJXMUhOMGxmWDBKck5WRRAB!2m1!1s0x0",
-      "featured": true
+      "featured": true,
+      "spotlight": true
     },
     {
       "id": "google-2026-03-15-jamescash",
