@@ -22,7 +22,7 @@
       "note": "",
       "verified": true,
       "checked": "2026-09-27",
-      "method": "Direct fetch of trustpilot.com profile (TrustScore)"
+      "method": "Manual check of the live trustpilot.com page (screenshot): TrustScore 4.7, \"All reviews (37)\". The earlier 631 figure was wrong."
     },
     {
       "id": "wallethub",
