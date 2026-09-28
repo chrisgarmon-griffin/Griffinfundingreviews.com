@@ -29,6 +29,8 @@ export type Office = {
   state: string;
   stateName: string;
   label?: string;
+  /** Shown in parentheses after the city, e.g. "(Lake Tahoe)". */
+  area?: string;
   street: string;
   postalCode: string;
   google?: Listing;
@@ -76,7 +78,7 @@ export const offices: Office[] = [
     city: "Incline Village",
     state: "NV",
     stateName: "Nevada",
-    label: "Lake Tahoe",
+    area: "Lake Tahoe",
     street: "885 Tahoe Blvd Suite 13",
     postalCode: "89451",
   },
@@ -266,10 +268,9 @@ export function officeSentence(o: Office): string {
     o.google && `Google ${formatRating(o.google.rating)} from ${formatInt(o.google.count)} reviews`,
     o.yelp && `Yelp ${formatRating(o.yelp.rating)} from ${formatInt(o.yelp.count)} reviews`,
   ].filter(Boolean);
-  const where = `${o.city}, ${o.state} (${o.street}, ${o.postalCode})`;
-  return parts.length
-    ? `${where}: ${parts.join("; ")}.`
-    : `${where}: no Google or Yelp listing for this office yet.`;
+  const city = o.area ? `${o.city}, ${o.state} (${o.area})` : `${o.city}, ${o.state}`;
+  const address = `${o.street}, ${o.city}, ${o.state} ${o.postalCode}`;
+  return parts.length ? `${city}, ${address}: ${parts.join("; ")}.` : `${city}: ${address}.`;
 }
 
 export const faqs: Faq[] = [

@@ -436,10 +436,11 @@ function OfficeCard({ office }: { office: Office }) {
   return (
     <li id={`office-${office.id}`} className="office">
       <h3>
-        Griffin Funding {office.city} reviews
+        Griffin Funding {office.city} {listed ? "reviews" : "office"}
       </h3>
       <p className="office-where">
         {place}
+        {office.area ? <span className="office-area">({office.area})</span> : null}
         {office.label ? <span className="office-label">{office.label}</span> : null}
       </p>
       <address>
@@ -452,9 +453,7 @@ function OfficeCard({ office }: { office: Office }) {
           {office.google ? <ListingRow name="Google" place={place} listing={office.google} /> : null}
           {office.yelp ? <ListingRow name="Yelp" place={place} listing={office.yelp} /> : null}
         </dl>
-      ) : (
-        <p className="office-none">No Google or Yelp listing for this office yet.</p>
-      )}
+      ) : null}
     </li>
   );
 }

@@ -27,7 +27,7 @@ Google and Yelp list each office separately. The Google and Yelp figures above c
 - San Diego, CA (headquarters), 2445 Fifth Ave #401, San Diego, CA 92101: Google 4.8 / 5, 989 reviews (https://maps.app.goo.gl/sQuT4UyBW2yLneS36); Yelp 4.6 / 5, 185 reviews (https://www.yelp.com/biz/griffin-funding-san-diego)
 - Scottsdale, AZ, 7033 E Greenway Pkwy #110, Scottsdale, AZ 85254: Google 4.9 / 5, 32 reviews (https://maps.app.goo.gl/25Noh53o4CorwNHZ8); Yelp 5.0 / 5, 4 reviews (https://www.yelp.com/biz/griffin-funding-scottsdale)
 - Irvine, CA (Orange County), 100 Spectrum Center Dr Ste 470, Irvine, CA 92618: Google 5.0 / 5, 24 reviews (https://maps.app.goo.gl/XipRjaEdUpmB6Je16); Yelp 5.0 / 5, 4 reviews (https://www.yelp.com/biz/griffin-funding-irvine-2)
-- Incline Village, NV (Lake Tahoe), 885 Tahoe Blvd Suite 13, Incline Village, NV 89451: no Google or Yelp listing yet
+- Incline Village, NV (Lake Tahoe), 885 Tahoe Blvd Suite 13, Incline Village, NV 89451
 
 ## License
 
