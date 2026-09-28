@@ -32,13 +32,13 @@ export type Block =
   | { kind: "list"; items: Inline[][] };
 
 export type InfoPage = {
-  id: "about" | "contact";
+  id: "about" | "contact" | "privacy";
   path: string;
   title: string;
   heading: string;
   description: string;
   lede: string;
-  schemaType: "AboutPage" | "ContactPage";
+  schemaType: "AboutPage" | "ContactPage" | "WebPage";
   blocks: Block[];
 };
 
@@ -187,4 +187,109 @@ export const contactPage: InfoPage = {
   ],
 };
 
-export const infoPages = [aboutPage, contactPage];
+// DRAFT for compliance review (branch privacy-page-draft). Do not merge to main
+// until compliance approves the wording and fills in the bracketed items.
+export const PRIVACY_EFFECTIVE = "[Effective date: set on approval]";
+export const COMPANY_PRIVACY_URL =
+  "[Griffin Funding privacy policy URL: compliance to supply]";
+
+export const privacyPage: InfoPage = {
+  id: "privacy",
+  path: "/privacy",
+  title: "Privacy Notice",
+  heading: "Privacy notice for Griffin Funding Reviews",
+  description:
+    "What griffinfundingreviews.com collects, what it does not collect, and the outside services it uses.",
+  lede: `This notice covers griffinfundingreviews.com only. The site has no forms, accounts, or loan applications, and it does not ask for personal information. ${PRIVACY_EFFECTIVE}.`,
+  schemaType: "WebPage",
+  blocks: [
+    h2("Who operates this site"),
+    p(
+      t(
+        `${LEGAL_NAME} (NMLS #${NMLS}) operates griffinfundingreviews.com. Questions about this notice can go to ${BRAND} at `,
+      ),
+      a(PHONE_DISPLAY, PHONE_TEL),
+      t("."),
+    ),
+    h2("What this site does not collect"),
+    list([
+      [
+        t(
+          "No names, email addresses, phone numbers, Social Security numbers, or financial information.",
+        ),
+      ],
+      [
+        t(
+          "No loan applications, quote requests, or account sign-ups. There are no forms on this site.",
+        ),
+      ],
+      [
+        t(
+          "No cookies are set by this site, and nothing is saved in your browser's storage.",
+        ),
+      ],
+      [
+        t(
+          "The review search box and loan-type filters run in your browser. What you type is not sent to us.",
+        ),
+      ],
+    ]),
+    h2("Visit and click measurement"),
+    p(
+      t(
+        "This site uses Vercel Web Analytics to count page views and two kinds of clicks: taps on the Call button and clicks on Start your application. Each click is recorded with where on the page it happened, such as the header or the home page. Vercel states that Web Analytics uses no cookies and records visits anonymously. Instead of a cookie, it groups a visit using a code generated from the request that resets every 24 hours, so visitors cannot be followed from day to day or across other websites. It also records general details such as the page visited, the referring site, country, browser, operating system, and device type. See ",
+      ),
+      a(
+        "Vercel's Web Analytics privacy page",
+        "https://vercel.com/docs/analytics/privacy-policy",
+      ),
+      t("."),
+    ),
+    h2("Hosting and security logs"),
+    p(
+      t(
+        "The site is hosted by Vercel. Like most web hosts, Vercel receives technical information with each request, such as your IP address, browser type, and the time of the request, to deliver the page and protect the site. See ",
+      ),
+      a("Vercel's privacy notice", "https://vercel.com/legal/privacy-notice"),
+      t("."),
+    ),
+    h2("Fonts"),
+    p(
+      t(
+        "The site's fonts load from Google Fonts. Your browser requests them from Google, which receives your IP address and browser details as part of that request. See ",
+      ),
+      a("Google's privacy policy", "https://policies.google.com/privacy"),
+      t("."),
+    ),
+    h2("Links to other sites"),
+    p(
+      t(
+        "Ratings and quotes link to the review platforms where they were posted, such as Google, Yelp, Zillow, BBB, WalletHub, Trustpilot, and Experience.com. Start your application opens a form on griffinfunding.com. Those sites have their own privacy policies, which apply once you leave this site. Information you submit on griffinfunding.com is covered by ",
+      ),
+      a("Griffin Funding's privacy policy", COMPANY_PRIVACY_URL),
+      t("."),
+    ),
+    h2("Phone calls"),
+    p(
+      t(
+        `Tapping Call opens your phone's dialer with ${PHONE_DISPLAY}. This site does not record the call. If you call, the conversation is with ${BRAND} and is covered by `,
+      ),
+      a("Griffin Funding's privacy policy", COMPANY_PRIVACY_URL),
+      t("."),
+    ),
+    h2("Children"),
+    p(
+      t(
+        "This site is not directed to children under 13 and does not knowingly collect information from them.",
+      ),
+    ),
+    h2("Changes to this notice"),
+    p(
+      t(
+        "If this site's practices change, this notice will be updated and the effective date above will change.",
+      ),
+    ),
+  ],
+};
+
+export const infoPages = [aboutPage, contactPage, privacyPage];

@@ -122,6 +122,7 @@ export function SiteFooter({ home = true }: ChromeProps) {
             </div>
             <div className="foot-col">
               <a href="/contact">Contact</a>
+              <a href="/privacy">Privacy</a>
               <a href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
                 griffinfunding.com
                 <span className="sr-only"> (opens in a new tab)</span>
