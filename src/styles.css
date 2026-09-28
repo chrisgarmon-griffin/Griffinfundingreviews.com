@@ -462,6 +462,21 @@
   justify-content: center;
 }
 
+@media (max-width: 559px) {
+  .btns-center {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .btns-center .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-inline: clamp(0.5rem, 2.5vw, 1rem);
+    font-size: clamp(0.8rem, 3.6vw, 0.92rem);
+    white-space: nowrap;
+  }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
