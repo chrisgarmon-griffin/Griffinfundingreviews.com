@@ -158,7 +158,7 @@ export const platforms: Platform[] = [
     count: 60,
     rating: 4.85,
     grade: "A+",
-    method: "Customer review average from the BBB customer reviews page (confirmed by Bill). A+ is BBB's separate letter rating.",
+    method: "Customer review average from the BBB customer reviews page. A+ is BBB's separate letter rating.",
   },
   {
     id: "trustpilot",

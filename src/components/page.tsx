@@ -274,21 +274,80 @@ export function Page() {
               <time dateTime={AS_OF_ISO}>{AS_OF}</time>.
             </p>
             <details className="method">
-              <summary>How these figures were checked</summary>
+              <summary>
+                How these figures were checked
+                <svg
+                  className="method-chev"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  height="16"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3.5 6 8 10.5 12.5 6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </summary>
               <div className="method-body">
                 <p>
-                  The average is sum of rating × review count, divided by review
-                  count, for platforms that publish both. It is shown to one
-                  decimal place. A selection of quotes does not change the
-                  counts.
+                  The average is the sum of rating × review count, divided by
+                  total review count, for platforms that publish both. It is
+                  shown to one decimal place. The selected quotes do not change
+                  the counts.
                 </p>
-                <ul>
-                  {platforms.map((platform) => (
-                    <li key={platform.id}>
-                      <strong>{platform.name}.</strong> {platform.method}
-                    </li>
-                  ))}
-                </ul>
+                <div className="method-table-wrap">
+                  <table className="method-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Platform</th>
+                        <th scope="col" className="num">
+                          Rating
+                        </th>
+                        <th scope="col" className="num">
+                          Reviews
+                        </th>
+                        <th scope="col">How it was checked</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {platforms.map((platform) => (
+                        <tr key={platform.id}>
+                          <th scope="row" data-label="Platform">
+                            {platform.name}
+                          </th>
+                          <td className="num" data-label="Rating">
+                            {platform.rating == null
+                              ? platform.grade
+                              : formatRating(platform.rating)}
+                          </td>
+                          <td className="num" data-label="Reviews">
+                            {formatInt(platform.count)}
+                          </td>
+                          <td className="how" data-label="How it was checked">
+                            {platform.method}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th scope="row">Weighted average</th>
+                        <td className="num">{stats.shownText}</td>
+                        <td className="num" data-label="Reviews">
+                          {formatInt(stats.ratedCount)}
+                        </td>
+                        <td className="how">
+                          Checked <time dateTime={AS_OF_ISO}>{AS_OF}</time>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
               </div>
             </details>
           </div>
