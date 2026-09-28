@@ -113,7 +113,6 @@ export const platforms: Platform[] = [
   {
     id: "experience",
     name: "Experience.com",
-    note: "Own reviews only",
     href: "https://www.experience.com/reviews/company/griffin-funding-1426",
     count: 1600,
     rating: 4.88,
