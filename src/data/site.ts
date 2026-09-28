@@ -121,7 +121,6 @@ export const platforms: Platform[] = [
   {
     id: "google",
     name: "Google",
-    note: `${googleAll.cities.length} offices`,
     href: "https://share.google/4dX5kM5F0ugL6UEVW",
     count: googleAll.count,
     rating: googleAll.rating,
@@ -138,7 +137,6 @@ export const platforms: Platform[] = [
   {
     id: "yelp",
     name: "Yelp",
-    note: `${yelpAll.cities.length} offices`,
     href: hq.yelp!.href!,
     count: yelpAll.count,
     rating: yelpAll.rating,
