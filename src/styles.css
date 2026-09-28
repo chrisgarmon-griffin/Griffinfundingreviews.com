@@ -1224,6 +1224,18 @@
 }
 
 .foot-links {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0 2.5rem;
+}
+
+@media (max-width: 420px) {
+  .foot-links {
+    gap: 0 1.25rem;
+  }
+}
+
+.foot-col {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
@@ -1340,7 +1352,163 @@
   }
 }
 
+/* Motion: subtle hover responses and scroll-linked reveals */
+@media (hover: hover) {
+  .scorecard,
+  .office,
+  .review-card {
+    transition:
+      transform 320ms var(--ease),
+      box-shadow 320ms var(--ease),
+      border-color 320ms var(--ease);
+  }
+
+  .scorecard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 34px 72px -30px rgb(0 0 0 / 0.7);
+  }
+
+  .score-stats dd {
+    transition: color 200ms var(--ease), transform 200ms var(--ease);
+  }
+
+  .score-stats > div:hover dd {
+    color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .office:hover,
+  .review-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-line-strong);
+    box-shadow: 0 22px 44px -28px rgb(40 30 20 / 0.45);
+  }
+
+  .office h3,
+  .faq-item h3,
+  .p-name {
+    transition: color 200ms var(--ease);
+  }
+
+  .office:hover h3,
+  .faq-item summary:hover h3,
+  .prow:hover .p-name {
+    color: var(--color-accent);
+  }
+
+  .fact-list li {
+    transition: padding-left 260ms var(--ease), background-color 260ms var(--ease);
+  }
+
+  .fact-list li:hover {
+    padding-left: 0.4rem;
+    background: color-mix(in oklab, var(--color-on-ink) 4%, transparent);
+  }
+
+  .fact-label::before {
+    transition: transform 260ms var(--ease);
+  }
+
+  .fact-list li:hover .fact-label::before {
+    transform: scale(1.6);
+  }
+
+  .prow .p-num,
+  .prow .stars,
+  .vol > span {
+    transition: transform 260ms var(--ease), filter 260ms var(--ease);
+  }
+
+  .prow:hover .p-num {
+    transform: translateX(3px);
+  }
+
+  .prow:hover .stars {
+    transform: scale(1.06);
+  }
+
+  .prow:hover .vol > span {
+    filter: brightness(1.2) saturate(1.1);
+  }
+
+  .office-scores dd a .o-num {
+    transition: color 200ms var(--ease);
+  }
+
+  .office-scores dd a:hover .o-num {
+    color: var(--color-accent);
+  }
+
+  .faq-item summary::after {
+    transition: transform 260ms var(--ease), color 200ms var(--ease);
+  }
+
+  .faq-item summary:hover::after {
+    transform: rotate(90deg);
+    color: var(--color-accent);
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .foot-links a {
+    background: linear-gradient(currentColor, currentColor) left calc(100% - 0.45rem) / 0 1px no-repeat;
+    transition: background-size 260ms var(--ease), color 200ms var(--ease);
+  }
+
+  .foot-links a:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes grow {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-head,
+    .ledger > li,
+    .office,
+    .review-card,
+    .faq-item {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+
+    .vol > span {
+      transform-origin: left;
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 35%;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .scorecard,
+  .office,
+  .review-card,
+  .fact-list li,
+  .foot-links a,
   .btn,
   .prow,
   .filters button,
@@ -1349,8 +1517,21 @@
     transition: none;
   }
 
-  .btn:active {
+  .btn:active,
+  .btn:hover,
+  .scorecard:hover,
+  .office:hover,
+  .review-card:hover,
+  .score-stats > div:hover dd,
+  .prow:hover .p-num,
+  .prow:hover .stars,
+  .faq-item summary:hover::after,
+  .fact-list li:hover .fact-label::before {
     transform: none;
+  }
+
+  .fact-list li:hover {
+    padding-left: 0;
   }
 }
 

@@ -394,19 +394,24 @@ export function Page() {
               </p>
             </div>
             <nav className="foot-links" aria-label="Footer">
-              <a href="#platforms">Ratings</a>
-              <a href="#reviews">Selected reviews</a>
-              <a href="#faq">FAQ</a>
-              <a href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
-                griffinfunding.com
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a href={NMLS_URL} target="_blank" rel="noopener noreferrer">
-                NMLS Consumer Access
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a href="/llms.txt">Plain-text summary</a>
-              <a href="/llms-full.txt">Full text record</a>
+              <div className="foot-col">
+                <a href="#platforms">Ratings</a>
+                <a href="#offices">Offices</a>
+                <a href="#reviews">Selected reviews</a>
+                <a href="#faq">FAQ</a>
+              </div>
+              <div className="foot-col">
+                <a href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
+                  griffinfunding.com
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+                <a href={NMLS_URL} target="_blank" rel="noopener noreferrer">
+                  NMLS Consumer Access
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+                <a href="/llms.txt">Plain-text summary</a>
+                <a href="/llms-full.txt">Full text record</a>
+              </div>
             </nav>
           </div>
           <div className="foot-legal">
@@ -504,9 +509,7 @@ function OfficeCard({ office }: { office: Office }) {
   const listed = office.google || office.yelp;
   return (
     <li id={`office-${office.id}`} className="office">
-      <h3>
-        Griffin Funding {office.city} {listed ? "reviews" : "office"}
-      </h3>
+      <h3>Griffin Funding – {office.city}</h3>
       <p className="office-where">
         {place}
         {office.area ? (
