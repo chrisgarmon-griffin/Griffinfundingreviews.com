@@ -150,31 +150,60 @@
   min-height: 2.75rem;
 }
 
+.brand {
+  --brand-h: 3rem;
+}
+
 .brand img {
   width: auto;
-  height: 2.6rem;
+  height: var(--brand-h);
   display: block;
   flex: none;
 }
 
+/* Two-line wordmark sized to the mark's height: serif name on top,
+   tracked red REVIEWS centered beneath it. */
 .brand-text {
+  height: var(--brand-h);
   display: flex;
   flex-direction: column;
-  line-height: 1.05;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
 }
 
 .brand-name {
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1;
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .brand-sub {
-  margin-top: 0.15rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.42em;
+  /* Offset the trailing tracking so the word centers optically. */
+  margin-right: -0.42em;
   text-transform: uppercase;
-  color: var(--color-on-ink-muted);
+  color: #e53b31;
+}
+
+@media (max-width: 420px) {
+  .brand {
+    --brand-h: 2.6rem;
+  }
+
+  .brand-name {
+    font-size: 1.35rem;
+  }
+
+  .brand-sub {
+    font-size: 0.64rem;
+  }
 }
 
 .nav-toggle {
@@ -474,15 +503,15 @@
 }
 
 .scorecard {
-  --score-text: #e9e4da;
-  --score-dim: #cfc8bc;
-  --score-line: color-mix(in oklab, var(--color-on-ink) 14%, transparent);
-  background: var(--color-ink-raised);
-  color: var(--color-on-ink);
+  --score-text: var(--color-fg);
+  --score-dim: var(--color-muted);
+  --score-line: var(--color-line);
+  background: var(--color-card);
+  color: var(--color-fg);
   border-radius: var(--radius-xl);
   border-top: 2px solid var(--color-accent);
   padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 2vw, 1.6rem);
-  box-shadow: 0 1px 0 color-mix(in oklab, white 6%, transparent);
+  box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.55);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -510,7 +539,7 @@
 }
 
 .scorecard .score-foot time {
-  color: #ffffff;
+  color: var(--color-fg);
 }
 
 .score-big {
@@ -580,7 +609,7 @@
   font-size: 1.85rem;
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--color-on-ink);
+  color: var(--color-fg);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1242,9 +1271,12 @@
 
 .on-ink-stars .stars > svg,
 .hero .stars > svg,
-.spotlight .stars > svg,
-.scorecard .stars > svg {
+.spotlight .stars > svg {
   color: color-mix(in oklab, var(--color-on-ink) 32%, transparent);
+}
+
+.scorecard .stars > svg {
+  color: var(--color-line-strong);
 }
 
 .not-found {
