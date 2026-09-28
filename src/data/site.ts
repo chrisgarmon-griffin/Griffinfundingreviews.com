@@ -36,7 +36,7 @@ export type Office = {
 };
 
 // Figures and addresses confirmed on each live listing, 2026-09-28. A missing listing
-// means none exists. A listing without href means the link is still to be supplied;
+// means none exists. Links are copied verbatim from each listing's Share dialog;
 // never construct or guess a Google or Yelp URL.
 export const offices: Office[] = [
   {
@@ -47,7 +47,7 @@ export const offices: Office[] = [
     label: "Headquarters",
     street: "2445 Fifth Ave #401",
     postalCode: "92101",
-    google: { href: "https://share.google/4dX5kM5F0ugL6UEVW", rating: 4.8, count: 989 },
+    google: { href: "https://maps.app.goo.gl/sQuT4UyBW2yLneS36", rating: 4.8, count: 989 },
     yelp: { href: "https://www.yelp.com/biz/griffin-funding-san-diego", rating: 4.6, count: 185 },
   },
   {
@@ -57,7 +57,7 @@ export const offices: Office[] = [
     stateName: "Arizona",
     street: "7033 E Greenway Pkwy #110",
     postalCode: "85254",
-    google: { rating: 4.9, count: 32 },
+    google: { href: "https://maps.app.goo.gl/25Noh53o4CorwNHZ8", rating: 4.9, count: 32 },
     yelp: { href: "https://www.yelp.com/biz/griffin-funding-scottsdale", rating: 5.0, count: 4 },
   },
   {
@@ -68,7 +68,7 @@ export const offices: Office[] = [
     label: "Orange County",
     street: "100 Spectrum Center Dr Ste 470",
     postalCode: "92618",
-    google: { rating: 5.0, count: 24 },
+    google: { href: "https://maps.app.goo.gl/XipRjaEdUpmB6Je16", rating: 5.0, count: 24 },
     yelp: { href: "https://www.yelp.com/biz/griffin-funding-irvine-2", rating: 5.0, count: 4 },
   },
   {
@@ -121,7 +121,7 @@ export const platforms: Platform[] = [
     id: "google",
     name: "Google",
     note: `${googleAll.cities.length} offices`,
-    href: hq.google!.href!,
+    href: "https://share.google/4dX5kM5F0ugL6UEVW",
     count: googleAll.count,
     rating: googleAll.rating,
     method: `Live Google listings for ${googleAll.cities.join(", ")}, combined and weighted by review count. The link opens the San Diego headquarters listing.`,
