@@ -1,7 +1,15 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { homeMarkdown, markdownForPath, notFoundMarkdown } from "./markdown.ts";
-import { formatInt, offices, platforms, stats } from "../../data/site.ts";
+import {
+  APPLY_URL,
+  PHONE_TEL,
+  formatInt,
+  jsonLdBlocks,
+  offices,
+  platforms,
+  stats,
+} from "../../data/site.ts";
 import { aboutPage, contactPage } from "../../data/pages.ts";
 
 describe("homeMarkdown", () => {
@@ -60,5 +68,51 @@ describe("notFoundMarkdown", () => {
     assert.ok(md.includes("`/missing`"));
     assert.ok(md.includes("https://griffinfundingreviews.com/llms.txt"));
     assert.ok(md.includes("https://griffinfundingreviews.com/sitemap.xml"));
+  });
+});
+
+describe("call to action", () => {
+  it("home and contact Markdown carry the phone and application link", () => {
+    const home = markdownForPath("/") ?? "";
+    assert.ok(home.includes("5-star review"));
+    assert.ok(home.includes(PHONE_TEL));
+    assert.ok(home.includes(APPLY_URL));
+    assert.ok((markdownForPath("/contact") ?? "").includes(PHONE_TEL));
+  });
+
+  it("uses a valid tel: link and the confirmed application page", () => {
+    assert.match(PHONE_TEL, /^tel:\+1\d{10}$/);
+    assert.equal(
+      APPLY_URL,
+      "https://griffinfunding.com/full-page-form-quick-quote/",
+    );
+  });
+});
+
+describe("structured data", () => {
+  const [organization, graph] = jsonLdBlocks();
+
+  it("puts the organization in its own block with a top-level type", () => {
+    const type = organization["@type"] as string[];
+    assert.equal(organization["@context"], "https://schema.org");
+    for (const t of ["Organization", "LocalBusiness", "FinancialService"]) {
+      assert.ok(type.includes(t), t);
+    }
+  });
+
+  it("gives the organization an address, phone, and contact point", () => {
+    assert.equal(organization.telephone, "+1-855-967-5146");
+    const address = organization.address as Record<string, string>;
+    assert.equal(address["@type"], "PostalAddress");
+    const contact = organization.contactPoint as Record<string, string>;
+    assert.equal(contact.telephone, "+1-855-967-5146");
+    assert.equal(contact.contactType, "customer service");
+  });
+
+  it("keeps the rest of the graph pointing at the organization", () => {
+    const nodes = graph["@graph"] as Record<string, unknown>[];
+    assert.ok(nodes.length >= 3);
+    assert.ok(!nodes.some((n) => n["@id"] === organization["@id"]));
+    assert.ok(JSON.stringify(graph).includes(organization["@id"] as string));
   });
 });

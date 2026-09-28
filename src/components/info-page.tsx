@@ -1,3 +1,4 @@
+import { ApplyCta } from "@/components/apply-cta";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import type { Block, InfoPage } from "@/data/pages";
 import type { Inline } from "@/data/site";
@@ -75,6 +76,7 @@ export function InfoPageView({ page }: { page: InfoPage }) {
           </p>
         </div>
       </main>
+      <ApplyCta placement={page.id} />
       <SiteFooter home={false} />
     </>
   );

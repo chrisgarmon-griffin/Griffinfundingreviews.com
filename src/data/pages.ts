@@ -9,6 +9,8 @@ import {
   LICENSING_URL,
   NMLS,
   NMLS_URL,
+  PHONE_DISPLAY,
+  PHONE_TEL,
   SITE_URL,
   TYPICALITY,
   VA_ID,
@@ -139,11 +141,14 @@ export const contactPage: InfoPage = {
   title: "Contact Griffin Funding",
   heading: "Contact Griffin Funding",
   description: `Office addresses for Griffin Funding in San Diego, Scottsdale, Irvine, and Incline Village, and where to verify its license.`,
-  lede: `Griffin Funding Reviews is operated by ${LEGAL_NAME}, a licensed mortgage lender. The site has no contact form and does not take loan applications. For loan questions, contact ${BRAND} through griffinfunding.com.`,
+  lede: `Griffin Funding Reviews is operated by ${LEGAL_NAME}, a licensed mortgage lender. The site has no contact form and does not take loan applications. For loan questions, call ${BRAND} at ${PHONE_DISPLAY} or visit griffinfunding.com.`,
   schemaType: "ContactPage",
   blocks: [
-    h2("Griffin Funding online"),
-    p(t("Company website: "), a("griffinfunding.com", COMPANY_URL)),
+    h2("Call or visit online"),
+    list([
+      [t("Phone: "), a(PHONE_DISPLAY, PHONE_TEL)],
+      [t("Company website: "), a("griffinfunding.com", COMPANY_URL)],
+    ]),
     h2("Offices"),
     list(
       offices.map((office) => {

@@ -1,4 +1,5 @@
 import { ReviewExplorer } from "@/components/review-explorer";
+import { ApplyCta } from "@/components/apply-cta";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Stars } from "@/components/stars";
 import {
@@ -353,6 +354,8 @@ export function Page() {
           </div>
           <ReviewExplorer />
         </section>
+
+        <ApplyCta placement="home" />
 
         <section id="faq" className="section" aria-labelledby="faq-h">
           <div className="wrap faq-layout">

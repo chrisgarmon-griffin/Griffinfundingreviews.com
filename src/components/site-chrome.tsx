@@ -1,4 +1,5 @@
 import griffinMark from "@/assets/griffin-mark.png";
+import { track } from "@/lib/track";
 import {
   AS_OF,
   AS_OF_ISO,
@@ -11,6 +12,8 @@ import {
   LICENSING_URL,
   NMLS,
   NMLS_URL,
+  PHONE_DISPLAY,
+  PHONE_TEL,
   TYPICALITY,
   VA_ID,
 } from "@/data/site";
@@ -40,6 +43,13 @@ export function SiteHeader({ home = true }: ChromeProps) {
             <a href={`${base}#reviews`}>Reviews</a>
             <a href={`${base}#faq`}>FAQ</a>
             <a
+              className="nav-call"
+              href={PHONE_TEL}
+              onClick={() => track("call_click", { placement: "header" })}
+            >
+              {PHONE_DISPLAY}
+            </a>
+            <a
               className="nav-ext"
               href={COMPANY_URL}
               target="_blank"
@@ -49,6 +59,14 @@ export function SiteHeader({ home = true }: ChromeProps) {
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </nav>
+          <a
+            className="mast-call"
+            href={PHONE_TEL}
+            onClick={() => track("call_click", { placement: "header-mobile" })}
+          >
+            Call
+            <span className="sr-only"> Griffin Funding at {PHONE_DISPLAY}</span>
+          </a>
           <details className="nav-disclosure">
             <summary className="nav-toggle">Menu</summary>
             <nav className="nav-links" aria-label="Primary">

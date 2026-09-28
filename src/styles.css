@@ -1863,3 +1863,95 @@
 .info-back {
   margin-top: 2.5rem;
 }
+
+/* Tap-to-call in the header */
+.nav-call {
+  color: var(--color-on-ink) !important;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mast-call {
+  margin-left: auto;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+@media (min-width: 880px) {
+  .mast-call {
+    display: none;
+  }
+}
+
+/* "Ready to write the next 5-star review?" call to action */
+.cta-band {
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  padding: clamp(3rem, 6vw, 4.75rem) 0;
+}
+
+.cta-grid {
+  display: grid;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .cta-grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+}
+
+.cta-band h2 {
+  font-size: var(--h2-size);
+  color: var(--color-on-ink);
+}
+
+.cta-band h2 em {
+  color: #e53b31;
+}
+
+.cta-lede {
+  margin-top: 0.9rem;
+  max-width: 36rem;
+  color: var(--color-on-ink-muted);
+  font-size: 1.08rem;
+}
+
+.cta-actions .btns {
+  margin-top: 0;
+}
+
+.btn-lg {
+  min-height: 3.1rem;
+  padding-inline: 1.4rem;
+  font-size: 1rem;
+}
+
+.cta-fine {
+  margin-top: 1rem;
+  color: var(--color-on-ink-muted);
+  font-size: 0.82rem;
+  max-width: 30rem;
+}
+
+@media (max-width: 559px) {
+  .cta-actions .btns {
+    flex-direction: column;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+  }
+}

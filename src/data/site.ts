@@ -17,9 +17,17 @@ export const AS_OF_ISO = "2026-09-28";
 export const CA_DFPI_CFL = "60DBO-44274";
 export const CA_DRE = "01943169";
 export const LICENSING_URL = "https://griffinfunding.com/state-licensing/";
+// Public phone line, confirmed by Chris Garmon 2026-09-28.
+export const PHONE_DISPLAY = "(855) 967-5146";
+export const PHONE_E164 = "+18559675146";
+export const PHONE_TEL = `tel:${PHONE_E164}`;
+// Application form ("start your application"), confirmed by Chris Garmon 2026-09-28.
+export const APPLY_URL =
+  "https://griffinfunding.com/full-page-form-quick-quote/";
 // Google Knowledge Graph listing for Griffin Funding, Inc. (place /g/11bbx15fxh),
 // used as the entity reference in structured data. No numeric CID is verified yet.
-export const GOOGLE_ENTITY_URL = "https://www.google.com/search?kgmid=/g/11bbx15fxh";
+export const GOOGLE_ENTITY_URL =
+  "https://www.google.com/search?kgmid=/g/11bbx15fxh";
 
 export type Listing = { href?: string; rating: number; count: number };
 
@@ -49,8 +57,16 @@ export const offices: Office[] = [
     label: "Headquarters",
     street: "2445 Fifth Ave #401",
     postalCode: "92101",
-    google: { href: "https://maps.app.goo.gl/sQuT4UyBW2yLneS36", rating: 4.8, count: 989 },
-    yelp: { href: "https://www.yelp.com/biz/griffin-funding-san-diego", rating: 4.6, count: 185 },
+    google: {
+      href: "https://maps.app.goo.gl/sQuT4UyBW2yLneS36",
+      rating: 4.8,
+      count: 989,
+    },
+    yelp: {
+      href: "https://www.yelp.com/biz/griffin-funding-san-diego",
+      rating: 4.6,
+      count: 185,
+    },
   },
   {
     id: "scottsdale",
@@ -59,8 +75,16 @@ export const offices: Office[] = [
     stateName: "Arizona",
     street: "7033 E Greenway Pkwy #110",
     postalCode: "85254",
-    google: { href: "https://maps.app.goo.gl/25Noh53o4CorwNHZ8", rating: 4.9, count: 32 },
-    yelp: { href: "https://www.yelp.com/biz/griffin-funding-scottsdale", rating: 5.0, count: 4 },
+    google: {
+      href: "https://maps.app.goo.gl/25Noh53o4CorwNHZ8",
+      rating: 4.9,
+      count: 32,
+    },
+    yelp: {
+      href: "https://www.yelp.com/biz/griffin-funding-scottsdale",
+      rating: 5.0,
+      count: 4,
+    },
   },
   {
     id: "irvine",
@@ -70,8 +94,16 @@ export const offices: Office[] = [
     label: "Orange County",
     street: "100 Spectrum Center Dr Ste 470",
     postalCode: "92618",
-    google: { href: "https://maps.app.goo.gl/XipRjaEdUpmB6Je16", rating: 5.0, count: 24 },
-    yelp: { href: "https://www.yelp.com/biz/griffin-funding-irvine-2", rating: 5.0, count: 4 },
+    google: {
+      href: "https://maps.app.goo.gl/XipRjaEdUpmB6Je16",
+      rating: 5.0,
+      count: 24,
+    },
+    yelp: {
+      href: "https://www.yelp.com/biz/griffin-funding-irvine-2",
+      rating: 5.0,
+      count: 4,
+    },
   },
   {
     id: "incline-village",
@@ -90,7 +122,10 @@ export const hq = offices[0];
 function combine(key: "google" | "yelp") {
   const listed = offices.filter((o) => o[key]).map((o) => o[key]!);
   const count = listed.reduce((sum, l) => sum + l.count, 0);
-  const rating = Math.round((listed.reduce((sum, l) => sum + l.rating * l.count, 0) / count) * 100) / 100;
+  const rating =
+    Math.round(
+      (listed.reduce((sum, l) => sum + l.rating * l.count, 0) / count) * 100,
+    ) / 100;
   const cities = offices.filter((o) => o[key]).map((o) => o.city);
   return { count, rating, cities };
 }
@@ -158,7 +193,8 @@ export const platforms: Platform[] = [
     count: 60,
     rating: 4.85,
     grade: "A+",
-    method: "Customer review average from the BBB customer reviews page. A+ is BBB's separate letter rating.",
+    method:
+      "Customer review average from the BBB customer reviews page. A+ is BBB's separate letter rating.",
   },
   {
     id: "trustpilot",
@@ -203,9 +239,12 @@ export type Stats = {
 };
 
 function computeStats(): Stats {
-  const rated = platforms.filter((p): p is Platform & { rating: number } => p.rating != null);
+  const rated = platforms.filter(
+    (p): p is Platform & { rating: number } => p.rating != null,
+  );
   const ratedCount = rated.reduce((sum, p) => sum + p.count, 0);
-  const raw = rated.reduce((sum, p) => sum + p.rating * p.count, 0) / ratedCount;
+  const raw =
+    rated.reduce((sum, p) => sum + p.rating * p.count, 0) / ratedCount;
   const shown = Math.round(raw * 10) / 10;
   return {
     allRated: rated.length === platforms.length,
@@ -222,11 +261,15 @@ function computeStats(): Stats {
 export const stats = computeStats();
 
 function listNames(names: string[]): string {
-  return names.length < 3 ? names.join(" and ") : `${names.slice(0, -1).join(", ")}, and ${names.at(-1)}`;
+  return names.length < 3
+    ? names.join(" and ")
+    : `${names.slice(0, -1).join(", ")}, and ${names.at(-1)}`;
 }
 
 /** Platforms that publish a star rating, as a readable list. */
-export const ratedNames = listNames(platforms.filter((p) => p.rating != null).map((p) => p.name));
+export const ratedNames = listNames(
+  platforms.filter((p) => p.rating != null).map((p) => p.name),
+);
 const bbbEntry = platforms.find((p) => p.id === "bbb");
 const unrated = platforms.filter((p) => p.rating == null);
 
@@ -244,8 +287,7 @@ export const TYPICALITY =
   "Individual experiences. Timelines, rates, and terms vary by borrower and loan program.";
 
 export type Inline =
-  | { kind: "text"; text: string }
-  | { kind: "link"; text: string; href: string };
+  { kind: "text"; text: string } | { kind: "link"; text: string; href: string };
 
 export type Faq = {
   id: string;
@@ -255,19 +297,29 @@ export type Faq = {
 };
 
 const text = (value: string): Inline => ({ kind: "text", text: value });
-const link = (value: string, href: string): Inline => ({ kind: "link", text: value, href });
+const link = (value: string, href: string): Inline => ({
+  kind: "link",
+  text: value,
+  href,
+});
 
 const bbb = platforms.find((p) => p.id === "bbb")!;
 
 /** Plain-language rating summary for one office, used in the FAQ and llms text. */
 export function officeSentence(o: Office): string {
   const parts = [
-    o.google && `Google ${formatRating(o.google.rating)} from ${formatInt(o.google.count)} reviews`,
-    o.yelp && `Yelp ${formatRating(o.yelp.rating)} from ${formatInt(o.yelp.count)} reviews`,
+    o.google &&
+      `Google ${formatRating(o.google.rating)} from ${formatInt(o.google.count)} reviews`,
+    o.yelp &&
+      `Yelp ${formatRating(o.yelp.rating)} from ${formatInt(o.yelp.count)} reviews`,
   ].filter(Boolean);
-  const city = o.area ? `${o.city}, ${o.state} (${o.area})` : `${o.city}, ${o.state}`;
+  const city = o.area
+    ? `${o.city}, ${o.state} (${o.area})`
+    : `${o.city}, ${o.state}`;
   const address = `${o.street}, ${o.city}, ${o.state} ${o.postalCode}`;
-  return parts.length ? `${city}, ${address}: ${parts.join("; ")}.` : `${city}: ${address}.`;
+  return parts.length
+    ? `${city}, ${address}: ${parts.join("; ")}.`
+    : `${city}: ${address}.`;
 }
 
 export const faqs: Faq[] = [
@@ -287,7 +339,11 @@ export const faqs: Faq[] = [
           `As of ${AS_OF}, ${BRAND} has ${formatInt(stats.total)} public reviews across ${stats.platformCount} platforms. The weighted average is ${stats.shownText} out of 5, ${averageScope}.`,
         ),
       ],
-      [text("This site is operated by Griffin Funding. It is not an independent review site.")],
+      [
+        text(
+          "This site is operated by Griffin Funding. It is not an independent review site.",
+        ),
+      ],
     ],
   },
   {
@@ -299,7 +355,10 @@ export const faqs: Faq[] = [
           `${stats.shownText} out of 5, as of ${AS_OF}. That is the average of ${listNames(
             platforms
               .filter((p) => p.rating != null)
-              .map((p) => `${p.name} (${formatRating(p.rating!)} from ${formatInt(p.count)})`),
+              .map(
+                (p) =>
+                  `${p.name} (${formatRating(p.rating!)} from ${formatInt(p.count)})`,
+              ),
           )}, weighted by each platform’s review count.`,
         ),
       ],
@@ -346,7 +405,11 @@ export const faqs: Faq[] = [
           "Experience.com’s 4.81 from 3,073 reviews blends reviews that also appear on Google, Zillow, and Facebook. Using it would count those reviews twice.",
         ),
       ],
-      [text("This page uses Experience.com’s own rating: 4.88 from 1,600 reviews.")],
+      [
+        text(
+          "This page uses Experience.com’s own rating: 4.88 from 1,600 reviews.",
+        ),
+      ],
     ],
   },
   {
@@ -369,7 +432,8 @@ export const faqs: Faq[] = [
   },
   {
     id: "q-every-review",
-    question: "Where can I read every Griffin Funding review, including negative ones?",
+    question:
+      "Where can I read every Griffin Funding review, including negative ones?",
     paragraphs: [
       [
         text(
@@ -385,7 +449,10 @@ export const faqs: Faq[] = [
     paragraphs: [
       [
         text("Complaints filed with the Better Business Bureau are public on "),
-        link("Griffin Funding’s BBB profile", bbb.href.replace(/\/customer-reviews$/, "")),
+        link(
+          "Griffin Funding’s BBB profile",
+          bbb.href.replace(/\/customer-reviews$/, ""),
+        ),
         text("."),
       ],
       [
@@ -427,14 +494,18 @@ export const faqs: Faq[] = [
 
 export function inlinePlain(nodes: Inline[]): string {
   return nodes
-    .map((node) => (node.kind === "text" ? node.text : `${node.text} (${node.href})`))
+    .map((node) =>
+      node.kind === "text" ? node.text : `${node.text} (${node.href})`,
+    )
     .join("");
 }
 
 export function faqPlain(faq: Faq): string {
   const parts = faq.paragraphs.map((p) => inlinePlain(p));
   if (faq.links?.length) {
-    parts.push(faq.links.map((item) => `${item.label}: ${item.href}`).join(" "));
+    parts.push(
+      faq.links.map((item) => `${item.label}: ${item.href}`).join(" "),
+    );
   }
   return parts.join(" ");
 }
@@ -454,14 +525,14 @@ function listingLinks(o: Office): string[] {
   return [o.google?.href, o.yelp?.href].filter((h): h is string => Boolean(h));
 }
 
-export function jsonLd() {
+function jsonLdGraph() {
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         // Organization first so agents that look for that type find it; FinancialService
         // is the more specific schema.org type for a licensed lender.
-        "@type": ["Organization", "FinancialService"],
+        "@type": ["Organization", "LocalBusiness", "FinancialService"],
         "@id": `${SITE_URL}#organization`,
         name: BRAND,
         legalName: LEGAL_NAME,
@@ -469,11 +540,12 @@ export function jsonLd() {
         url: COMPANY_URL,
         logo: `${SITE_URL}favicon.png`,
         image: `${SITE_URL}og.jpg`,
-        // No phone or email here yet: add them once Griffin Funding confirms the
-        // public customer-service contact. Never guess one.
+        telephone: "+1-855-967-5146",
+        areaServed: "US",
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer service",
+          telephone: "+1-855-967-5146",
           url: COMPANY_URL,
           areaServed: "US",
           availableLanguage: "en",
@@ -484,11 +556,23 @@ export function jsonLd() {
           value: NMLS,
         },
         additionalProperty: [
-          { "@type": "PropertyValue", name: "VA Approved Lender ID", value: VA_ID },
-          { "@type": "PropertyValue", name: "FHA Non-Supervised Lender No.", value: FHA_ID },
+          {
+            "@type": "PropertyValue",
+            name: "VA Approved Lender ID",
+            value: VA_ID,
+          },
+          {
+            "@type": "PropertyValue",
+            name: "FHA Non-Supervised Lender No.",
+            value: FHA_ID,
+          },
         ],
         address: postal(hq),
-        sameAs: [COMPANY_URL, GOOGLE_ENTITY_URL, ...platforms.map((p) => p.href)],
+        sameAs: [
+          COMPANY_URL,
+          GOOGLE_ENTITY_URL,
+          ...platforms.map((p) => p.href),
+        ],
         department: offices.slice(1).map((o) => ({
           "@type": "FinancialService",
           "@id": `${SITE_URL}#office-${o.id}`,
@@ -538,4 +622,18 @@ export function jsonLd() {
       },
     ],
   };
+}
+
+/**
+ * Structured data as separate blocks. The organization gets its own block with a
+ * top-level @type, so scanners that only read a block's root type still find
+ * Organization and LocalBusiness. The rest of the graph references it by @id.
+ */
+export function jsonLdBlocks(): Record<string, unknown>[] {
+  const { "@context": context, "@graph": graph } = jsonLdGraph();
+  const [organization, ...rest] = graph;
+  return [
+    { "@context": context, ...organization },
+    { "@context": context, "@graph": rest },
+  ];
 }

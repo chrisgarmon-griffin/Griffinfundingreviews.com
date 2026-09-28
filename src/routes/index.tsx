@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Page } from "@/components/page";
-import { DESCRIPTION, SITE_URL, TITLE, jsonLd } from "@/data/site";
+import { DESCRIPTION, SITE_URL, TITLE, jsonLdBlocks } from "@/data/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,14 +18,19 @@ export const Route = createFileRoute("/")({
       { property: "og:image", content: `${SITE_URL}og.jpg` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Griffin Funding Reviews: the Griffin Funding winged mark with the words Griffin Funding Reviews" },
+      {
+        property: "og:image:alt",
+        content:
+          "Griffin Funding Reviews: the Griffin Funding winged mark with the words Griffin Funding Reviews",
+      },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
       { name: "twitter:image", content: `${SITE_URL}og.jpg` },
       {
         name: "robots",
-        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        content:
+          "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
       },
     ],
     links: [
@@ -37,12 +42,10 @@ export const Route = createFileRoute("/")({
         title: "Plain-text summary for answer engines",
       },
     ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(jsonLd()).replaceAll("<", "\\u003c"),
-      },
-    ],
+    scripts: jsonLdBlocks().map((block) => ({
+      type: "application/ld+json",
+      children: JSON.stringify(block).replaceAll("<", "\\u003c"),
+    })),
   }),
   component: Page,
 });
