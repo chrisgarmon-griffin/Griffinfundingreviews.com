@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import {
   createRootRoute,
   HeadContent,
@@ -35,15 +36,6 @@ export const Route = createRootRoute({
         href: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap",
       },
     ],
-    scripts: [
-      // Vercel Web Analytics: cookieless page views and the conversion events in
-      // src/lib/track.ts. The queue keeps events fired before the script loads.
-      {
-        children:
-          "window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};",
-      },
-      { src: "/_vercel/insights/script.js", defer: true },
-    ],
   }),
   component: () => (
     <html lang="en" className="antialiased" suppressHydrationWarning>
@@ -55,6 +47,8 @@ export const Route = createRootRoute({
         <AuthProvider>
           <Outlet />
         </AuthProvider>
+        {/* Vercel Web Analytics: cookieless page views and the events in src/lib/track.ts. */}
+        <Analytics />
         <Scripts />
       </body>
     </html>
