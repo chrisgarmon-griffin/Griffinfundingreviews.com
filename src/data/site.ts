@@ -10,8 +10,8 @@ export const BRAND = "Griffin Funding";
 export const NMLS = "1120111";
 export const VA_ID = "9088650000";
 export const FHA_ID = "01472-0000-3";
-export const AS_OF = "September 27, 2026";
-export const AS_OF_ISO = "2026-09-27";
+export const AS_OF = "September 28, 2026";
+export const AS_OF_ISO = "2026-09-28";
 // State licensing disclosure (lists California DFPI and DRE licenses among others).
 // California footer wording approved by compliance 2026-09-28.
 export const CA_DFPI_CFL = "60DBO-44274";
@@ -20,6 +20,81 @@ export const LICENSING_URL = "https://griffinfunding.com/state-licensing/";
 // Google Knowledge Graph listing for Griffin Funding, Inc. (place /g/11bbx15fxh),
 // used as the entity reference in structured data. No numeric CID is verified yet.
 export const GOOGLE_ENTITY_URL = "https://www.google.com/search?kgmid=/g/11bbx15fxh";
+
+export type Listing = { href?: string; rating: number; count: number };
+
+export type Office = {
+  id: string;
+  city: string;
+  state: string;
+  stateName: string;
+  label?: string;
+  street: string;
+  postalCode: string;
+  google?: Listing;
+  yelp?: Listing;
+};
+
+// Figures and addresses confirmed on each live listing, 2026-09-28. A missing listing
+// means none exists. A listing without href means the link is still to be supplied;
+// never construct or guess a Google or Yelp URL.
+export const offices: Office[] = [
+  {
+    id: "san-diego",
+    city: "San Diego",
+    state: "CA",
+    stateName: "California",
+    label: "Headquarters",
+    street: "2445 Fifth Ave #401",
+    postalCode: "92101",
+    google: { href: "https://share.google/4dX5kM5F0ugL6UEVW", rating: 4.8, count: 989 },
+    yelp: { href: "https://www.yelp.com/biz/griffin-funding-san-diego", rating: 4.6, count: 185 },
+  },
+  {
+    id: "scottsdale",
+    city: "Scottsdale",
+    state: "AZ",
+    stateName: "Arizona",
+    street: "7033 E Greenway Pkwy #110",
+    postalCode: "85254",
+    google: { rating: 4.9, count: 32 },
+    yelp: { href: "https://www.yelp.com/biz/griffin-funding-scottsdale", rating: 5.0, count: 4 },
+  },
+  {
+    id: "irvine",
+    city: "Irvine",
+    state: "CA",
+    stateName: "California",
+    label: "Orange County",
+    street: "100 Spectrum Center Dr Ste 470",
+    postalCode: "92618",
+    google: { rating: 5.0, count: 24 },
+    yelp: { href: "https://www.yelp.com/biz/griffin-funding-irvine-2", rating: 5.0, count: 4 },
+  },
+  {
+    id: "incline-village",
+    city: "Incline Village",
+    state: "NV",
+    stateName: "Nevada",
+    label: "Lake Tahoe",
+    street: "885 Tahoe Blvd Suite 13",
+    postalCode: "89451",
+  },
+];
+
+export const hq = offices[0];
+
+/** Combine an office-level listing into one platform figure, weighted by count. */
+function combine(key: "google" | "yelp") {
+  const listed = offices.filter((o) => o[key]).map((o) => o[key]!);
+  const count = listed.reduce((sum, l) => sum + l.count, 0);
+  const rating = Math.round((listed.reduce((sum, l) => sum + l.rating * l.count, 0) / count) * 100) / 100;
+  const cities = offices.filter((o) => o[key]).map((o) => o.city);
+  return { count, rating, cities };
+}
+
+const googleAll = combine("google");
+const yelpAll = combine("yelp");
 
 export type Platform = {
   id: string;
@@ -45,10 +120,11 @@ export const platforms: Platform[] = [
   {
     id: "google",
     name: "Google",
-    href: "https://share.google/4dX5kM5F0ugL6UEVW",
-    count: 991,
-    rating: 4.8,
-    method: "Live Google Knowledge Panel.",
+    note: `${googleAll.cities.length} offices`,
+    href: hq.google!.href!,
+    count: googleAll.count,
+    rating: googleAll.rating,
+    method: `Live Google listings for ${googleAll.cities.join(", ")}, combined and weighted by review count. The link opens the San Diego headquarters listing.`,
   },
   {
     id: "wallethub",
@@ -61,11 +137,11 @@ export const platforms: Platform[] = [
   {
     id: "yelp",
     name: "Yelp",
-    note: "San Diego",
-    href: "https://www.yelp.com/biz/griffin-funding-san-diego",
-    count: 185,
-    rating: 4.6,
-    method: "Manual check of the live page.",
+    note: `${yelpAll.cities.length} offices`,
+    href: hq.yelp!.href!,
+    count: yelpAll.count,
+    rating: yelpAll.rating,
+    method: `Manual check of the Yelp pages for ${yelpAll.cities.join(", ")}, combined and weighted by review count. The link opens the San Diego page.`,
   },
   {
     id: "zillow",
@@ -184,6 +260,18 @@ const link = (value: string, href: string): Inline => ({ kind: "link", text: val
 
 const bbb = platforms.find((p) => p.id === "bbb")!;
 
+/** Plain-language rating summary for one office, used in the FAQ and llms text. */
+export function officeSentence(o: Office): string {
+  const parts = [
+    o.google && `Google ${formatRating(o.google.rating)} from ${formatInt(o.google.count)} reviews`,
+    o.yelp && `Yelp ${formatRating(o.yelp.rating)} from ${formatInt(o.yelp.count)} reviews`,
+  ].filter(Boolean);
+  const where = `${o.city}, ${o.state} (${o.street}, ${o.postalCode})`;
+  return parts.length
+    ? `${where}: ${parts.join("; ")}.`
+    : `${where}: no Google or Yelp listing for this office yet.`;
+}
+
 export const faqs: Faq[] = [
   {
     id: "q-legit",
@@ -226,6 +314,18 @@ export const faqs: Faq[] = [
               : "",
         ),
       ],
+    ],
+  },
+  {
+    id: "q-offices",
+    question: "Where are Griffin Funding’s offices, and how is each one rated?",
+    paragraphs: [
+      [
+        text(
+          `${BRAND} has ${offices.length} offices: ${listNames(offices.map((o) => `${o.city}, ${o.state}`))}. Headquarters is at ${hq.street}, ${hq.city}, ${hq.state} ${hq.postalCode}.`,
+        ),
+      ],
+      ...offices.map((o) => [text(officeSentence(o))]),
     ],
   },
   {
@@ -341,6 +441,21 @@ export function faqPlain(faq: Faq): string {
   return parts.join(" ");
 }
 
+function postal(o: Office) {
+  return {
+    "@type": "PostalAddress",
+    streetAddress: o.street,
+    addressLocality: o.city,
+    addressRegion: o.state,
+    postalCode: o.postalCode,
+    addressCountry: "US",
+  };
+}
+
+function listingLinks(o: Office): string[] {
+  return [o.google?.href, o.yelp?.href].filter((h): h is string => Boolean(h));
+}
+
 export function jsonLd() {
   return {
     "@context": "https://schema.org",
@@ -360,7 +475,16 @@ export function jsonLd() {
           { "@type": "PropertyValue", name: "VA Approved Lender ID", value: VA_ID },
           { "@type": "PropertyValue", name: "FHA Non-Supervised Lender No.", value: FHA_ID },
         ],
+        address: postal(hq),
         sameAs: [COMPANY_URL, GOOGLE_ENTITY_URL, ...platforms.map((p) => p.href)],
+        department: offices.slice(1).map((o) => ({
+          "@type": "FinancialService",
+          "@id": `${SITE_URL}#office-${o.id}`,
+          name: `${BRAND} ${o.city}`,
+          address: postal(o),
+          parentOrganization: { "@id": `${SITE_URL}#organization` },
+          ...(listingLinks(o).length ? { sameAs: listingLinks(o) } : {}),
+        })),
       },
       {
         "@type": "WebSite",

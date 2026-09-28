@@ -17,6 +17,9 @@ import {
   VA_ID,
   averageScope,
   faqs,
+  offices,
+  type Listing,
+  type Office,
   formatInt,
   formatRating,
   platforms,
@@ -42,6 +45,7 @@ export function Page() {
           </a>
           <nav className="nav-links nav-desktop" aria-label="Primary">
             <a href="#platforms">Ratings</a>
+            <a href="#offices">Offices</a>
             <a href="#reviews">Reviews</a>
             <a href="#faq">FAQ</a>
             <a className="nav-ext" href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
@@ -53,6 +57,7 @@ export function Page() {
             <summary className="nav-toggle">Menu</summary>
             <nav className="nav-links" aria-label="Primary">
               <a href="#platforms">Ratings</a>
+              <a href="#offices">Offices</a>
               <a href="#reviews">Reviews</a>
               <a href="#faq">FAQ</a>
               <a className="nav-ext" href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
@@ -237,6 +242,27 @@ export function Page() {
           </div>
         </section>
 
+        <section id="offices" className="section section-offices" aria-labelledby="offices-h">
+          <div className="wrap">
+            <header className="section-head">
+              <p className="eyebrow">
+                <span className="eyebrow-mark" aria-hidden="true" />
+                Ratings by office
+              </p>
+              <h2 id="offices-h">Griffin Funding reviews by office location</h2>
+              <p className="section-lede">
+                Google and Yelp list each {BRAND} office separately. These are the per-office figures behind the
+                combined Google and Yelp rows above.
+              </p>
+            </header>
+            <ul className="offices">
+              {offices.map((office) => (
+                <OfficeCard key={office.id} office={office} />
+              ))}
+            </ul>
+          </div>
+        </section>
+
         <section id="reviews" className="section section-reviews" aria-labelledby="reviews-h">
           <div className="wrap">
             <header className="section-head">
@@ -401,5 +427,64 @@ function HouseMark() {
         d="M12 3.2 3 11v9.2c0 .4.3.8.8.8h5.4v-6.2h5.6V21h5.4c.4 0 .8-.4.8-.8V11L12 3.2z"
       />
     </svg>
+  );
+}
+
+function OfficeCard({ office }: { office: Office }) {
+  const place = `${office.city}, ${office.state}`;
+  const listed = office.google || office.yelp;
+  return (
+    <li id={`office-${office.id}`} className="office">
+      <h3>
+        Griffin Funding {office.city} reviews
+      </h3>
+      <p className="office-where">
+        {place}
+        {office.label ? <span className="office-label">{office.label}</span> : null}
+      </p>
+      <address>
+        {office.street}
+        <br />
+        {office.city}, {office.state} {office.postalCode}
+      </address>
+      {listed ? (
+        <dl className="office-scores">
+          {office.google ? <ListingRow name="Google" place={place} listing={office.google} /> : null}
+          {office.yelp ? <ListingRow name="Yelp" place={place} listing={office.yelp} /> : null}
+        </dl>
+      ) : (
+        <p className="office-none">No Google or Yelp listing for this office yet.</p>
+      )}
+    </li>
+  );
+}
+
+function ListingRow({ name, place, listing }: { name: string; place: string; listing: Listing }) {
+  const label = `${formatRating(listing.rating)} out of 5, ${formatInt(listing.count)} reviews`;
+  const body = (
+    <>
+      <span className="o-num">{formatRating(listing.rating)}</span>
+      <Stars value={listing.rating} size={12} label={label} />
+      <span className="o-count">{formatInt(listing.count)} reviews</span>
+    </>
+  );
+  return (
+    <div>
+      <dt>{name}</dt>
+      <dd>
+        {listing.href ? (
+          <a
+            href={listing.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${name}, ${place}: ${label}. View listing, opens in a new tab`}
+          >
+            {body}
+          </a>
+        ) : (
+          body
+        )}
+      </dd>
+    </div>
   );
 }

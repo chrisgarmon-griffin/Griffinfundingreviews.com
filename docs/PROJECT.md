@@ -97,13 +97,15 @@ All figures were checked on September 27, 2026. Each platform entry in `data/pla
 | Platform | Rating | Reviews | How verified |
 |---|---|---|---|
 | Experience.com | 4.88 | 1,600 | Experience.com's own reviews only (see note) |
-| Google | 4.8 | 991 | Live Google Knowledge Panel |
+| Google | 4.81 | 1,045 | Live Google listings for San Diego (989), Scottsdale (32), Irvine (24), combined |
 | WalletHub | 4.6 | 757 | Direct fetch of the profile |
-| Yelp | 4.6 | 185 | Manual check of the live page |
+| Yelp | 4.62 | 193 | Yelp pages for San Diego (185), Scottsdale (4), Irvine (4), combined |
 | Zillow | 4.9 | 103 | Google Knowledge Panel (Zillow blocks automated reads) |
-| BBB | A+ (letter grade) | 60 | Direct fetch of the customer reviews page |
+| BBB | 4.85 (A+ letter grade) | 60 | Direct fetch of the customer reviews page |
 | Trustpilot | 4.7 | 37 | Manual check of the live page ("All reviews (37)") |
-| **Total** | **4.8 weighted** | **3,733** | |
+| **Total** | **4.8 weighted** | **3,795** | |
+
+**Offices (added September 28, 2026).** Google and Yelp list each office separately. Per-office figures live in `offices` in `src/data/site.ts`, and the Google and Yelp platform rows are computed from them. Incline Village, NV has no Google or Yelp listing yet; add one only once someone creates and claims it. The Scottsdale and Irvine Google links (maps.app.goo.gl, copied from each listing's Share dialog) still need to be added to `offices`. Never build or guess a listing URL.
 
 **Notes on the data:**
 
