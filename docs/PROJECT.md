@@ -84,7 +84,7 @@ No baseline exists yet for any of these. Record the first readings in the week a
 ### Out of scope (v1)
 
 - Live API pulls from review platforms (phase 2; see Section 13).
-- Per-LO review pages or per-loan-type pages.
+- Per-LO review pages (v1.1, see Section 16).
 - Lead forms, rate quotes, or any application flow.
 - A content management system. Two people curate by editing JSON.
 
@@ -378,6 +378,8 @@ Compliance reviews any new or changed quote before it goes live.
 | Search Console verification and sitemap submission | Chris | No, but do it on launch day |
 | Record first baseline readings for G1, G2, and G5 | Chris | No, but do it launch week |
 | Build Trustpilot volume: ask every borrower, not only happy ones | Operations | No |
+| Tag the 34 curated quotes with loan officer IDs; build the officer roster (Section 16) | Chris | No, blocks v1.1 only |
+| Route LO-attributed quotes and per-LO Experience.com ratings through compliance | Chris to route to compliance | No, blocks v1.1 only |
 
 ---
 
@@ -423,6 +425,11 @@ Only start phase 2 if the monthly manual refresh becomes a real time cost.
 | 2026-09-27 | King UI design system, not Track A | Supplied for the project; same red; fonts available |
 | 2026-09-27 | Partially filled stars | Five full stars for a 4.6 overstates the rating |
 | 2026-09-27 | Headers in `_headers`, no www redirect in the repo | Works for drag-and-drop; avoids a redirect loop |
+| 2026-09-28 | LO subpages use `/lo/first-last`, not `/reviews/first-last` or a root slug | The URL goes in email signatures and is effectively permanent once shared; `/lo/` keeps a clean namespace |
+| 2026-09-28 | LO pages show curated quotes plus the LO's Experience.com rating and count, not quotes alone | Every current LO already has an Experience.com number; showing it means a page is never empty even before a Google quote names that person |
+| 2026-09-28 | LO qualifies for a pill and page if they have a tagged quote or an Experience.com review count above zero | In practice this is the full current roster, since Experience.com already has a count for everyone listed |
+| 2026-09-28 | Building the LO feature isn't gated on the pending v1 compliance sign-off | Bill wants the build moving; the new LO-attributed quotes and per-LO ratings still go through compliance before they go live, on their own track |
+| 2026-09-28 | One dropdown pill listing all LOs, not one pill per LO | ~27 names as individual pills would crowd out the loan-type pills in the filter bar |
 
 ### Commit history
 
@@ -435,3 +442,42 @@ Only start phase 2 if the monthly manual refresh becomes a real time cost.
 | `dc2a6fd` | Record manual Trustpilot confirmation |
 | `2371f41` | Strip client personal details from reviews |
 | `dae9d8c` | Redesign page and prepare Netlify deploy |
+
+---
+
+## 16. Loan officer review filtering (v1.1)
+
+### 16.1 What Bill asked for
+
+Bill wants a formal pill-style filter by loan officer, matching the existing loan-type pills, plus a dedicated page per LO with its own URL. Each LO can put their own link in an email signature and send people straight to their reviews.
+
+### 16.2 Why this isn't already built
+
+The search box in `review-explorer.tsx` (`placeholder="Search quotes by name, loan, or phrase"`) does plain substring matching against quote text, author, and loan-type labels. Typing an LO's first name happens to filter to reviews that mention them, because the name appears somewhere in the quote. That's a coincidence of the data, not a feature: there's no `loanOfficer` field on a review, no roster of current LOs, and no per-LO URL.
+
+### 16.3 Data model
+
+Two additions to `src/data/`:
+
+- **`loan-officers.ts` (new).** One entry per current LO, cross-referenced against Experience.com's own 27-professional roster for Griffin Funding: `{ id, name, title, experienceUrl, experienceRating, experienceCount, aliases[] }`. `aliases` absorbs how a name actually appears in a quote: first name only ("Guy" for Guy Troxler), or a misspelling ("Andre Shmoldas" vs. "Andre Schmoldas").
+- **`reviews.ts`.** Add `officers: string[]` to each `Review`, listing which roster IDs are named in that quote. This is tagged by hand, once, by reading all 34 quotes against the roster. A script can suggest matches from the aliases, but a human confirms each one; misattributing a review to the wrong LO is worse than leaving it untagged.
+
+### 16.4 Which LOs get a pill and a page
+
+An LO qualifies if they have a tagged quote **or** an Experience.com review count above zero. Since Experience.com already publishes a count for every current LO, this is in practice the whole roster: an LO with no Google quote yet still gets a real page (their Experience.com rating and a link out), not an empty one.
+
+### 16.5 UI
+
+One pill, labeled "Loan officer," that opens a dropdown listing every qualifying LO by name, rather than one pill per LO. With ~27 people on the roster, a full pill row would crowd out the loan-type pills and dominate the filter bar. Selecting a name from the dropdown filters in place, same as a loan-type pill, and also shows a "View full page" link to that LO's own `/lo/` URL.
+
+### 16.6 Routing
+
+New file-based route `src/routes/lo.$slug.tsx` (TanStack Start dynamic segment), matching the `/lo/first-last` URL pattern. Renders the LO's name and title, their Experience.com rating and count as a linked badge, and the review grid pre-filtered to their tagged quotes. Server-rendered like the rest of the site, so it's as crawlable as the main page, and it's a second AI-citation surface for "[LO name] Griffin Funding reviews" searches. An unknown slug hits the existing `not-found.tsx`.
+
+### 16.7 Scope and sequencing
+
+This is v1.1: it doesn't hold up the v1 launch (compliance sign-off, Netlify deploy, DNS in Section 12), and building it doesn't wait on that sign-off either. Two things still need their own compliance pass before LO pages go live: attributing a quote to a named individual on its own shareable URL, and publishing each LO's own Experience.com rating. Confirm every named LO still works at Griffin before publishing their page, same rule as Section 7.1 for quotes.
+
+### 16.8 Maintenance
+
+Refreshing an LO's Experience.com number is a one-line edit in `loan-officers.ts`, the same pattern as the platform refresh in Section 11.1. Add `officers` tags to new quotes at the same quarterly refresh described in Section 11.2.
