@@ -189,8 +189,6 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xScFVqZEhWREprTTJWYWNsY3dTVEJUY0ZoVWVsRRAB!2m1!1s0x0",
     quote: "I had the best experience with Bill, Taylor, Trey, Ashley, and Nina at Griffin! They were incredibly thoughtful with the entire process, leaving no stone unturned as I went through my first home purchase. It's such a big purchase that you want a great team behind you and every single person treated me as though I was their most important client. I couldn't be happier with the competitive loan they offered and how seamless the process was. Especially on a tight turnaround! Great job, team! I'll definitely send others your way!",
     loanTypes: ["purchase"],
-    // CONFIRM: matched by first name/alt spelling only ("Gabe" / "Megan"); a human must
-    // confirm this is the right person before this ships (docs/PROJECT.md Section 16.3).
     officers: ["trey-bedard"],
   },
   {
