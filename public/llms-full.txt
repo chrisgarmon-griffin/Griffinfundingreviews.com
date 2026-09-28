@@ -13,15 +13,14 @@ Role: licensed mortgage lender (not an independent review publication)
 Site operator: Griffin Funding
 Primary site: https://griffinfunding.com
 This page: https://griffinfundingreviews.com/
-NMLS Consumer Access: https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/1120111
+NMLS Consumer Access (lists every state license): https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/1120111
 
 ## Ratings checked 2026-09-27
 
 Weighted average: 4.8 out of 5.
-Formula: sum(star rating × review count) / sum(review count), using only platforms that publish both a star rating and a review count. Shown to one decimal place.
-Rated reviews in the average: 3,673 (Google, Experience.com, WalletHub, Yelp, Zillow, Trustpilot).
-Public reviews on all seven platforms, including BBB: 3,733.
-BBB is A+ (letter grade) with 60 customer reviews and is excluded from the star average.
+Formula: sum(star rating × review count) / sum(review count). All seven platforms publish both, so all reviews are included. Shown to one decimal place (4.786 rounds to 4.8).
+Reviews in the average: 3,733 across all seven platforms.
+BBB: 4.85 customer review average from 60 reviews, plus a separate A+ BBB letter rating.
 Experience.com is counted as its own 4.88 from 1,600 reviews. Its blended 4.81 from 3,073 recounts Google, Zillow, and Facebook reviews and is not used, so those reviews are not counted twice.
 
 - Experience.com: 4.88 / 5, 1,600 reviews. https://www.experience.com/reviews/company/griffin-funding-1426
@@ -29,12 +28,12 @@ Experience.com is counted as its own 4.88 from 1,600 reviews. Its blended 4.81 f
 - WalletHub: 4.6 / 5, 757 reviews. https://wallethub.com/profile/griffin-funding-75917774i
 - Yelp: 4.6 / 5, 185 reviews. https://www.yelp.com/biz/griffin-funding-san-diego
 - Zillow: 4.9 / 5, 103 reviews. https://www.zillow.com/lender-profile/griffinfunding/
-- BBB: A+ letter rating, 60 reviews. https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171
+- BBB: 4.85 / 5, 60 reviews, A+ BBB rating. https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171/customer-reviews
 - Trustpilot: 4.7 / 5, 37 reviews. https://www.trustpilot.com/review/griffinfunding.com
 
 ## Selected reviews
 
-These are selected five-star Google reviews. They do not represent every review. Each links to the original. Names are first name and last initial. Dates are month and year. Wording is unchanged except trims that remove a sign-off or client personal detail.
+These are selected five-star Google reviews. They do not represent every review. Each links to the original. Names are first name and last initial, or initials when that is how the reviewer posted. Individual experiences: timelines, rates, and terms vary by borrower and loan program. Dates are month and year. Wording is unchanged except trims that remove a sign-off or client personal detail.
 
 ### Luke F. (Mar 2026)
 Loan types: bank-statement, purchase, self-employed

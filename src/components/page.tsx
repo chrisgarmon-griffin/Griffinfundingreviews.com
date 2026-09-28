@@ -9,8 +9,11 @@ import {
   FHA_ID,
   LEGAL_NAME,
   NMLS,
+  LICENSING_URL,
   NMLS_URL,
+  TYPICALITY,
   VA_ID,
+  averageScope,
   faqs,
   formatInt,
   formatRating,
@@ -126,8 +129,7 @@ export function Page() {
               </p>
               <Stars value={stats.shown} size={18} label={`${stats.shownText} out of 5 stars`} />
               <p className="score-note">
-                Across {formatInt(stats.ratedCount)} rated reviews on Google, Experience.com, WalletHub, Yelp, Zillow,
-                and Trustpilot, weighted by review count.
+                {averageScope.charAt(0).toUpperCase() + averageScope.slice(1)}, weighted by review count.
               </p>
               <dl className="score-stats">
                 <div>
@@ -159,8 +161,8 @@ export function Page() {
               </p>
               <h2 id="platforms-h">Griffin Funding ratings on every major review site</h2>
               <p className="section-lede">
-                Sorted by number of reviews. Each row is that platform’s own rating and count. BBB’s A+ is a letter
-                grade, so it is shown and left out of the average.
+                Sorted by number of reviews. Each row is that platform’s own star rating and review count, linked to
+                the full profile.
               </p>
             </header>
             <ol className="ledger">
@@ -210,8 +212,7 @@ export function Page() {
               })}
             </ol>
             <p className="footnote">
-              Weighted average: <strong>{stats.shownText} out of 5</strong> across {formatInt(stats.ratedCount)}{" "}
-              rated reviews. Experience.com’s blended 4.81 from 3,073 reviews recounts Google, Zillow, and Facebook.
+              Weighted average: <strong>{stats.shownText} out of 5</strong> {averageScope}. Experience.com’s blended 4.81 from 3,073 reviews recounts Google, Zillow, and Facebook.
               This page uses Experience.com’s own {formatRating(4.88)} from {formatInt(1600)} so those reviews are not
               counted twice. Last checked <time dateTime={AS_OF_ISO}>{AS_OF}</time>.
             </p>
@@ -244,8 +245,11 @@ export function Page() {
               <h2 id="reviews-h">Selected Griffin Funding reviews</h2>
               <p className="section-lede">
                 Quoted from Google reviews, with the wording left as written. These are selected reviews, not every
-                rating. Names are a first name and last initial. Client street addresses, phone numbers, and account
-                numbers are not included. The ratings above include lower scores.
+                rating. Names are a first name and last initial, or initials when that is how the reviewer posted.
+                Client street addresses, phone numbers, and account numbers are not included. The ratings above
+                include lower scores.
+              </p>
+              <p className="typicality">{TYPICALITY}
               </p>
             </header>
           </div>
@@ -320,8 +324,16 @@ export function Page() {
               {LEGAL_NAME} · NMLS #{NMLS} · VA Approved Lender ID {VA_ID} · FHA Non-Supervised Lender No. {FHA_ID}
             </p>
             <p>
+              State licensing:{" "}
+              <a href={LICENSING_URL} target="_blank" rel="noopener noreferrer">
+                see every state license on NMLS Consumer Access
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              .
+            </p>
+            <p>
               This site is operated by Griffin Funding. This is not a commitment to lend. All loans are subject to
-              credit approval and underwriting.
+              credit approval and underwriting. {TYPICALITY}
             </p>
           </div>
         </div>

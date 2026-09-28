@@ -800,6 +800,14 @@
   padding-top: 0;
 }
 
+.typicality {
+  margin-top: 0.75rem;
+  max-width: 42rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--color-muted);
+}
+
 .section-reviews > .wrap {
   padding-top: clamp(2.25rem, 3.5vw, 3rem);
 }

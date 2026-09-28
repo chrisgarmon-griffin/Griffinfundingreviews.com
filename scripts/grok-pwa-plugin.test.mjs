@@ -504,3 +504,12 @@ test("vite plugin bakes og identity as a virtual module", () => {
   assert.match(plugin, /snapshotOgIdentity/);
 });
 
+
+test("keeps page-supplied share tags when the page sets og:description", () => {
+  const html =
+    '<html><head><meta property="og:title" content="Page title"><meta property="og:description" content="Page description"><meta name="twitter:title" content="Page title"></head></html>';
+  const out = injectGrokPwaHead(html, { appName: "Demo" });
+  assert.match(out, /property="og:description" content="Page description"/);
+  assert.match(out, /name="twitter:title" content="Page title"/);
+  assert.equal(out.split('property="og:title"').length - 1, 1);
+});

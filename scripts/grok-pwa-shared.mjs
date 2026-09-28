@@ -432,7 +432,10 @@ export function injectGrokPwaHead(html, ctx = {}) {
     host,
     documentTitle,
   );
-  let next = stripShareMetaTags(html);
+  // A page that ships its own og:description owns its share card: keep its
+  // tags and skip the platform's minimal title/image set.
+  const pageOwnsShare = /<meta\b[^>]*property\s*=\s*["']og:description["']/i.test(html);
+  let next = pageOwnsShare ? html : stripShareMetaTags(html);
 
   const missing = grokPwaHeadTags(appName)
     .filter(([key]) => {
@@ -442,10 +445,12 @@ export function injectGrokPwaHead(html, ctx = {}) {
     })
     .map(([, tag]) => tag);
 
-  next = insertAfterHeadOpen(
-    next,
-    grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
-  );
+  if (!pageOwnsShare) {
+    next = insertAfterHeadOpen(
+      next,
+      grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
+    );
+  }
 
   // The "Created with Grok" banner script (grokExtensionsHeadTags) is not
   // injected: it loads third-party code from grok.com on every page of a

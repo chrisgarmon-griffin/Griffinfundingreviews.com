@@ -12,6 +12,9 @@ export const VA_ID = "9088650000";
 export const FHA_ID = "01472-0000-3";
 export const AS_OF = "September 27, 2026";
 export const AS_OF_ISO = "2026-09-27";
+// State licensing disclosure. NMLS Consumer Access lists every state license.
+// Swap for the griffinfunding.com licensing page once its URL is confirmed.
+export const LICENSING_URL = NMLS_URL;
 
 export type Platform = {
   id: string;
@@ -70,12 +73,12 @@ export const platforms: Platform[] = [
   {
     id: "bbb",
     name: "BBB",
-    note: "Customer reviews",
-    href: "https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171",
+    note: "A+ BBB rating",
+    href: "https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171/customer-reviews",
     count: 60,
-    rating: null,
+    rating: 4.85,
     grade: "A+",
-    method: "Direct read of the customer reviews page. Letter grade, excluded from the average.",
+    method: "Customer review average from the BBB customer reviews page (confirmed by Bill). A+ is BBB's separate letter rating.",
   },
   {
     id: "trustpilot",
@@ -109,6 +112,7 @@ export function formatRating(n: number): string {
 }
 
 export type Stats = {
+  allRated: boolean;
   raw: number;
   shown: number;
   shownText: string;
@@ -124,6 +128,7 @@ function computeStats(): Stats {
   const raw = rated.reduce((sum, p) => sum + p.rating * p.count, 0) / ratedCount;
   const shown = Math.round(raw * 10) / 10;
   return {
+    allRated: rated.length === platforms.length,
     raw,
     shown,
     shownText: shown.toFixed(1),
@@ -136,7 +141,27 @@ function computeStats(): Stats {
 
 export const stats = computeStats();
 
-export const DESCRIPTION = `Griffin Funding reviews from every major platform: ${stats.shownText} out of 5 across ${formatInt(stats.total)} public reviews. Operated by Griffin Funding, NMLS #${NMLS}. Checked ${AS_OF}.`;
+function listNames(names: string[]): string {
+  return names.length < 3 ? names.join(" and ") : `${names.slice(0, -1).join(", ")}, and ${names.at(-1)}`;
+}
+
+/** Platforms that publish a star rating, as a readable list. */
+export const ratedNames = listNames(platforms.filter((p) => p.rating != null).map((p) => p.name));
+const bbbEntry = platforms.find((p) => p.id === "bbb");
+const unrated = platforms.filter((p) => p.rating == null);
+
+/** One-sentence account of what the average covers, reused across the page. */
+export const averageScope = stats.allRated
+  ? `across ${formatInt(stats.ratedCount)} reviews on all ${stats.platformCount} platforms`
+  : `across ${formatInt(stats.ratedCount)} rated reviews on ${ratedNames}`;
+
+export const DESCRIPTION = stats.allRated
+  ? `Griffin Funding reviews from ${stats.platformCount} platforms: ${stats.shownText} out of 5 across ${formatInt(stats.ratedCount)} reviews, each platform linked. Operated by Griffin Funding, NMLS #${NMLS}.`
+  : `Griffin Funding reviews from ${stats.platformCount} platforms: ${stats.shownText} out of 5 across ${formatInt(stats.ratedCount)} rated reviews, ${formatInt(stats.total)} public reviews in total. Operated by Griffin Funding, NMLS #${NMLS}.`;
+
+/** FTC Endorsement Guides: several quotes describe timelines, so state that results vary. */
+export const TYPICALITY =
+  "Individual experiences. Timelines, rates, and terms vary by borrower and loan program.";
 
 export type Inline =
   | { kind: "text"; text: string }
@@ -168,7 +193,7 @@ export const faqs: Faq[] = [
       ],
       [
         text(
-          `As of ${AS_OF}, ${BRAND} has ${formatInt(stats.total)} public reviews across ${stats.platformCount} platforms. The weighted average on platforms that publish a star rating is ${stats.shownText} out of 5, across ${formatInt(stats.ratedCount)} rated reviews.`,
+          `As of ${AS_OF}, ${BRAND} has ${formatInt(stats.total)} public reviews across ${stats.platformCount} platforms. The weighted average is ${stats.shownText} out of 5, ${averageScope}.`,
         ),
       ],
       [text("This site is operated by Griffin Funding. It is not an independent review site.")],
@@ -180,12 +205,20 @@ export const faqs: Faq[] = [
     paragraphs: [
       [
         text(
-          `${stats.shownText} out of 5, as of ${AS_OF}. That is the average of Experience.com (${formatRating(4.88)} from ${formatInt(1600)} reviews), Google (${formatRating(4.8)} from ${formatInt(991)}), WalletHub (${formatRating(4.6)} from ${formatInt(757)}), Yelp (${formatRating(4.6)} from ${formatInt(185)}), Zillow (${formatRating(4.9)} from ${formatInt(103)}), and Trustpilot (${formatRating(4.7)} from ${formatInt(37)}), weighted by each platform’s review count.`,
+          `${stats.shownText} out of 5, as of ${AS_OF}. That is the average of ${listNames(
+            platforms
+              .filter((p) => p.rating != null)
+              .map((p) => `${p.name} (${formatRating(p.rating!)} from ${formatInt(p.count)})`),
+          )}, weighted by each platform’s review count.`,
         ),
       ],
       [
         text(
-          "BBB is not part of the average. BBB publishes an A+ letter rating, not a star rating, from 60 customer reviews.",
+          unrated.length
+            ? `${listNames(unrated.map((p) => p.name))} ${unrated.length > 1 ? "are" : "is"} not part of the average because ${unrated.length > 1 ? "they do" : "it does"} not publish a star rating.`
+            : bbbEntry?.grade
+              ? `BBB also gives ${BRAND} an ${bbbEntry.grade} rating. That letter rating is separate from BBB’s ${formatRating(bbbEntry.rating!)} customer review average.`
+              : "",
         ),
       ],
     ],
@@ -222,7 +255,13 @@ export const faqs: Faq[] = [
           "The weighted average is the sum of each platform’s star rating multiplied by its review count, divided by the number of those reviews. Only platforms that publish both a star rating and a review count are included. The result is shown to one decimal place.",
         ),
       ],
-      [text("BBB is left out of the average because A+ is a letter grade, not a star rating.")],
+      [
+        text(
+          stats.allRated
+            ? `All ${stats.platformCount} platforms publish a star rating and a review count, so all ${formatInt(stats.ratedCount)} reviews are in the average.`
+            : `${listNames(unrated.map((p) => p.name))} ${unrated.length > 1 ? "are" : "is"} left out because ${unrated.length > 1 ? "they publish" : "it publishes"} no star rating.`,
+        ),
+      ],
     ],
   },
   {
@@ -243,7 +282,7 @@ export const faqs: Faq[] = [
     paragraphs: [
       [
         text("Complaints filed with the Better Business Bureau are public on "),
-        link("Griffin Funding’s BBB profile", bbb.href),
+        link("Griffin Funding’s BBB profile", bbb.href.replace(/\/customer-reviews$/, "")),
         text("."),
       ],
       [
@@ -264,9 +303,10 @@ export const faqs: Faq[] = [
       ],
       [
         text(
-          "The quotes are selected real reviews, each linked to its original post. The wording is not rewritten. Names are shortened to a first name and last initial, and dates show the month and year.",
+          "The quotes are selected real reviews, each linked to its original post. The wording is not rewritten. Names are shortened to a first name and last initial, or kept as initials when that is how the reviewer posted. Dates show the month and year.",
         ),
       ],
+      [text(TYPICALITY)],
     ],
   },
   {

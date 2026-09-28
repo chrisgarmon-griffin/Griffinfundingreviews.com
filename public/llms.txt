@@ -2,13 +2,13 @@
 
 > Ratings and review counts for Griffin Funding (Griffin Funding, Inc., NMLS #1120111), a licensed mortgage lender. Operated by Griffin Funding. Not an independent review site. Last checked 2026-09-27.
 
-Griffin Funding has a weighted average of 4.8 out of 5 across 3,673 rated reviews on Google, Experience.com, WalletHub, Yelp, Zillow, and Trustpilot, and 3,733 public reviews in total across 7 platforms. BBB rates Griffin Funding A+ and is not in the star average, because A+ is a letter grade.
+Griffin Funding has a weighted average of 4.8 out of 5 across 3,733 reviews on 7 platforms: Experience.com, Google, WalletHub, Yelp, Zillow, BBB, and Trustpilot. BBB also gives Griffin Funding an A+ letter rating, separate from its 4.85 customer review average.
 
-Weighted average = sum(star rating × review count) / sum(review count), shown to one decimal place. Only platforms that publish both a star rating and a review count are included.
+Weighted average = sum(star rating × review count) / sum(review count), shown to one decimal place. All 7 platforms publish both a star rating and a review count, so every review is included.
 
 Experience.com is counted as its own 4.88 from 1,600 reviews. The blended 4.81 from 3,073 recounts Google, Zillow, and Facebook and is not used, so those reviews are not counted twice.
 
-The quotes on the page are a selection of Google reviews. They are not every review. Each quote links to its original post. Full profiles, including lower ratings and BBB complaints, are linked below.
+The quotes on the page are a selection of Google reviews. They are not every review. Individual experiences: timelines, rates, and terms vary by borrower and loan program. Each quote links to its original post. Full profiles, including lower ratings and BBB complaints, are linked below.
 
 ## Platforms (checked 2026-09-27)
 
@@ -17,7 +17,7 @@ The quotes on the page are a selection of Google reviews. They are not every rev
 - WalletHub: 4.6 / 5, 757 reviews (https://wallethub.com/profile/griffin-funding-75917774i)
 - Yelp: 4.6 / 5, 185 reviews (https://www.yelp.com/biz/griffin-funding-san-diego)
 - Zillow: 4.9 / 5, 103 reviews (https://www.zillow.com/lender-profile/griffinfunding/)
-- BBB: A+ letter rating, 60 reviews (https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171)
+- BBB: 4.85 / 5, 60 reviews, A+ BBB rating (https://www.bbb.org/us/ca/san-diego/profile/mortgage-lenders/griffin-funding-1126-172009171/customer-reviews)
 - Trustpilot: 4.7 / 5, 37 reviews (https://www.trustpilot.com/review/griffinfunding.com)
 
 ## License
@@ -26,7 +26,7 @@ The quotes on the page are a selection of Google reviews. They are not every rev
 - NMLS Unique Identifier: 1120111
 - VA Approved Lender ID: 9088650000
 - FHA Non-Supervised Lender No.: 01472-0000-3
-- NMLS Consumer Access: https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/1120111
+- NMLS Consumer Access, including every state license: https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/1120111
 
 ## Links
 
