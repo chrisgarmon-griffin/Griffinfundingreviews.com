@@ -13,7 +13,9 @@ export const FHA_ID = "01472-0000-3";
 export const AS_OF = "September 27, 2026";
 export const AS_OF_ISO = "2026-09-27";
 // State licensing disclosure (lists California DFPI and DRE licenses among others).
-// California disclosure wording in the footer is pending compliance approval.
+// California footer wording is pending compliance approval (branch ca-footer-disclosures).
+export const CA_DFPI_CFL = "60DBO-44274";
+export const CA_DRE = "01943169";
 export const LICENSING_URL = "https://griffinfunding.com/state-licensing/";
 // Google Knowledge Graph listing for Griffin Funding, Inc. (place /g/11bbx15fxh),
 // used as the entity reference in structured data. No numeric CID is verified yet.

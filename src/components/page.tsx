@@ -10,6 +10,8 @@ import {
   LEGAL_NAME,
   NMLS,
   LICENSING_URL,
+  CA_DFPI_CFL,
+  CA_DRE,
   NMLS_URL,
   TYPICALITY,
   VA_ID,
@@ -322,6 +324,12 @@ export function Page() {
             </p>
             <p>
               {LEGAL_NAME} · NMLS #{NMLS} · VA Approved Lender ID {VA_ID} · FHA Non-Supervised Lender No. {FHA_ID}
+            </p>
+            <p>
+              California: Licensed by the Department of Financial Protection and Innovation under the California
+              Financing Law, License No. {CA_DFPI_CFL}. Real Estate Broker, California Department of Real Estate, DRE
+              License #{CA_DRE}, NMLS #{NMLS}. Loans made or arranged pursuant to a California Department of Real Estate
+              license.
             </p>
             <p>
               State licensing:{" "}
