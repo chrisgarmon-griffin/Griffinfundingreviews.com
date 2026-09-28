@@ -12,9 +12,12 @@ export const VA_ID = "9088650000";
 export const FHA_ID = "01472-0000-3";
 export const AS_OF = "September 27, 2026";
 export const AS_OF_ISO = "2026-09-27";
-// State licensing disclosure. NMLS Consumer Access lists every state license.
-// Swap for the griffinfunding.com licensing page once its URL is confirmed.
-export const LICENSING_URL = NMLS_URL;
+// State licensing disclosure (lists California DFPI and DRE licenses among others).
+// California disclosure wording in the footer is pending compliance approval.
+export const LICENSING_URL = "https://griffinfunding.com/state-licensing/";
+// Google Knowledge Graph listing for Griffin Funding, Inc. (place /g/11bbx15fxh),
+// used as the entity reference in structured data. No numeric CID is verified yet.
+export const GOOGLE_ENTITY_URL = "https://www.google.com/search?kgmid=/g/11bbx15fxh";
 
 export type Platform = {
   id: string;
@@ -40,7 +43,7 @@ export const platforms: Platform[] = [
   {
     id: "google",
     name: "Google",
-    href: "https://share.google/5e6xAS2iXwbIUpnLL",
+    href: "https://share.google/4dX5kM5F0ugL6UEVW",
     count: 991,
     rating: 4.8,
     method: "Live Google Knowledge Panel.",
@@ -355,7 +358,7 @@ export function jsonLd() {
           { "@type": "PropertyValue", name: "VA Approved Lender ID", value: VA_ID },
           { "@type": "PropertyValue", name: "FHA Non-Supervised Lender No.", value: FHA_ID },
         ],
-        sameAs: [COMPANY_URL, ...platforms.map((p) => p.href)],
+        sameAs: [COMPANY_URL, GOOGLE_ENTITY_URL, ...platforms.map((p) => p.href)],
       },
       {
         "@type": "WebSite",

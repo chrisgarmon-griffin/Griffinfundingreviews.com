@@ -13,7 +13,7 @@ The quotes on the page are a selection of Google reviews. They are not every rev
 ## Platforms (checked 2026-09-27)
 
 - Experience.com: 4.88 / 5, 1,600 reviews (https://www.experience.com/reviews/company/griffin-funding-1426)
-- Google: 4.8 / 5, 991 reviews (https://share.google/5e6xAS2iXwbIUpnLL)
+- Google: 4.8 / 5, 991 reviews (https://share.google/4dX5kM5F0ugL6UEVW (Knowledge Graph listing: https://www.google.com/search?kgmid=/g/11bbx15fxh))
 - WalletHub: 4.6 / 5, 757 reviews (https://wallethub.com/profile/griffin-funding-75917774i)
 - Yelp: 4.6 / 5, 185 reviews (https://www.yelp.com/biz/griffin-funding-san-diego)
 - Zillow: 4.9 / 5, 103 reviews (https://www.zillow.com/lender-profile/griffinfunding/)
@@ -26,7 +26,8 @@ The quotes on the page are a selection of Google reviews. They are not every rev
 - NMLS Unique Identifier: 1120111
 - VA Approved Lender ID: 9088650000
 - FHA Non-Supervised Lender No.: 01472-0000-3
-- NMLS Consumer Access, including every state license: https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/1120111
+- NMLS Consumer Access: https://www.nmlsconsumeraccess.org/EntityDetails.aspx/COMPANY/1120111
+- State licensing: https://griffinfunding.com/state-licensing/
 
 ## Links
 

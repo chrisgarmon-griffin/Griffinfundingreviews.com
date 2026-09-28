@@ -326,7 +326,7 @@ export function Page() {
             <p>
               State licensing:{" "}
               <a href={LICENSING_URL} target="_blank" rel="noopener noreferrer">
-                see every state license on NMLS Consumer Access
+                see Griffin Funding’s state licenses
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
               .
