@@ -10,7 +10,11 @@ TanStack Start (React 19) with Vite and Nitro, deployed to Vercel (`preset: "ver
 |---|---|
 | `src/data/site.ts` | Platform ratings and counts, check date, license IDs, FAQ, structured data |
 | `src/data/reviews.ts` | Curated Google reviews (verbatim) and the spotlight quote |
-| `src/components/page.tsx` | The page |
+| `src/components/page.tsx` | The home page |
+| `src/components/site-chrome.tsx` | Header and footer shared by every page |
+| `src/data/pages.ts` | About and Contact page content (feeds both HTML and Markdown) |
+| `src/lib/agent/markdown.ts` | Markdown versions of each page for agents |
+| `server/middleware/agent-markdown.ts` | Serves Markdown on `Accept: text/markdown`, Markdown 404s, and adds `Vary: Accept` to HTML |
 | `src/components/review-explorer.tsx` | Loan-type filters and review grid |
 | `src/styles.css` | Styling |
 | `public/` | `llms.txt`, `llms-full.txt`, `robots.txt`, `sitemap.xml`, share image, favicon |
@@ -24,6 +28,18 @@ npm run build      # production build to .vercel/output
 npm run typecheck
 npm run lint
 ```
+
+## Agent access
+
+Requests with `Accept: text/markdown` get a Markdown version of `/`, `/about`, or `/contact` (`Content-Type: text/markdown`, `Vary: Accept`). Unknown paths return HTTP 404 with a Markdown body that links to the pages, `llms.txt`, and the sitemap. Browsers keep getting HTML. Check with:
+
+```bash
+curl -sS -i -H 'Accept: text/markdown' https://griffinfundingreviews.com/
+curl -sS -i -H 'Accept: text/markdown' https://griffinfundingreviews.com/no-such-page
+curl -sS -i -H 'Accept: text/html' https://griffinfundingreviews.com/
+```
+
+`llms.txt` has a "When to use this" section for agents. Keep it current when the site's scope changes.
 
 ## Deploy
 

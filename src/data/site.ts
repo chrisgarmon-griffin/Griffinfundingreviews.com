@@ -459,11 +459,25 @@ export function jsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "FinancialService",
+        // Organization first so agents that look for that type find it; FinancialService
+        // is the more specific schema.org type for a licensed lender.
+        "@type": ["Organization", "FinancialService"],
         "@id": `${SITE_URL}#organization`,
         name: BRAND,
         legalName: LEGAL_NAME,
+        description: `${LEGAL_NAME} is a licensed mortgage lender, NMLS #${NMLS}, headquartered in ${hq.city}, ${hq.state}.`,
         url: COMPANY_URL,
+        logo: `${SITE_URL}favicon.png`,
+        image: `${SITE_URL}og.jpg`,
+        // No phone or email here yet: add them once Griffin Funding confirms the
+        // public customer-service contact. Never guess one.
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          url: COMPANY_URL,
+          areaServed: "US",
+          availableLanguage: "en",
+        },
         identifier: {
           "@type": "PropertyValue",
           propertyID: "NMLS",

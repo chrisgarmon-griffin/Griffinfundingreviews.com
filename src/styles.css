@@ -1803,3 +1803,63 @@
   color: var(--color-muted);
   white-space: nowrap;
 }
+
+/* About and Contact pages */
+.info {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem);
+}
+
+.info-wrap {
+  max-width: 46rem;
+}
+
+.info h1 {
+  font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.4rem);
+}
+
+.info-lede {
+  margin-top: 1rem;
+  font-size: 1.15rem;
+  color: var(--color-muted);
+}
+
+.info-body {
+  margin-top: 2rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.info-body h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+.info-body p,
+.info-body ul {
+  margin-top: 0.75rem;
+  color: var(--color-fg);
+}
+
+.info-body ul {
+  padding-left: 1.2rem;
+}
+
+.info-body li + li {
+  margin-top: 0.4rem;
+}
+
+.info-body a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-line-strong);
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color 200ms var(--ease), color 200ms var(--ease);
+}
+
+.info-body a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+.info-back {
+  margin-top: 2.5rem;
+}
