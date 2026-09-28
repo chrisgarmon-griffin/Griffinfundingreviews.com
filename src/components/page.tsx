@@ -48,7 +48,12 @@ export function Page() {
             <a href="#offices">Offices</a>
             <a href="#reviews">Reviews</a>
             <a href="#faq">FAQ</a>
-            <a className="nav-ext" href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
+            <a
+              className="nav-ext"
+              href={COMPANY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               griffinfunding.com
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
@@ -60,7 +65,12 @@ export function Page() {
               <a href="#offices">Offices</a>
               <a href="#reviews">Reviews</a>
               <a href="#faq">FAQ</a>
-              <a className="nav-ext" href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
+              <a
+                className="nav-ext"
+                href={COMPANY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 griffinfunding.com
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
@@ -93,15 +103,20 @@ export function Page() {
               <hr className="rule" />
               <div id="citable" className="hero-facts">
                 <p className="lede">
-                  Every public Griffin Funding rating, gathered from {stats.platformCount} third-party review
-                  platforms and linked to its source.
+                  Every public Griffin Funding rating, gathered from{" "}
+                  {stats.platformCount} third-party review platforms and linked
+                  to its source.
                 </p>
                 <ul className="fact-list">
                   <li>
                     <span className="fact-label">Licensed lender</span>
                     <span className="fact-detail">
                       {LEGAL_NAME} ·{" "}
-                      <a href={NMLS_URL} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={NMLS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         NMLS #{NMLS}
                         <span className="sr-only"> (opens in a new tab)</span>
                       </a>
@@ -109,17 +124,59 @@ export function Page() {
                   </li>
                   <li>
                     <span className="fact-label">Sources</span>
-                    <span className="fact-detail">{platforms.map((p) => p.name).join(", ")}</span>
+                    <span className="fact-detail">
+                      {platforms.map((p) => p.name).join(", ")}
+                    </span>
                   </li>
                   <li>
                     <span className="fact-label">Transparency</span>
                     <span className="fact-detail">
-                      Every rating links to its full profile, lower ratings included. Operated by {BRAND}.
+                      Every rating links to its full profile, lower ratings
+                      included. Operated by {BRAND}.
                     </span>
                   </li>
                 </ul>
               </div>
-              <div className="btns">
+            </div>
+            <div className="hero-side">
+              <aside
+                id="scorecard"
+                className="scorecard"
+                aria-label="Rating summary"
+              >
+                <p className="score-label">Weighted average rating</p>
+                <p className="score-big">
+                  <span className="score-num">{stats.shownText}</span>
+                  <span className="score-of">/ 5</span>
+                </p>
+                <Stars
+                  value={stats.shown}
+                  size={18}
+                  label={`${stats.shownText} out of 5 stars`}
+                />
+                <p className="score-note">
+                  {averageScope.charAt(0).toUpperCase() + averageScope.slice(1)}
+                  , weighted by review count.
+                </p>
+                <dl className="score-stats">
+                  <div>
+                    <dt>Public reviews</dt>
+                    <dd>{formatInt(stats.total)}</dd>
+                  </div>
+                  <div>
+                    <dt>Platforms</dt>
+                    <dd>{stats.platformCount}</dd>
+                  </div>
+                  <div>
+                    <dt>BBB rating</dt>
+                    <dd>A+</dd>
+                  </div>
+                </dl>
+                <p className="score-foot">
+                  Last checked <time dateTime={AS_OF_ISO}>{AS_OF}</time>
+                </p>
+              </aside>
+              <div className="btns btns-center">
                 <a className="btn btn-primary" href="#platforms">
                   See every rating
                 </a>
@@ -128,48 +185,26 @@ export function Page() {
                 </a>
               </div>
             </div>
-            <aside id="scorecard" className="scorecard" aria-label="Rating summary">
-              <p className="score-label">Weighted average rating</p>
-              <p className="score-big">
-                <span className="score-num">{stats.shownText}</span>
-                <span className="score-of">/ 5</span>
-              </p>
-              <Stars value={stats.shown} size={18} label={`${stats.shownText} out of 5 stars`} />
-              <p className="score-note">
-                {averageScope.charAt(0).toUpperCase() + averageScope.slice(1)}, weighted by review count.
-              </p>
-              <dl className="score-stats">
-                <div>
-                  <dt>Public reviews</dt>
-                  <dd>{formatInt(stats.total)}</dd>
-                </div>
-                <div>
-                  <dt>Platforms</dt>
-                  <dd>{stats.platformCount}</dd>
-                </div>
-                <div>
-                  <dt>BBB rating</dt>
-                  <dd>A+</dd>
-                </div>
-              </dl>
-              <p className="score-foot">
-                Last checked <time dateTime={AS_OF_ISO}>{AS_OF}</time>
-              </p>
-            </aside>
           </div>
         </section>
 
-        <section id="platforms" className="section" aria-labelledby="platforms-h">
+        <section
+          id="platforms"
+          className="section"
+          aria-labelledby="platforms-h"
+        >
           <div className="wrap">
             <header className="section-head">
               <p className="eyebrow">
                 <span className="eyebrow-mark" aria-hidden="true" />
                 Ratings by platform
               </p>
-              <h2 id="platforms-h">Griffin Funding ratings on every major review site</h2>
+              <h2 id="platforms-h">
+                Griffin Funding ratings on every major review site
+              </h2>
               <p className="section-lede">
-                Sorted by number of reviews. Each row is that platform’s own star rating and review count, linked to
-                the full profile.
+                Sorted by number of reviews. Each row is that platform’s own
+                star rating and review count, linked to the full profile.
               </p>
             </header>
             <ol className="ledger">
@@ -188,10 +223,14 @@ export function Page() {
                       rel="noopener noreferrer"
                       aria-label={`${platform.name}: ${ratingLabel}. View profile, opens in a new tab`}
                     >
-                      <span className="p-idx">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="p-idx">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
                       <span className="p-meta">
                         <span className="p-name">{platform.name}</span>
-                        {platform.note ? <span className="p-note">{platform.note}</span> : null}
+                        {platform.note ? (
+                          <span className="p-note">{platform.note}</span>
+                        ) : null}
                         <span className="vol" aria-hidden="true">
                           <span style={{ width: `${width}%` }} />
                         </span>
@@ -204,12 +243,20 @@ export function Page() {
                           </>
                         ) : (
                           <>
-                            <span className="p-num">{formatRating(platform.rating)}</span>
-                            <Stars value={platform.rating} size={14} label={ratingLabel} />
+                            <span className="p-num">
+                              {formatRating(platform.rating)}
+                            </span>
+                            <Stars
+                              value={platform.rating}
+                              size={14}
+                              label={ratingLabel}
+                            />
                           </>
                         )}
                       </span>
-                      <span className="p-count">{formatInt(platform.count)} reviews</span>
+                      <span className="p-count">
+                        {formatInt(platform.count)} reviews
+                      </span>
                       <span className="p-go">
                         View profile <span aria-hidden="true">→</span>
                       </span>
@@ -219,16 +266,21 @@ export function Page() {
               })}
             </ol>
             <p className="footnote">
-              Weighted average: <strong>{stats.shownText} out of 5</strong> {averageScope}. Experience.com’s blended 4.81 from 3,073 reviews recounts Google, Zillow, and Facebook.
-              This page uses Experience.com’s own {formatRating(4.88)} from {formatInt(1600)} so those reviews are not
-              counted twice. Last checked <time dateTime={AS_OF_ISO}>{AS_OF}</time>.
+              Weighted average: <strong>{stats.shownText} out of 5</strong>{" "}
+              {averageScope}. Experience.com’s blended 4.81 from 3,073 reviews
+              recounts Google, Zillow, and Facebook. This page uses
+              Experience.com’s own {formatRating(4.88)} from {formatInt(1600)}{" "}
+              so those reviews are not counted twice. Last checked{" "}
+              <time dateTime={AS_OF_ISO}>{AS_OF}</time>.
             </p>
             <details className="method">
               <summary>How these figures were checked</summary>
               <div className="method-body">
                 <p>
-                  The average is sum of rating × review count, divided by review count, for platforms that publish both.
-                  It is shown to one decimal place. A selection of quotes does not change the counts.
+                  The average is sum of rating × review count, divided by review
+                  count, for platforms that publish both. It is shown to one
+                  decimal place. A selection of quotes does not change the
+                  counts.
                 </p>
                 <ul>
                   {platforms.map((platform) => (
@@ -242,7 +294,11 @@ export function Page() {
           </div>
         </section>
 
-        <section id="offices" className="section section-offices" aria-labelledby="offices-h">
+        <section
+          id="offices"
+          className="section section-offices"
+          aria-labelledby="offices-h"
+        >
           <div className="wrap">
             <header className="section-head">
               <p className="eyebrow">
@@ -251,8 +307,9 @@ export function Page() {
               </p>
               <h2 id="offices-h">Griffin Funding reviews by office location</h2>
               <p className="section-lede">
-                Google and Yelp list each {BRAND} office separately. These are the per-office figures behind the
-                combined Google and Yelp rows above.
+                Google and Yelp list each {BRAND} office separately. These are
+                the per-office figures behind the combined Google and Yelp rows
+                above.
               </p>
             </header>
             <ul className="offices">
@@ -263,7 +320,11 @@ export function Page() {
           </div>
         </section>
 
-        <section id="reviews" className="section section-reviews" aria-labelledby="reviews-h">
+        <section
+          id="reviews"
+          className="section section-reviews"
+          aria-labelledby="reviews-h"
+        >
           <div className="wrap">
             <header className="section-head">
               <p className="eyebrow">
@@ -272,13 +333,14 @@ export function Page() {
               </p>
               <h2 id="reviews-h">Selected Griffin Funding reviews</h2>
               <p className="section-lede">
-                Quoted from Google reviews, with the wording left as written. These are selected reviews, not every
-                rating. Names are a first name and last initial, or initials when that is how the reviewer posted.
-                Client street addresses, phone numbers, and account numbers are not included. The ratings above
-                include lower scores.
+                Quoted from Google reviews, with the wording left as written.
+                These are selected reviews, not every rating. Names are a first
+                name and last initial, or initials when that is how the reviewer
+                posted. Client street addresses, phone numbers, and account
+                numbers are not included. The ratings above include lower
+                scores.
               </p>
-              <p className="typicality">{TYPICALITY}
-              </p>
+              <p className="typicality">{TYPICALITY}</p>
             </header>
           </div>
           <ReviewExplorer />
@@ -291,9 +353,12 @@ export function Page() {
                 <span className="eyebrow-mark" aria-hidden="true" />
                 Common questions
               </p>
-              <h2 id="faq-h">Griffin Funding reviews: frequently asked questions</h2>
+              <h2 id="faq-h">
+                Griffin Funding reviews: frequently asked questions
+              </h2>
               <p className="section-lede">
-                Answers use only the figures on this page. For a loan question, start at{" "}
+                Answers use only the figures on this page. For a loan question,
+                start at{" "}
                 <a href={COMPANY_URL} target="_blank" rel="noopener noreferrer">
                   griffinfunding.com
                   <span className="sr-only"> (opens in a new tab)</span>
@@ -323,8 +388,9 @@ export function Page() {
               </a>
               <p>
                 Ratings and counts come from each platform and were last checked{" "}
-                <time dateTime={AS_OF_ISO}>{AS_OF}</time>. Quotes are a selection, copied as written, and linked to the
-                original post. Griffin Funding operates this page.
+                <time dateTime={AS_OF_ISO}>{AS_OF}</time>. Quotes are a
+                selection, copied as written, and linked to the original post.
+                Griffin Funding operates this page.
               </p>
             </div>
             <nav className="foot-links" aria-label="Footer">
@@ -349,12 +415,15 @@ export function Page() {
               <span>Equal Housing Lender</span>
             </p>
             <p>
-              {LEGAL_NAME} · NMLS #{NMLS} · VA Approved Lender ID {VA_ID} · FHA Non-Supervised Lender No. {FHA_ID}
+              {LEGAL_NAME} · NMLS #{NMLS} · VA Approved Lender ID {VA_ID} · FHA
+              Non-Supervised Lender No. {FHA_ID}
             </p>
             <p>
-              California: Licensed by the Department of Financial Protection and Innovation under the California
-              Financing Law, License No. {CA_DFPI_CFL}. Real Estate Broker, California Department of Real Estate, DRE
-              License #{CA_DRE}, NMLS #{NMLS}. Loans made or arranged pursuant to a California Department of Real Estate
+              California: Licensed by the Department of Financial Protection and
+              Innovation under the California Financing Law, License No.{" "}
+              {CA_DFPI_CFL}. Real Estate Broker, California Department of Real
+              Estate, DRE License #{CA_DRE}, NMLS #{NMLS}. Loans made or
+              arranged pursuant to a California Department of Real Estate
               license.
             </p>
             <p>
@@ -366,8 +435,9 @@ export function Page() {
               .
             </p>
             <p>
-              This site is operated by Griffin Funding. This is not a commitment to lend. All loans are subject to
-              credit approval and underwriting. {TYPICALITY}
+              This site is operated by Griffin Funding. This is not a commitment
+              to lend. All loans are subject to credit approval and
+              underwriting. {TYPICALITY}
             </p>
           </div>
         </div>
@@ -418,7 +488,6 @@ function Rich({ nodes }: { nodes: Inline[] }) {
   );
 }
 
-
 function HouseMark() {
   return (
     <svg className="house" viewBox="0 0 24 24" aria-hidden="true">
@@ -440,8 +509,12 @@ function OfficeCard({ office }: { office: Office }) {
       </h3>
       <p className="office-where">
         {place}
-        {office.area ? <span className="office-area">({office.area})</span> : null}
-        {office.label ? <span className="office-label">{office.label}</span> : null}
+        {office.area ? (
+          <span className="office-area">({office.area})</span>
+        ) : null}
+        {office.label ? (
+          <span className="office-label">{office.label}</span>
+        ) : null}
       </p>
       <address>
         {office.street}
@@ -450,15 +523,27 @@ function OfficeCard({ office }: { office: Office }) {
       </address>
       {listed ? (
         <dl className="office-scores">
-          {office.google ? <ListingRow name="Google" place={place} listing={office.google} /> : null}
-          {office.yelp ? <ListingRow name="Yelp" place={place} listing={office.yelp} /> : null}
+          {office.google ? (
+            <ListingRow name="Google" place={place} listing={office.google} />
+          ) : null}
+          {office.yelp ? (
+            <ListingRow name="Yelp" place={place} listing={office.yelp} />
+          ) : null}
         </dl>
       ) : null}
     </li>
   );
 }
 
-function ListingRow({ name, place, listing }: { name: string; place: string; listing: Listing }) {
+function ListingRow({
+  name,
+  place,
+  listing,
+}: {
+  name: string;
+  place: string;
+  listing: Listing;
+}) {
   const label = `${formatRating(listing.rating)} out of 5, ${formatInt(listing.count)} reviews`;
   const body = (
     <>
