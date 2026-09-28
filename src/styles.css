@@ -1731,18 +1731,19 @@
   font-size: 1.35rem;
 }
 
-.office-where {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.45rem;
-  align-items: baseline;
-  font-weight: 600;
+.office-head {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  padding-bottom: 0.25rem;
 }
 
-.office-label {
+.office-kicker {
   color: var(--color-accent);
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -1797,12 +1798,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.office-area {
-  font-weight: 500;
-  font-size: 0.92rem;
-  color: var(--color-muted);
-  white-space: nowrap;
-}
 
 /* About and Contact pages */
 .info {

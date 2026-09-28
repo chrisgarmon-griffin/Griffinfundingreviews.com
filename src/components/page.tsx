@@ -438,23 +438,21 @@ function OfficeCard({ office }: { office: Office }) {
   const listed = office.google || office.yelp;
   return (
     <li id={`office-${office.id}`} className="office">
-      <h3>
-        Griffin Funding{"\u00a0"}– {office.city}
-      </h3>
-      <p className="office-where">
-        {place}
-        {office.area ? (
-          <span className="office-area">({office.area})</span>
-        ) : null}
-        {office.label ? (
-          <span className="office-label">{office.label}</span>
-        ) : null}
-      </p>
-      <address>
-        {office.street}
-        <br />
-        {office.city}, {office.state} {office.postalCode}
-      </address>
+      <header className="office-head">
+        <p className="office-kicker">
+          {[office.area ?? office.label, office.stateName]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
+        <h3>
+          Griffin Funding{"\u00a0"}– {office.city}
+        </h3>
+        <address>
+          {office.street}
+          <br />
+          {office.city}, {office.state} {office.postalCode}
+        </address>
+      </header>
       {listed ? (
         <dl className="office-scores">
           {office.google ? (
