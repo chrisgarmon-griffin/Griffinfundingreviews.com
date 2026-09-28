@@ -138,6 +138,7 @@
   align-items: center;
   justify-content: space-between;
   min-height: 4.25rem;
+  padding-block: 1.35rem 0.75rem;
   gap: 1rem;
 }
 
@@ -456,6 +457,17 @@
 .hero-side {
   display: flex;
   flex-direction: column;
+}
+
+.hero-side .btns {
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 960px) {
+  /* Top of the card's red edge lines up with the eyebrow text on the left. */
+  .hero-side {
+    align-self: start;
+  }
 }
 
 .btns-center {
