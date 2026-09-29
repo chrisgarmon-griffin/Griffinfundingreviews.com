@@ -99,8 +99,6 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xaV1QyeFVhblZrYlU5SmIxTlBiV2hXYzJ4ZldHYxAB!2m1!1s0x0",
     quote: "I worked with Gabe and Liz at Griffin Funding on a DSCR loan for an investment property, and the experience was excellent from start to finish. DSCR loans can get complicated, but they broke everything down clearly and made the whole process feel straightforward. They were responsive whenever I had questions and kept things moving efficiently. If you’re looking for a team that knows investment property financing and makes it easy, I’d highly recommend Gabe and Liz at Griffin Funding.",
     loanTypes: ["dscr", "investment"],
-    // CONFIRM: matched by first name/alt spelling only ("Gabe" / "Megan"); a human must
-    // confirm this is the right person before this ships (docs/PROJECT.md Section 16.3).
     officers: ["gabriel-salazar"],
   },
   {
@@ -227,8 +225,6 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xZNFdEUlRUMlZOU2tFM04wMVFTVEEyVjNWa1ZGRRAB!2m1!1s0x0",
     quote: "We had the pleasure of working with Deanna, Gabe, and Liz on a recent DSCR loan. It was a great experience with very little friction. We are planning on using them again on our next deal.",
     loanTypes: ["dscr", "investment"],
-    // CONFIRM: matched by first name/alt spelling only ("Gabe" / "Megan"); a human must
-    // confirm this is the right person before this ships (docs/PROJECT.md Section 16.3).
     officers: ["gabriel-salazar"],
   },
   {
@@ -239,8 +235,6 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT25OTFNYaHhSMlZZVm5aRWVFbzFUbFZCV1MxVlNIYxAB!2m1!1s0x0",
     quote: "The entire process was great. Megan & Liz did an excellent job getting my loan approved. The communication was outstanding and I would highly recommend them to any business owner looking to obtain a mortgage or HELOC.",
     loanTypes: ["heloc", "self-employed"],
-    // CONFIRM: matched by first name/alt spelling only ("Gabe" / "Megan"); a human must
-    // confirm this is the right person before this ships (docs/PROJECT.md Section 16.3).
     officers: ["meagan-scheiwe"],
   },
   {
@@ -251,8 +245,6 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT25ZemRFNTRWbmhmWDFWcFVYcElOVzV1ZUZKb1gyYxAB!2m1!1s0x0",
     quote: "Gabe, Samara, and Liz were fantastic to work with on my rental property refinance. They made everything simple, answered all my questions, and helped the whole process go smoothly.",
     loanTypes: ["refinance", "investment"],
-    // CONFIRM: matched by first name/alt spelling only ("Gabe" / "Megan"); a human must
-    // confirm this is the right person before this ships (docs/PROJECT.md Section 16.3).
     officers: ["gabriel-salazar"],
   },
   {
