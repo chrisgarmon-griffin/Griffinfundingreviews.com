@@ -32,6 +32,7 @@ import { reviews, spotlight } from "../../data/reviews.ts";
 import {
   officerBySlug,
   qualifyingOfficers,
+  teamProfileUrl,
   type LoanOfficer,
 } from "../../data/loan-officers.ts";
 
@@ -134,6 +135,8 @@ export function officerMarkdown(officer: LoanOfficer): string {
     `# ${officer.name}'s Griffin Funding Reviews`,
     "",
     `> ${officer.title} at Griffin Funding.`,
+    "",
+    `Team profile (specialties, licensed states, NMLS): ${teamProfileUrl(officer)}`,
     "",
     `**Experience.com: ${formatRating(officer.experienceRating)} out of 5** from ${formatInt(officer.experienceCount)} reviews (checked ${officer.checked}). [View on Experience.com](${officer.experienceUrl})`,
     "",
