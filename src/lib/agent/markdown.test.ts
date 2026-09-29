@@ -12,7 +12,7 @@ import {
 } from "../../data/site.ts";
 import { aboutPage, contactPage } from "../../data/pages.ts";
 import { reviews, spotlight } from "../../data/reviews.ts";
-import { loanOfficers, qualifyingOfficers } from "../../data/loan-officers.ts";
+import { qualifyingOfficers } from "../../data/loan-officers.ts";
 
 describe("homeMarkdown", () => {
   const md = homeMarkdown();
