@@ -13,7 +13,13 @@ const labelFor = Object.fromEntries(loanTypes.map((item) => [item.id, item.label
 
 const allQuotes: Review[] = [spotlight, ...reviews];
 
-export function ReviewExplorer({ initialOfficer }: { initialOfficer?: string } = {}) {
+export function ReviewExplorer({
+  initialOfficer,
+  suppressFullPageLinkFor,
+}: {
+  initialOfficer?: string;
+  suppressFullPageLinkFor?: string;
+} = {}) {
   const [filter, setFilter] = useState<LoanType | "all">("all");
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
@@ -123,7 +129,7 @@ export function ReviewExplorer({ initialOfficer }: { initialOfficer?: string } =
                 setExpanded(false);
               }}
             />
-            {officerFilter ? (
+            {officerFilter && officerFilter !== suppressFullPageLinkFor ? (
               <a className="lo-full-page-link" href={`/lo/${officerFilter}`}>
                 View {loanOfficers.find((o) => o.id === officerFilter)?.name}&apos;s full page
               </a>
