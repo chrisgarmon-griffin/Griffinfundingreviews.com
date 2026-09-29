@@ -11,7 +11,7 @@ export function OfficerPageView({ officer }: { officer: LoanOfficer }) {
     <>
       <SiteHeader home={false} />
       <main id="main" className="info">
-        <div className="wrap info-wrap">
+        <div className="wrap">
           <p className="eyebrow">
             <span className="eyebrow-mark" aria-hidden="true" />
             Griffin Funding Reviews
@@ -32,7 +32,9 @@ export function OfficerPageView({ officer }: { officer: LoanOfficer }) {
           <p className="officer-checked">Checked {officer.checked}.</p>
         </div>
       </main>
-      <ReviewExplorer initialOfficer={officer.id} />
+      <section className="section section-reviews">
+        <ReviewExplorer initialOfficer={officer.id} suppressFullPageLinkFor={officer.id} />
+      </section>
       <ApplyCta placement={`lo-${officer.id}`} />
       <SiteFooter home={false} />
     </>
