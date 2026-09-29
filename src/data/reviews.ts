@@ -17,6 +17,7 @@ export type Review = {
   url: string;
   quote: string;
   loanTypes: LoanType[];
+  officers?: string[];
 };
 
 export const spotlight: Review = {
@@ -27,6 +28,7 @@ export const spotlight: Review = {
   url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xWd2JteFZSSEpVYURCNmJXMUhOMGxmWDBKck5WRRAB!2m1!1s0x0",
   quote: "As a business owner it can be a struggle getting a traditional home loan. I was searching on Grok and Griffin Funding came up. I was skeptical at first, but gave them a call and the whole process was super easy and now I'm in my new home! Jack Iwamoto called me immediately and helped walk me through the process. I never write reviews, but this time it's worth it! I did a bank statement loan, and it was the easiest loan process I've ever had. Also a thanks to Adriana!",
   loanTypes: ["bank-statement", "purchase", "self-employed"],
+  officers: ["jack-iwamoto"],
 };
 
 export const reviews: Review[] = [
@@ -47,6 +49,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2pjMGRHODBWa1ppVWxSQlluaHJPRE5RT1ZSWmFVRRAB!2m1!1s0x0",
     quote: "Once again, for the 5th time Shelly, Justin, Ashleigh and their team came through without a glitch. I had 2 weeks to close on my new purchase, and the professional high standard team flawlessly executed. It is comforting to know that this team can be called upon and trusted to close on time, without surprises, and smoothly. Thank you Justin for working tirelessly on the numbers, Shelly for constant communication with myself and all other parties involved, all 3 of you for the elite execution.",
     loanTypes: ["purchase"],
+    officers: ["justin-guthrie"],
   },
   {
     id: "candace-r-3",
@@ -56,6 +59,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2tKblRqaEdORUpFWW1GSU1rUjVPSEZSWm5GelRHYxAB!2m1!1s0x0",
     quote: "Have had a fantastic experience dealing with Griffin Funding, Inc. , and especially with Andre Shmoldas. He did a phenomenal job with a very complicated and complex scenario of mine, and got my family into our dream home in record time. Out of 5 Stars, I give him a ten or higher!!! Thank you so much to all at Griffin Funding that helped make this happen for our family. Can’t wait to send others your way!!!",
     loanTypes: ["purchase"],
+    officers: ["andre-shmoldas"],
   },
   {
     id: "sudamys-p-4",
@@ -65,6 +69,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT201S1NrOUNZMWxNTWpGdWRuaGhkbU5rT1ZkeVFYYxAB!2m1!1s0x0",
     quote: "I had a great experience working with Guy and NIna at Griffin Funding on my refinance. From the initial quote all the way through closing, they were professional, transparent, responsive, and very efficient.The entire process was smooth, and the communication from the team was excellent. I really appreciated how quickly they responded whenever I had a question.Highly recommend Guy and Griffin Funding. Definitely a 5-star experience!",
     loanTypes: ["refinance"],
+    officers: ["guy-troxler"],
   },
   {
     id: "josue-v-5",
@@ -74,6 +79,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2taYVFtWkdNVWhWV1ZoMGRETTROazVMTUVsMlkxRRAB!2m1!1s0x0",
     quote: "Guy and Nina did an outstanding job helping me with my DSCR cash-out refinance on my investment property. They listened carefully to what I needed, made smart adjustments to meet my goals, and kept everything moving smoothly. We closed much faster than I expected. Highly recommend them if you’re looking for a knowledgeable and responsive team that actually delivers.",
     loanTypes: ["dscr", "refinance", "investment"],
+    officers: ["guy-troxler"],
   },
   {
     id: "jennifer-r-6",
@@ -83,6 +89,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2s1Q2FFTXlSR2hNYzB0YUxXUmZaRzAzWjJsclFuYxAB!2m1!1s0x0",
     quote: "Joe Yaeger and the team at Griffin Funding made my recent refinance a seamless experience. Joe is extremely knowledgeable, keeps you updated every step of the way, and truly looks out for his clients. 5/5 stars—I wouldn't hesitate to work with him again!",
     loanTypes: ["refinance"],
+    officers: ["joe-yaeger"],
   },
   {
     id: "nelson-c-7",
@@ -92,6 +99,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xaV1QyeFVhblZrYlU5SmIxTlBiV2hXYzJ4ZldHYxAB!2m1!1s0x0",
     quote: "I worked with Gabe and Liz at Griffin Funding on a DSCR loan for an investment property, and the experience was excellent from start to finish. DSCR loans can get complicated, but they broke everything down clearly and made the whole process feel straightforward. They were responsive whenever I had questions and kept things moving efficiently. If you’re looking for a team that knows investment property financing and makes it easy, I’d highly recommend Gabe and Liz at Griffin Funding.",
     loanTypes: ["dscr", "investment"],
+    officers: ["gabriel-salazar"],
   },
   {
     id: "rohit-r-8",
@@ -101,6 +109,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT20xVldqbHRSRWRhU1VWVGFrUXdMVkJQZWxOcFJsRRAB!2m1!1s0x0",
     quote: "My 3rd loan with Griffin and the best experience yet. Andre Schmoldas and Jessie Kemer handled my DSCR cash-out refi flawlessly — I closed remotely while on vacation, they answered every question fast (even on a holiday weekend), and Jessie personally tracked the wire until funds hit my account. Professional, responsive, and they treat your deal like their own. Highly recommend — I’ll be back for loan #4.",
     loanTypes: ["dscr", "refinance", "investment"],
+    officers: ["andre-shmoldas"],
   },
   {
     id: "kenneth-m-9",
@@ -110,6 +119,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2tnNVIwdENRalpQUzB3eWJYbEVZUzFDTUVWMlNFRRAB!2m1!1s0x0",
     quote: "Shout out to Nate and PJ at Griffin funding on assisting me with successfully refinancing my home mortgage. They were both professional and very available to answer questions and help guide me through the process. Thanks very much Nate and PJ.",
     loanTypes: ["refinance"],
+    officers: ["pj-vinal"],
   },
   {
     id: "lucy-z-10",
@@ -128,6 +138,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2sxQ1JVazNOV3RYYkV0alExTkNWVWRXVjNaWFJFRRAB!2m1!1s0x0",
     quote: "We recently closed on a HELOC with Griffin, after struggling to find the right fit for our needs with other lenders. Justin was great at answering my questions from the very beginning (there were many), and Shell truly went above and beyond to ensure the finalization of our loan, as well as answered very many of my questions throughout the process too. She was always speedy with her replies and quick to find solutions to any issues, whether proactively or as they were presented. We are incredibly grateful for her and everyone else at Griffin who made this possible - Thank you!!!",
     loanTypes: ["heloc"],
+    officers: ["justin-guthrie"],
   },
   {
     id: "jill-c-12",
@@ -146,6 +157,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2s4d1F5MXJPVTFVTnpoTldXTlpNV2RLT1dVMWJYYxAB!2m1!1s0x0",
     quote: "Malik Abiola was my loan officer. He did a GREAT job in helping me navigate the lending options for the self-employed! He was very knowledgeable & very quick to respond with my questions. He went above & beyond to make sure I had great options to choose from & I really appreciate all that he's done for me!",
     loanTypes: ["self-employed"],
+    officers: ["malik-abiola"],
   },
   {
     id: "brad-j-14",
@@ -155,6 +167,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xkRFIycEhVWGxDYTFZeGJUbEZOMlZvY2taVk5YYxAB!2m1!1s0x0",
     quote: "I highly recommend Griffin, especially if you're self employed and make enough money but have a hard time showing it. We ran into income verification challenges at our local bank, but the professionals at Griffin (Guy & Nina) were able to use our business bank statements to make things work. It was fast and painless, terms were great too. I was super impressed! Give them a try",
     loanTypes: ["bank-statement", "self-employed"],
+    officers: ["guy-troxler"],
   },
   {
     id: "marlene-s-15",
@@ -164,6 +177,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xGWlNsQjBaMHN0Y2tVMU5GSTBSVEZWVTNGM1EzYxAB!2m1!1s0x0",
     quote: "I had the pleasure of working with Sarah, Nina, and Nick during the purchase of my home, and I couldn't have asked for a better team. They were responsive, communicative, and professional throughout the entire process. They kept me informed every step of the way, answered all of my questions promptly, and made the home-buying experience much less stressful. Their expertise and dedication were evident from start to finish. I highly recommend Sarah, Nina, and Nick to anyone looking for a smooth and positive home-buying experience!",
     loanTypes: ["purchase"],
+    officers: ["sarah-howell"],
   },
   {
     id: "meredith-c-16",
@@ -173,6 +187,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xScFVqZEhWREprTTJWYWNsY3dTVEJUY0ZoVWVsRRAB!2m1!1s0x0",
     quote: "I had the best experience with Bill, Taylor, Trey, Ashley, and Nina at Griffin! They were incredibly thoughtful with the entire process, leaving no stone unturned as I went through my first home purchase. It's such a big purchase that you want a great team behind you and every single person treated me as though I was their most important client. I couldn't be happier with the competitive loan they offered and how seamless the process was. Especially on a tight turnaround! Great job, team! I'll definitely send others your way!",
     loanTypes: ["purchase"],
+    officers: ["trey-bedard"],
   },
   {
     id: "ana-s-17",
@@ -182,6 +197,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT25JMk9VeHRlVE5MWXpKWWNETldkbkIzY2pSRlpFRRAB!2m1!1s0x0",
     quote: "I just want to share that I had the best experience doing a refinance with Griffin Funding. I had looked at other lending institutions that were not very helpful. The loan officers at Griffin Funding were very accessible, with a nice attitude and also kept informing me of the process almost daily. They responded to emails promptly and overall made the process very smooth and a felt they were trustworthy every step of the way. I recommend this lending institution with a big smile on my face and lots of gratitude. Thank you Shahla, Molly and Valerie, you all are a super team!",
     loanTypes: ["refinance"],
+    officers: ["valerie-zatarain"],
   },
   {
     id: "chris-h-18",
@@ -209,6 +225,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xZNFdEUlRUMlZOU2tFM04wMVFTVEEyVjNWa1ZGRRAB!2m1!1s0x0",
     quote: "We had the pleasure of working with Deanna, Gabe, and Liz on a recent DSCR loan. It was a great experience with very little friction. We are planning on using them again on our next deal.",
     loanTypes: ["dscr", "investment"],
+    officers: ["gabriel-salazar"],
   },
   {
     id: "steven-g-21",
@@ -218,6 +235,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT25OTFNYaHhSMlZZVm5aRWVFbzFUbFZCV1MxVlNIYxAB!2m1!1s0x0",
     quote: "The entire process was great. Megan & Liz did an excellent job getting my loan approved. The communication was outstanding and I would highly recommend them to any business owner looking to obtain a mortgage or HELOC.",
     loanTypes: ["heloc", "self-employed"],
+    officers: ["meagan-scheiwe"],
   },
   {
     id: "elizabeth-l-22",
@@ -227,6 +245,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT25ZemRFNTRWbmhmWDFWcFVYcElOVzV1ZUZKb1gyYxAB!2m1!1s0x0",
     quote: "Gabe, Samara, and Liz were fantastic to work with on my rental property refinance. They made everything simple, answered all my questions, and helped the whole process go smoothly.",
     loanTypes: ["refinance", "investment"],
+    officers: ["gabriel-salazar"],
   },
   {
     id: "c-sar-e-23",
@@ -245,6 +264,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2xwVE1VaEZVM3BvTlZkS01EUndTblZvWlV3NFZIYxAB!2m1!1s0x0",
     quote: "Guy Troxler is the best mortgage broker I have dealt with ever. Process is so easy especially for a self employed person that encounters so many obstacles to securing mortgage funding. Griffin Funding will remain my go to mortage company.",
     loanTypes: ["self-employed"],
+    officers: ["guy-troxler"],
   },
   {
     id: "juan-m-25",
@@ -263,6 +283,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT2sxVGNXMXdWRVZ0VUVsWk5rczJVRFpFTFVSalQyYxAB!2m1!1s0x0",
     quote: "I've worked with Griffin on two separate refinances now, with Guy as my main point of contact, and Nina and Ashley providing assistance. Both times, this team adapted to my communication preferences, stayed consistently responsive, and followed through. They are also great with self-employed borrowers. If we refinance again in the future, they'll be the first folks I reach out to.",
     loanTypes: ["refinance", "self-employed"],
+    officers: ["guy-troxler"],
   },
   {
     id: "james-c-27",
@@ -272,6 +293,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT21kYVVFMUlMV2gxY3poRGF6bFdPR2hqTUV4cloyYxAB!2m1!1s0x0",
     quote: "This was my second home loan from Griffin Funding. Jack and Adriana were complete rock stars all the way through the process and made sure all the numbers added up and we closed early. If you are doing a bank statement loan this is the company to work with! The process was easier the 2nd time around as well! Great Job!",
     loanTypes: ["bank-statement"],
+    officers: ["jack-iwamoto"],
   },
   {
     id: "theresa-f-28",
@@ -281,6 +303,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT25GVlNHODBNRVJzTFRScFZ6VXdZMGh0TkZKRU0xRRAB!2m1!1s0x0",
     quote: "We had a great experience with the Griffin Funding team. We needed a bank statement loan to refinance our home. From the time we contacted Griffin until the day the funds were issued, we had phenomenal service. The patience that Charles Toll had with us as we contemplated options was amazing and very much appreciated. His knowledge and recommendations were valuable! Then, with the help of Liz Singer and Andre Shmoldas we quickly completed all of the needed paperwork. Overall, we are very satisfied with the options, support, service, & rates offered by Griffin. I would highly recommend them and would use them again if the need arises.",
     loanTypes: ["bank-statement", "refinance"],
+    officers: ["andre-shmoldas"],
   },
   {
     id: "christi-s-29",
@@ -290,6 +313,7 @@ export const reviews: Review[] = [
     url: "https://www.google.com/maps/reviews/data=!3m1!4b1!4m6!14m5!1m4!2m3!1sCi9DQUlRQUNvZENodHljRjlvT21kRWRIZDVSM2RpVlZkRE0yaEtZbk5TT1MxU00yYxAB!2m1!1s0x0",
     quote: "Justin, Shell and everyone else at Griffin Funding were amazing from start to finish. This is our 4th DSCR loan with Griffin Funding and we keep coming back to use them for a reason. Every deal is a smooth, seamless, quick, and efficient processs. Roadblocks happen throughout everytime, but they have an uncanny ability to navigate through them and adapt to every issue to achieve the end state of closing on an investment property on the terms that make sense to us. I can’t say enough about Griffin Funding. Highly recommend.",
     loanTypes: ["dscr", "investment"],
+    officers: ["justin-guthrie"],
   },
   {
     id: "edk-30",

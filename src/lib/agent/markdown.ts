@@ -29,6 +29,11 @@ import {
 } from "../../data/site.ts";
 import { infoPages, type Block, type InfoPage } from "../../data/pages.ts";
 import { reviews, spotlight } from "../../data/reviews.ts";
+import {
+  officerBySlug,
+  qualifyingOfficers,
+  type LoanOfficer,
+} from "../../data/loan-officers.ts";
 
 function inline(nodes: Inline[]): string {
   return nodes
@@ -116,6 +121,37 @@ export function homeMarkdown(): string {
   ].join("\n");
 }
 
+export function officerMarkdown(officer: LoanOfficer): string {
+  const quote = (text: string) =>
+    text
+      .split("\n")
+      .map((line) => `> ${line}`)
+      .join("\n");
+  const matches = [spotlight, ...reviews].filter((r) =>
+    r.officers?.includes(officer.id),
+  );
+  return [
+    `# ${officer.name}'s Griffin Funding Reviews`,
+    "",
+    `> ${officer.title} at Griffin Funding.`,
+    "",
+    `**Experience.com: ${formatRating(officer.experienceRating)} out of 5** from ${formatInt(officer.experienceCount)} reviews (checked ${officer.checked}). [View on Experience.com](${officer.experienceUrl})`,
+    "",
+    matches.length
+      ? `## Selected Google reviews naming ${officer.name}`
+      : `No selected Google quote names ${officer.name} yet.`,
+    "",
+    ...matches.flatMap((r) => [
+      quote(r.quote),
+      "",
+      `${r.author}, ${r.date}, [original review](${r.url})`,
+      "",
+    ]),
+    footer,
+    "",
+  ].join("\n");
+}
+
 export function notFoundMarkdown(path: string): string {
   return [
     "# 404: page not found",
@@ -128,6 +164,9 @@ export function notFoundMarkdown(path: string): string {
     ...infoPages.map(
       (page) => `- [${page.heading}](${SITE_URL}${page.path.slice(1)})`,
     ),
+    ...qualifyingOfficers([spotlight, ...reviews]).map(
+      (o) => `- [${o.name}'s Griffin Funding reviews](${SITE_URL}lo/${o.id})`,
+    ),
     "",
     `A plain-text summary is at [llms.txt](${SITE_URL}llms.txt), and every page is listed in the [sitemap](${SITE_URL}sitemap.xml).`,
     "",
@@ -138,6 +177,15 @@ export function notFoundMarkdown(path: string): string {
 export function markdownForPath(path: string): string | null {
   const normalized = path.length > 1 ? path.replace(/\/+$/, "") : path;
   if (normalized === "/" || normalized === "") return homeMarkdown();
+  if (normalized.startsWith("/lo/")) {
+    const officer = officerBySlug(normalized.slice("/lo/".length));
+    const qualifies =
+      officer &&
+      qualifyingOfficers([spotlight, ...reviews]).some(
+        (o) => o.id === officer.id,
+      );
+    return qualifies ? officerMarkdown(officer!) : null;
+  }
   const page = infoPages.find((p) => p.path === normalized);
   return page ? infoPageMarkdown(page) : null;
 }

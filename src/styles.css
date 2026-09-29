@@ -1090,7 +1090,8 @@
 }
 
 .filters button,
-.tag {
+.tag,
+.lo-select-trigger {
   font: inherit;
   min-height: 2.75rem;
   border-radius: 999px;
@@ -1146,6 +1147,44 @@
 
 .search input::placeholder {
   color: var(--color-faint);
+}
+
+.lo-select-trigger[data-state="open"],
+.lo-select-trigger[data-placeholder="false"] {
+  border-color: var(--color-ink);
+}
+
+.lo-select-content {
+  background: var(--color-card);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 12px;
+  max-height: 320px;
+  overflow: auto;
+  z-index: 40;
+}
+
+.lo-select-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.lo-select-item[data-highlighted] {
+  background: var(--color-paper-deep);
+}
+
+.lo-full-page-link {
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  margin-left: 0.6rem;
+}
+
+.lo-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
 }
 
 .result-line,

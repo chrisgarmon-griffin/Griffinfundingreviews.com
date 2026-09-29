@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { reviews, spotlight, type LoanType, type Review } from "@/data/reviews";
 import { formatInt, loanTypes } from "@/data/site";
 import { Stars } from "@/components/stars";
+import { loanOfficers, qualifyingOfficers } from "@/data/loan-officers";
+import { OfficerSelect } from "@/components/officer-select";
 
 const INITIAL = 9;
 const labelFor = Object.fromEntries(loanTypes.map((item) => [item.id, item.label])) as Record<
@@ -11,10 +13,13 @@ const labelFor = Object.fromEntries(loanTypes.map((item) => [item.id, item.label
 
 const allQuotes: Review[] = [spotlight, ...reviews];
 
-export function ReviewExplorer() {
+export function ReviewExplorer({ initialOfficer }: { initialOfficer?: string } = {}) {
   const [filter, setFilter] = useState<LoanType | "all">("all");
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
+  const [officerFilter, setOfficerFilter] = useState<string | null>(
+    initialOfficer ?? null,
+  );
 
   const counts = useMemo(() => {
     const map = new Map<LoanType, number>();
@@ -30,12 +35,32 @@ export function ReviewExplorer() {
     [counts],
   );
 
+  const officerCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const review of allQuotes) {
+      for (const id of review.officers ?? []) {
+        map.set(id, (map.get(id) ?? 0) + 1);
+      }
+    }
+    return map;
+  }, []);
+
+  const officerOptions = useMemo(
+    () =>
+      qualifyingOfficers(allQuotes)
+        .map((o) => ({ id: o.id, name: o.name, count: officerCounts.get(o.id) ?? 0 }))
+        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name)),
+    [officerCounts],
+  );
+
   const needle = query.trim().toLowerCase();
-  const filtering = filter !== "all" || needle.length > 0;
+  const filtering = filter !== "all" || needle.length > 0 || officerFilter !== null;
 
   function matches(review: Review) {
     const typeOk = filter === "all" || review.loanTypes.includes(filter);
     if (!typeOk) return false;
+    const officerOk = officerFilter === null || (review.officers?.includes(officerFilter) ?? false);
+    if (!officerOk) return false;
     if (!needle) return true;
     const hay = `${review.quote} ${review.author} ${review.loanTypes.map((id) => labelFor[id]).join(" ")}`.toLowerCase();
     return hay.includes(needle);
@@ -87,6 +112,24 @@ export function ReviewExplorer() {
             </button>
           ))}
         </div>
+
+        {officerOptions.length > 0 ? (
+          <div className="lo-filter">
+            <OfficerSelect
+              officers={officerOptions}
+              value={officerFilter}
+              onChange={(id) => {
+                setOfficerFilter(id);
+                setExpanded(false);
+              }}
+            />
+            {officerFilter ? (
+              <a className="lo-full-page-link" href={`/lo/${officerFilter}`}>
+                View {loanOfficers.find((o) => o.id === officerFilter)?.name}&apos;s full page
+              </a>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
       <div className="tools-meta">

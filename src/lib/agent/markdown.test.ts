@@ -11,6 +11,8 @@ import {
   stats,
 } from "../../data/site.ts";
 import { aboutPage, contactPage } from "../../data/pages.ts";
+import { reviews, spotlight } from "../../data/reviews.ts";
+import { qualifyingOfficers } from "../../data/loan-officers.ts";
 
 describe("homeMarkdown", () => {
   const md = homeMarkdown();
@@ -58,6 +60,26 @@ describe("markdownForPath", () => {
   it("returns null for paths with no page", () => {
     assert.equal(markdownForPath("/nope"), null);
     assert.equal(markdownForPath("/about/extra"), null);
+  });
+});
+
+describe("markdownForPath: officer pages", () => {
+  it("serves Markdown for a known officer", () => {
+    const md = markdownForPath("/lo/guy-troxler");
+    assert.ok(md, "expected Markdown, got null");
+    assert.match(md!, /^# Guy Troxler's Griffin Funding Reviews/);
+    assert.ok(md!.includes("4.82"));
+    assert.ok(md!.includes("138"));
+  });
+
+  it("returns null for an unknown officer slug", () => {
+    assert.equal(markdownForPath("/lo/nobody-here"), null);
+  });
+
+  it("has a page for every currently qualifying officer", () => {
+    for (const o of qualifyingOfficers([spotlight, ...reviews])) {
+      assert.ok(markdownForPath(`/lo/${o.id}`), o.id);
+    }
   });
 });
 
