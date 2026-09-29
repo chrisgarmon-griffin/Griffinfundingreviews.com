@@ -245,7 +245,8 @@
 }
 
 .nav-ext {
-  color: var(--color-accent) !important;
+  /* Brighter than --color-accent on this dark header, same reasoning as .hero h1 em. */
+  color: #e53b31 !important;
 }
 
 @media (max-width: 879px) {
@@ -1900,7 +1901,8 @@
 
 /* Tap-to-call in the header */
 .nav-call {
-  color: var(--color-accent) !important;
+  /* Brighter than --color-accent on this dark header, same reasoning as .hero h1 em. */
+  color: #e53b31 !important;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
