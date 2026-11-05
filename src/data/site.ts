@@ -152,7 +152,7 @@ export const platforms: Platform[] = [
     href: "https://www.experience.com/reviews/company/griffin-funding-1426",
     count: experience.company.count,
     rating: experience.company.rating,
-    method: `Experience.com’s own reviews, not its blended score. Updated daily; last updated ${formatIsoDate(experience.checked)}.`,
+    method: "Experience.com’s own reviews, not its blended score. Updated daily.",
   },
   {
     id: "google",
@@ -228,16 +228,6 @@ export function formatRating(n: number): string {
   return text.endsWith("0") ? rounded.toFixed(1) : text;
 }
 
-/** "2026-11-05" -> "November 5, 2026", matching AS_OF. */
-export function formatIsoDate(iso: string): string {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-US", {
-    timeZone: "UTC",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 export type Stats = {
   allRated: boolean;
