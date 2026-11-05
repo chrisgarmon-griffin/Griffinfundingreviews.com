@@ -1,4 +1,5 @@
 import type { LoanType } from "./reviews";
+import { experience } from "./experience.generated.ts";
 
 export const TITLE = "Griffin Funding Reviews: Ratings From Every Platform";
 export const SITE_URL = "https://griffinfundingreviews.com/";
@@ -149,9 +150,9 @@ export const platforms: Platform[] = [
     id: "experience",
     name: "Experience.com",
     href: "https://www.experience.com/reviews/company/griffin-funding-1426",
-    count: 1600,
-    rating: 4.88,
-    method: "Experience.com’s own reviews, not its blended score.",
+    count: experience.company.count,
+    rating: experience.company.rating,
+    method: `Experience.com’s own reviews, not its blended score. Updated daily; last updated ${formatIsoDate(experience.checked)}.`,
   },
   {
     id: "google",
@@ -225,6 +226,17 @@ export function formatRating(n: number): string {
   const rounded = Math.round(n * 100) / 100;
   const text = rounded.toFixed(2);
   return text.endsWith("0") ? rounded.toFixed(1) : text;
+}
+
+/** "2026-11-05" -> "November 5, 2026", matching AS_OF. */
+export function formatIsoDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 export type Stats = {
@@ -398,16 +410,16 @@ export const faqs: Faq[] = [
   },
   {
     id: "q-experience",
-    question: "Why not use Experience.com’s 4.81 rating from 3,073 reviews?",
+    question: `Why not use Experience.com’s ${formatRating(experience.blended.rating)} rating from ${formatInt(experience.blended.count)} reviews?`,
     paragraphs: [
       [
         text(
-          "Experience.com’s 4.81 from 3,073 reviews blends reviews that also appear on Google, Zillow, and Facebook. Using it would count those reviews twice.",
+          `Experience.com’s ${formatRating(experience.blended.rating)} from ${formatInt(experience.blended.count)} reviews blends reviews that also appear on Google, Zillow, and Facebook. Using it would count those reviews twice.`,
         ),
       ],
       [
         text(
-          "This page uses Experience.com’s own rating: 4.88 from 1,600 reviews.",
+          `This page uses Experience.com’s own rating: ${formatRating(experience.company.rating)} from ${formatInt(experience.company.count)} reviews.`,
         ),
       ],
     ],

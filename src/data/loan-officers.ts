@@ -1,8 +1,8 @@
 /**
  * Loan officer roster, cross-referenced against Experience.com's own professional
  * listing for Griffin Funding (https://www.experience.com/reviews/company/griffin-funding-1426),
- * checked 2026-09-28. Ratings and counts drift daily on Experience.com; refresh them the
- * same way platform figures are refreshed (see docs/PROJECT.md Section 11.1 and 16.8).
+ * checked 2026-09-28. Ratings and counts below are the fallback; the daily Experience.com
+ * sync (scripts/experience-sync.mjs) overrides them with live figures when it has the officer.
  *
  * `experienceUrl` always points at the company page, never a guessed per-LO profile URL:
  * individual Experience.com profile links were not verified when this roster was built.
@@ -11,6 +11,8 @@
  * name here (first name only, or a misspelling). Used to tag reviews.ts by hand; never
  * used to auto-tag without human confirmation.
  */
+import { experience } from "./experience.generated.ts";
+
 export type LoanOfficer = {
   id: string;
   name: string;
@@ -26,7 +28,7 @@ const EXPERIENCE_URL =
   "https://www.experience.com/reviews/company/griffin-funding-1426";
 const CHECKED = "2026-09-28";
 
-export const loanOfficers: LoanOfficer[] = [
+const roster: LoanOfficer[] = [
   { id: "cody-unger", name: "Cody Unger", title: "Branch Manager, AZ", experienceUrl: EXPERIENCE_URL, experienceRating: 4.92, experienceCount: 131, checked: CHECKED, aliases: [] },
   { id: "sarah-howell", name: "Sarah Howell", title: "Loan Officer", experienceUrl: EXPERIENCE_URL, experienceRating: 4.83, experienceCount: 259, checked: CHECKED, aliases: ["Sarah"] },
   { id: "guy-troxler", name: "Guy Troxler", title: "Senior Loan Officer", experienceUrl: EXPERIENCE_URL, experienceRating: 4.82, experienceCount: 138, checked: CHECKED, aliases: ["Guy"] },
@@ -57,6 +59,19 @@ export const loanOfficers: LoanOfficer[] = [
   { id: "michael-sluja", name: "Michael Sluja", title: "Loan Officer", experienceUrl: EXPERIENCE_URL, experienceRating: 5.0, experienceCount: 2, checked: CHECKED, aliases: [] },
   { id: "morgan-lyons", name: "Morgan Lyons", title: "Mortgage Loan Originator", experienceUrl: EXPERIENCE_URL, experienceRating: 5.0, experienceCount: 2, checked: CHECKED, aliases: [] },
 ];
+
+/** The roster with live Experience.com figures applied where the sync has them. */
+export const loanOfficers: LoanOfficer[] = roster.map((officer) => {
+  const live = experience.officers[officer.id];
+  return live
+    ? {
+        ...officer,
+        experienceRating: live.rating,
+        experienceCount: live.count,
+        checked: experience.checked,
+      }
+    : officer;
+});
 
 export function officerBySlug(slug: string): LoanOfficer | undefined {
   return loanOfficers.find((o) => o.id === slug);

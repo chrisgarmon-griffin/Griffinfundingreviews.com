@@ -2,11 +2,11 @@
 
 > Ratings and review counts for Griffin Funding (Griffin Funding, Inc., NMLS #1120111), a licensed mortgage lender. Operated by Griffin Funding. Not an independent review site. Last checked 2026-09-28.
 
-Griffin Funding has a weighted average of 4.8 out of 5 across 3,795 reviews on 7 platforms: Experience.com, Google, WalletHub, Yelp, Zillow, BBB, and Trustpilot. BBB also gives Griffin Funding an A+ letter rating, separate from its 4.85 customer review average.
+Griffin Funding has a weighted average of 4.8 out of 5 across 3,919 reviews on 7 platforms: Experience.com, Google, WalletHub, Yelp, Zillow, BBB, and Trustpilot. BBB also gives Griffin Funding an A+ letter rating, separate from its 4.85 customer review average.
 
 Weighted average = sum(star rating × review count) / sum(review count), shown to one decimal place. All 7 platforms publish both a star rating and a review count, so every review is included.
 
-Experience.com is counted as its own 4.88 from 1,600 reviews. The blended 4.81 from 3,073 recounts Google, Zillow, and Facebook and is not used, so those reviews are not counted twice.
+Experience.com is counted as its own 4.88 from 1,724 reviews. The blended 4.82 from 3,212 recounts Google, Zillow, and Facebook and is not used, so those reviews are not counted twice.
 
 The quotes on the page are a selection of Google reviews. They are not every review. Individual experiences: timelines, rates, and terms vary by borrower and loan program. Each quote links to its original post. Full profiles, including lower ratings and BBB complaints, are linked below.
 
@@ -26,7 +26,7 @@ How to read it: fetch https://griffinfundingreviews.com/ with the header `Accept
 
 ## Platforms (checked 2026-09-28)
 
-- Experience.com: 4.88 / 5, 1,600 reviews (https://www.experience.com/reviews/company/griffin-funding-1426)
+- Experience.com: 4.88 / 5, 1,724 reviews (https://www.experience.com/reviews/company/griffin-funding-1426)
 - Google: 4.81 / 5, 1,045 reviews across 3 offices (San Diego, Scottsdale, Irvine); link is the San Diego headquarters listing (https://share.google/4dX5kM5F0ugL6UEVW (Knowledge Graph listing: https://www.google.com/search?kgmid=/g/11bbx15fxh))
 - WalletHub: 4.6 / 5, 757 reviews (https://wallethub.com/profile/griffin-funding-75917774i)
 - Yelp: 4.62 / 5, 193 reviews across 3 offices (San Diego, Scottsdale, Irvine); link is the San Diego page (https://www.yelp.com/biz/griffin-funding-san-diego)

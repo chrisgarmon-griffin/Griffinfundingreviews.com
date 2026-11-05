@@ -1,0 +1,53 @@
+name: Experience.com sync
+
+# Daily: pull Griffin Funding's Experience.com figures, refresh the site data and
+# llms files, and commit to main when anything changed (Vercel redeploys on push).
+# Only aggregate figures are committed. Review text and borrower details never are.
+on:
+  schedule:
+    - cron: "17 13 * * *" # 6:17 AM PDT / 5:17 AM PST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: experience-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Pull figures from Experience.com
+        env:
+          EXPERIENCE_API_KEY: ${{ secrets.EXPERIENCE_API_KEY }}
+          EXPERIENCE_WIDGET_KEY: ${{ secrets.EXPERIENCE_WIDGET_KEY }}
+        run: |
+          if [ -z "$EXPERIENCE_API_KEY" ] || [ -z "$EXPERIENCE_WIDGET_KEY" ]; then
+            echo "::warning::EXPERIENCE_API_KEY and EXPERIENCE_WIDGET_KEY secrets are not set; skipping."
+            exit 0
+          fi
+          node scripts/experience-sync.mjs
+      - name: Refresh llms.txt and llms-full.txt
+        run: node --experimental-strip-types scripts/refresh-llms.mjs
+      - name: Test
+        run: >-
+          node --test scripts/experience-sync.test.mjs scripts/refresh-llms.test.mjs &&
+          node --experimental-strip-types --test src/data/loan-officers.test.ts
+      - name: Commit if changed
+        run: |
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "experience-sync[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/experience.generated.ts public/llms.txt public/llms-full.txt
+          git commit -m "Sync Experience.com figures"
+          git push

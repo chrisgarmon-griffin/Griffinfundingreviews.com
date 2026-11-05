@@ -36,11 +36,11 @@ State licensing: https://griffinfunding.com/state-licensing/
 
 Weighted average: 4.8 out of 5.
 Formula: sum(star rating × review count) / sum(review count). All seven platforms publish both, so all reviews are included. Shown to one decimal place (4.786 rounds to 4.8).
-Reviews in the average: 3,795 across all seven platforms.
+Reviews in the average: 3,919 across all seven platforms.
 BBB: 4.85 customer review average from 60 reviews, plus a separate A+ BBB letter rating.
-Experience.com is counted as its own 4.88 from 1,600 reviews. Its blended 4.81 from 3,073 recounts Google, Zillow, and Facebook reviews and is not used, so those reviews are not counted twice.
+Experience.com is counted as its own 4.88 from 1,724 reviews. Its blended 4.82 from 3,212 recounts Google, Zillow, and Facebook reviews and is not used, so those reviews are not counted twice.
 
-- Experience.com: 4.88 / 5, 1,600 reviews. https://www.experience.com/reviews/company/griffin-funding-1426
+- Experience.com: 4.88 / 5, 1,724 reviews. https://www.experience.com/reviews/company/griffin-funding-1426
 - Google: 4.81 / 5, 1,045 reviews across 3 offices (San Diego, Scottsdale, Irvine); link is the San Diego headquarters listing. https://share.google/4dX5kM5F0ugL6UEVW (Knowledge Graph listing: https://www.google.com/search?kgmid=/g/11bbx15fxh)
 - WalletHub: 4.6 / 5, 757 reviews. https://wallethub.com/profile/griffin-funding-75917774i
 - Yelp: 4.62 / 5, 193 reviews across 3 offices (San Diego, Scottsdale, Irvine); link is the San Diego page. https://www.yelp.com/biz/griffin-funding-san-diego
