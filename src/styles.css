@@ -2074,3 +2074,50 @@
 .hero .score-stats dd {
   color: var(--color-on-ink);
 }
+
+/* ---------- Section heads: wide single-line title and lede ---------- */
+
+.section-head {
+  max-width: none;
+}
+
+.section-head .eyebrow {
+  color: var(--color-accent);
+}
+
+.section-head .section-lede {
+  max-width: 62rem;
+}
+
+.section-head h2 {
+  /* Fill the line before wrapping; "balance" split short titles into two lines. */
+  text-wrap: pretty;
+}
+
+/* The FAQ head sits in a narrow sticky column, so it keeps wrapping there. */
+.faq-layout .section-head h2 {
+  text-wrap: balance;
+}
+
+/* ---------- Mobile header: phone icon instead of the word "Call" ---------- */
+
+.mast-call {
+  gap: 0.4rem;
+}
+
+@media (max-width: 479px) {
+  .mast-bar {
+    gap: 0.5rem;
+  }
+
+  .mast-call {
+    width: 2.75rem;
+    padding: 0;
+    justify-content: center;
+    flex: none;
+  }
+
+  .mast-call-text {
+    display: none;
+  }
+}

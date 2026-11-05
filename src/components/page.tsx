@@ -1,3 +1,4 @@
+import { experience } from "@/data/experience.generated";
 import { ReviewExplorer } from "@/components/review-explorer";
 import { ApplyCta } from "@/components/apply-cta";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -217,10 +218,13 @@ export function Page() {
             </ol>
             <p className="footnote">
               Weighted average: <strong>{stats.shownText} out of 5</strong>{" "}
-              {averageScope}. Experience.com’s blended 4.81 from 3,073 reviews
-              recounts Google, Zillow, and Facebook. This page uses
-              Experience.com’s own {formatRating(4.88)} from {formatInt(1600)}{" "}
-              so those reviews are not counted twice. Last checked{" "}
+              {averageScope}. Experience.com’s blended{" "}
+              {formatRating(experience.blended.rating)} from{" "}
+              {formatInt(experience.blended.count)} reviews recounts Google,
+              Zillow, and Facebook. This page uses Experience.com’s own{" "}
+              {formatRating(experience.company.rating)} from{" "}
+              {formatInt(experience.company.count)} so those reviews are not
+              counted twice. Last checked{" "}
               <time dateTime={AS_OF_ISO}>{AS_OF}</time>.
             </p>
             <details className="method">
