@@ -289,7 +289,9 @@ export const TYPICALITY =
   "Individual experiences. Timelines, rates, and terms vary by borrower and loan program.";
 
 export type Inline =
-  { kind: "text"; text: string } | { kind: "link"; text: string; href: string };
+  | { kind: "text"; text: string }
+  | { kind: "strong"; text: string }
+  | { kind: "link"; text: string; href: string };
 
 export type Faq = {
   id: string;
@@ -299,6 +301,8 @@ export type Faq = {
 };
 
 const text = (value: string): Inline => ({ kind: "text", text: value });
+/** Highlighted figure or place name, rendered in red on the page and bold in Markdown. */
+const strong = (value: string): Inline => ({ kind: "strong", text: value });
 const link = (value: string, href: string): Inline => ({
   kind: "link",
   text: value,
@@ -309,6 +313,11 @@ const bbb = platforms.find((p) => p.id === "bbb")!;
 
 /** Plain-language rating summary for one office, used in the FAQ and llms text. */
 export function officeSentence(o: Office): string {
+  return inlinePlain(officeNodes(o));
+}
+
+/** An office as rich text: the office name and its ratings stand out, the address does not. */
+function officeNodes(o: Office): Inline[] {
   const parts = [
     o.google &&
       `Google ${formatRating(o.google.rating)} from ${formatInt(o.google.count)} reviews`,
@@ -320,8 +329,8 @@ export function officeSentence(o: Office): string {
     : `${o.city}, ${o.state}`;
   const address = `${o.street}, ${o.city}, ${o.state} ${o.postalCode}`;
   return parts.length
-    ? `${city}, ${address}: ${parts.join("; ")}.`
-    : `${city}: ${address}.`;
+    ? [strong(city), text(`, ${address}: `), strong(parts.join("; ")), text(".")]
+    : [strong(city), text(`: ${address}.`)];
 }
 
 export const faqs: Faq[] = [
@@ -384,7 +393,7 @@ export const faqs: Faq[] = [
           `${BRAND} has ${offices.length} offices: ${listNames(offices.map((o) => `${o.city}, ${o.state}`))}. Headquarters is at ${hq.street}, ${hq.city}, ${hq.state} ${hq.postalCode}.`,
         ),
       ],
-      ...offices.map((o) => [text(officeSentence(o))]),
+      ...offices.map(officeNodes),
     ],
   },
   {
@@ -403,14 +412,20 @@ export const faqs: Faq[] = [
     question: `Why not use Experience.com’s ${formatRating(experience.blended.rating)} rating from ${formatInt(experience.blended.count)} reviews?`,
     paragraphs: [
       [
+        text("Experience.com’s "),
+        strong(
+          `${formatRating(experience.blended.rating)} from ${formatInt(experience.blended.count)} reviews`,
+        ),
         text(
-          `Experience.com’s ${formatRating(experience.blended.rating)} from ${formatInt(experience.blended.count)} reviews blends reviews that also appear on Google, Zillow, and Facebook. Using it would count those reviews twice.`,
+          " blends reviews that also appear on Google, Zillow, and Facebook. Using it would count those reviews twice.",
         ),
       ],
       [
-        text(
-          `This page uses Experience.com’s own rating: ${formatRating(experience.company.rating)} from ${formatInt(experience.company.count)} reviews.`,
+        text("This page uses Experience.com’s own rating: "),
+        strong(
+          `${formatRating(experience.company.rating)} from ${formatInt(experience.company.count)} reviews`,
         ),
+        text("."),
       ],
     ],
   },
@@ -497,7 +512,7 @@ export const faqs: Faq[] = [
 export function inlinePlain(nodes: Inline[]): string {
   return nodes
     .map((node) =>
-      node.kind === "text" ? node.text : `${node.text} (${node.href})`,
+      node.kind === "link" ? `${node.text} (${node.href})` : node.text,
     )
     .join("");
 }

@@ -365,7 +365,7 @@ export function Page() {
                 Common questions
               </p>
               <h2 id="faq-h">
-                Griffin Funding reviews: frequently asked questions
+                Griffin Funding reviews: <em>frequently asked questions</em>
               </h2>
               <p className="section-lede">
                 Answers use only the figures on this page. For a loan question,
@@ -424,6 +424,10 @@ function Rich({ nodes }: { nodes: Inline[] }) {
   return nodes.map((node, index) =>
     node.kind === "text" ? (
       <span key={index}>{node.text}</span>
+    ) : node.kind === "strong" ? (
+      <strong key={index} className="em-figure">
+        {node.text}
+      </strong>
     ) : (
       <a key={index} href={node.href} target="_blank" rel="noopener noreferrer">
         {node.text}

@@ -1991,3 +1991,17 @@
     width: 100%;
   }
 }
+
+/* ---------- Highlighted figures and headings ---------- */
+
+/* Office names and ratings in FAQ answers: red so they stand out from addresses. */
+.em-figure {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+#faq-h em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-accent);
+}

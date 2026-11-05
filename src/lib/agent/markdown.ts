@@ -38,7 +38,11 @@ import {
 function inline(nodes: Inline[]): string {
   return nodes
     .map((node) =>
-      node.kind === "text" ? node.text : `[${node.text}](${node.href})`,
+      node.kind === "text"
+        ? node.text
+        : node.kind === "strong"
+          ? `**${node.text}**`
+          : `[${node.text}](${node.href})`,
     )
     .join("");
 }

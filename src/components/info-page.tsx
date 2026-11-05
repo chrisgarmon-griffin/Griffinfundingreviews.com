@@ -9,6 +9,10 @@ function Rich({ nodes }: { nodes: Inline[] }) {
       {nodes.map((node, index) =>
         node.kind === "text" ? (
           <span key={index}>{node.text}</span>
+        ) : node.kind === "strong" ? (
+          <strong key={index} className="em-figure">
+            {node.text}
+          </strong>
         ) : node.href.startsWith("http") &&
           !node.href.startsWith("https://griffinfundingreviews.com") ? (
           <a
